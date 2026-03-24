@@ -1,17 +1,13 @@
 ---
 import Footer from "@/components/Footer.astro";
 import PostList from "@/components/Posts/PostList.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import "@/styles/global.css";
 
 const pageTitle = "About Me";
 ---
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
-  <title>{pageTitle}</title>
-</head>
-<body>
+<BaseLayout pageTitle={pageTitle}>
   <h1>{pageTitle}</h1>
   <h2>... and my new Astro site!</h2>
 
@@ -28,6 +24,4 @@ const pageTitle = "About Me";
   <h1>My Astro Learning Blog</h1>
   <p>This is where I will post about my journey learning Astro.</p>
   <PostList />
-
-  <Footer />
-</body>
+</BaseLayout>

@@ -12,4 +12,5 @@ export default defineConfig({
       },
     },
   },
+  site: "https://blog.cloverta.top"
 })

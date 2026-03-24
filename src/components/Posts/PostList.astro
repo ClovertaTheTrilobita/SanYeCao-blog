@@ -1,18 +1,24 @@
 ---
+import { getCollection } from "astro:content";
 import PostItem from "./PostItem.astro";
 
-const allPosts = Object.values(import.meta.glob('@/pages/posts/*.md', { eager: true }));
+const allPosts = await getCollection("blog");
 ---
 
 <ul>
-  {allPosts.map((post: any) => {
-    const formattedDate = new Date(post.frontmatter.pubDate)
-      .toISOString()
-      .split("T")[0];
+  {
+    allPosts.map((post: any) => {
+      const formattedDate = new Date(post.data.pubDate)
+        .toISOString()
+        .split("T")[0];
 
-    return (
-      <PostItem url={post.url} title={post.frontmatter.title} date={formattedDate}/>
-    );
-  })}
+      return (
+        <PostItem
+          url={`/posts/${post.id}/`}
+          title={post.data.title}
+          date={formattedDate}
+        />
+      );
+    })
+  }
 </ul>
-
