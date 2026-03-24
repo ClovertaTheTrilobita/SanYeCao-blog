@@ -1,6 +1,6 @@
 export default {
     banner: {
-        title: "Cloverta 的博客",
+        title: "Cloverta的博客",
         subtitle: ""
     },
     nav: {

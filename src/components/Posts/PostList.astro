@@ -20,8 +20,16 @@ const allPosts = await getCollection("blog");
           url={`/${lang}/posts/${post.id}/`}
           title={post.data.title}
           date={formattedDate}
+          img={post.data.image.url}
         />
       );
     })
   }
 </ul>
+
+<style>
+  ul {
+    margin: 0;
+    padding-left: 0;
+  }
+</style>

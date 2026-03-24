@@ -10,13 +10,30 @@ export function getStaticPaths() {
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
+const headerTitle = lang === "zh" ? "Cloverta的博客" : "Cloverta's blog";
 const pageTitle = t.home.title;
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={headerTitle}>
   <h1>{pageTitle}</h1>
   <div class="content">
     {t.home.content.map((line: string) => <p set:html={line} />)}
   </div>
+
+  <div class="section-divider"></div>
+
   <PostList />
 </BaseLayout>
+
+<style>
+  .section-divider {
+    height: 1px;
+    background: #cdd2d8;
+    margin: 1.5rem 0;
+    opacity: 0.8;
+  }
+
+  :global(.dark) .section-divider {
+    background: #7f8b97;
+  }
+</style>

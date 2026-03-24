@@ -1,23 +1,83 @@
 ---
-const data=Astro.props
+const data = Astro.props;
 ---
-<li>
-        <a href={data.url} class="post-item">
-          <span>{data.title}</span>
-          <span>{data.date}</span>
-        </a>
+
+<li class="post-card">
+  <a href={data.url} class="post-link">
+    <div class="post-text">
+      <span class="post-title">{data.title}</span>
+      <span class="post-date">{data.date}</span>
+    </div>
+
+    <img src={data.img} alt={data.title} class="post-image" />
+  </a>
 </li>
 
+<div class="section-divider"></div>
+
 <style>
-  .post-item {
+  .post-card {
+    list-style: none;
+    margin: 0 0 1rem 0;
+    padding-left: 0;
+  }
+
+  .post-link {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
+    gap: 1rem;
     width: 100%;
     text-decoration: none;
   }
 
-  .post-item span:last-child {
+  .post-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    line-height: 1.6;
+    min-height: calc(1.6em * 4);
+  }
+
+  .post-title {
+    color: inherit;
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-date {
+    color: gray;
+    font-size: 0.95rem;
     white-space: nowrap;
+    line-height: 1.6;
+  }
+
+  .post-image {
+    width: calc((1.6em * 4) * 16 / 9);
+    height: calc(1.6em * 4);
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  @media (max-width: 640px) {
+    .post-link {
+      gap: 0.75rem;
     }
+
+    .post-image {
+      width: 120px;
+      height: calc(120px * 9 / 16);
+    }
+  }
 </style>
