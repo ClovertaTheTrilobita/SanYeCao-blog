@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PostList from "@/components/Posts/PostList.astro";
 import "../styles/global.css";
-import Navigation from "../components/Navigation.astro";
 
 const pageTitle = "Homepage";
 
@@ -11,6 +11,5 @@ const pageTitle = "Homepage";
 
 <BaseLayout pageTitle={pageTitle}>
   <h1>My Astro Site</h1>
-
-  <Navigation />
+  <PostList />
 </BaseLayout>
