@@ -1,0 +1,61 @@
+---
+
+---
+
+<section class="comments">
+    <h2>Comments</h2>
+
+    <script
+        src="https://giscus.app/client.js"
+        data-repo="ClovertaTheTrilobita/SanYeCao-blog"
+        data-repo-id="R_kgDORvuVpA"
+        data-category="Comments"
+        data-category-id="DIC_kwDORvuVpM4C5MDE"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+    ></script>
+
+    <script is:inline>
+        function setGiscusTheme(theme) {
+            const iframe = document.querySelector("iframe.giscus-frame");
+            if (!iframe) return;
+
+            iframe.contentWindow?.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme,
+                        },
+                    },
+                },
+                "https://giscus.app",
+            );
+        }
+
+        function syncGiscusTheme() {
+            const isDark = document.documentElement.classList.contains("dark");
+            setGiscusTheme(isDark ? "dark" : "light");
+        }
+
+        const observer = new MutationObserver(() => {
+            syncGiscusTheme();
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["class"],
+        });
+
+        window.addEventListener("load", () => {
+            syncGiscusTheme();
+        });
+    </script>
+</section>

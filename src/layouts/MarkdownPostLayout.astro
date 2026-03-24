@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import Giscus from "@/components/Giscus.astro";
 import "@/styles/global.css";
 const { frontmatter } = Astro.props;
 ---
@@ -22,6 +23,8 @@ const { frontmatter } = Astro.props;
   </div>
 
   <slot />
+
+  <Giscus />
 </BaseLayout>
 <style>
   a {
