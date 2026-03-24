@@ -1,8 +1,13 @@
 ---
+import { getLangFromUrl, useTranslations } from "@/i18n";
 
+const langParam = Astro.url.searchParams.get("lang");
+const lang = langParam === "en" ? "en" : "zh";
+const t = useTranslations(lang);
 ---
 
-<a href="/">Home</a>
-<a href="/about/">About</a>
-<!-- <a href="/blog/">Blog</a> -->
-<a href="/tags/">Tags</a>
+<nav>
+    <a href={`/?lang=${lang}`}>{t("nav.home")}</a>
+    <a href={`/about?lang=${lang}`}>{t("nav.about")}</a>
+    <a href={`/tags?lang=${lang}`}>{t("nav.tags")}</a>
+</nav>
