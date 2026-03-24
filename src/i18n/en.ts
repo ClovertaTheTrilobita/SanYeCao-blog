@@ -19,7 +19,11 @@ export default {
     },
     langSwitcher: "中文",
     home: {
-        content: ""
+        title: "Welcome in — mind the turn to the left",
+        content: [
+            "These few lines speak what the heart would say; Ink and paper end, but thoughts still stay",
+            "Welcome to Cloverta's blog.",
+        ]
     },
     about: {
         title: "About Me, and This Blog",
@@ -41,7 +45,8 @@ export default {
         ]
     },
     tags: {
-        title: "Tags"
+        title: "Tags",
+        description: "All tags that have appeared across the blog are collected here. Click a tag to jump to the corresponding list of posts."
     },
     footer: {
         githubIntro: 'See more on <a href="https://www.github.com/ClovertaTheTrilobita">GitHub</a>!',

@@ -19,7 +19,11 @@ export default {
     },
     langSwitcher: "EN",
     home: {
-        content: ""
+        title: "欢迎光临，请进门左转",
+        content: [
+            "见字如晤，展信舒颜。楮墨有限，不尽欲言。",
+            "欢迎来到三叶的博客。",
+        ]
     },
     about: {
         title: "关于我，和这个博客",
@@ -41,7 +45,8 @@ export default {
         ]
     },
     tags: {
-        title: "标签"
+        title: "标签",
+        description: "在这里收集着整篇博客出现过的标签，点击标签跳转对应的文章列表。"
     },
     footer: {
         githubIntro: '在 <a href="https://www.github.com/ClovertaTheTrilobita">GitHub</a> 查看更多！',

@@ -17,6 +17,7 @@ const pageTitle = lang === "zh" ? "标签索引" : "Tag Index";
 
 <BaseLayout pageTitle={pageTitle}>
     <h1>{t.tags.title}</h1>
+    <p>{t.tags.description}</p>
     <div class="tags">
         {
             tags.map((tag) => (

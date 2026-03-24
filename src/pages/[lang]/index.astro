@@ -1,17 +1,22 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostList from "@/components/Posts/PostList.astro";
+import { getLangFromUrl, getTranslations } from "@/i18n";
 import "@/styles/global.css";
 
 export function getStaticPaths() {
   return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
 }
 
-const { lang } = Astro.params;
-const pageTitle = "Homepage";
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+const pageTitle = t.home.title;
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <h1>My Astro Site</h1>
+  <h1>{pageTitle}</h1>
+  <div class="content">
+    {t.home.content.map((line: string) => <p set:html={line} />)}
+  </div>
   <PostList />
 </BaseLayout>
