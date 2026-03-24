@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostItem from "@/components/Posts/PostItem.astro";
+import { getTranslations, type Lang } from "@/i18n";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("blog");
+  const uniqueTags = [
+    ...new Set(allPosts.map((post) => post.data.tags).flat()),
+  ];
+  const langs: Lang[] = ["zh", "en"];
+
+  return langs.flatMap((lang) =>
+    uniqueTags.map((tag) => {
+      const filteredPosts = allPosts.filter((post) =>
+        post.data.tags.includes(tag),
+      );
+
+      return {
+        params: { lang, tag },
+        props: { posts: filteredPosts, lang },
+      };
+    }),
+  );
+}
+
+const { tag } = Astro.params;
+const { posts, lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<BaseLayout pageTitle={String(tag)}>
+  <p>
+    {lang === "zh" ? `带有标签 ${tag} 的文章` : `Posts tagged with ${tag}`}
+  </p>
+  <ul>
+    {posts.map((post) => <PostItem post={post} lang={lang} />)}
+  </ul>
+</BaseLayout>

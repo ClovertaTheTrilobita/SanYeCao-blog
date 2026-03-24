@@ -8,15 +8,48 @@
 
 @font-face {
   font-family: "Maple Mono";
+  src: url("/fonts/MapleMono-Italic.ttf.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Maple Mono";
   src: url("/fonts/MapleMono-Bold.ttf.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Maple Mono CN";
+  src: url("/fonts/subset/MapleMono-CN-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Maple Mono CN";
+  src: url("/fonts/subset/MapleMono-CN-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Maple Mono CN";
+  src: url("/fonts/subset/MapleMono-CN-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 html {
-  /* background-color: #f1f5f9; */
-  font-family: "Maple Mono", monospace;
+  font-family: "Maple Mono", "Maple Mono CN", monospace;
+  background-color: #ffffff;
+  color: #1f2328;
 }
 
 body {
@@ -24,7 +57,7 @@ body {
   width: 100%;
   max-width: 80ch;
   padding: 1rem;
-  line-height: 1.5;
+  line-height: 1.7;
 }
 
 * {
@@ -34,27 +67,46 @@ body {
 h1 {
   margin: 1rem 0;
   font-size: 2.5rem;
+  line-height: 1.2;
+}
+
+a {
+  color: #7fb3ff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
 }
 
 html.dark {
-  background-color: #0d0950;
-  color: #fff;
+  background-color: #1e1e1e;
+  color: #e6e6e6;
 }
 
 .dark .menu {
-  background-color: #fff;
-  color: #000;
+  background-color: #2a2a2a;
+  color: #e6e6e6;
+}
+
+.dark .nav-links a {
+  color: #9ecbff;
+  font-weight: 700;
 }
 
 .dark .nav-links a:hover,
 .dark .nav-links a:focus {
-  color: #0d0950;
-}
-
-.dark .nav-links a {
-  color: #fff;
+  color: #c2deff;
 }
 
 .dark a {
-  color: #ff9776;
+  color: #9ecbff;
+  font-weight: 700;
+}
+
+.dark a:hover,
+.dark a:focus {
+  color: #c2deff;
 }

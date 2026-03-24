@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from "astro:content";
+import MarkdownPostLayout from "@/layouts/MarkdownPostLayout.astro";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("blog");
+    const langs = ["zh", "en"];
+
+    return langs.flatMap((lang) =>
+        posts.map((post) => ({
+            params: {
+                lang,
+                slug: post.id,
+            },
+            props: {
+                post,
+                lang,
+            },
+        })),
+    );
+}
+
+const { post, lang } = Astro.props;
+const { Content } = await render(post);
+---
+
+<MarkdownPostLayout frontmatter={post.data} lang={lang}>
+    <Content />
+</MarkdownPostLayout>

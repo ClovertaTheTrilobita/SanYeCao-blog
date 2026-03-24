@@ -1,0 +1,96 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getLangFromUrl, getTranslations } from "@/i18n";
+import "@/styles/global.css";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+const pageTitle = t.about.title;
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <main class="about">
+    <h1>{t.about.title}</h1>
+
+    <div class="intro">
+      <div class="intro-text">
+        <h2 class="name">{t.about.name}</h2>
+        <p class="slogan">{t.about.slogan}</p>
+      </div>
+
+      <img
+        src={t.about.profilePicture}
+        alt={t.about.name}
+        width="160"
+        class="avatar"
+      />
+    </div>
+
+    <div class="content">
+      {t.about.content.map((line: string) => <p set:html={line} />)}
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .about {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .about h1 {
+    font-size: 1.5rem;
+  }
+
+  .intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .intro-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .name {
+    margin: 0 0 0.4rem 0;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .slogan {
+    margin: 0;
+    color: gray;
+    font-style: italic;
+  }
+
+  .avatar {
+    display: block;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .content p {
+    line-height: 1.8;
+    margin: 1rem 0;
+  }
+
+  .content a {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 640px) {
+    .intro {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+  }
+</style>

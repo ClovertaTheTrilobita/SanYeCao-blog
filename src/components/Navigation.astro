@@ -1,13 +1,69 @@
 ---
-import { getLangFromUrl, useTranslations } from "@/i18n";
+import { getLangFromUrl, getTranslations } from "@/i18n";
 
-const langParam = Astro.url.searchParams.get("lang");
-const lang = langParam === "en" ? "en" : "zh";
-const t = useTranslations(lang);
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
 ---
 
-<nav>
-    <a href={`/?lang=${lang}`}>{t("nav.home")}</a>
-    <a href={`/about?lang=${lang}`}>{t("nav.about")}</a>
-    <a href={`/tags?lang=${lang}`}>{t("nav.tags")}</a>
+<nav class="site-nav">
+    <a href={`/${lang}`}>{t.nav.home}</a>
+    <a href={`/${lang}/about`}>{t.nav.about}</a>
+    <a href={`/${lang}/tags`}>{t.nav.tags}</a>
 </nav>
+
+<style>
+    .site-nav {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        margin: 1rem 0;
+        padding-bottom: 3rem;
+        position: relative;
+    }
+
+    .site-nav::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 12px;
+        background: repeating-linear-gradient(
+            -45deg,
+            #e96b6b 0 14px,
+            transparent 14px 28px,
+            #7da2ff 28px 42px,
+            transparent 42px 56px
+        );
+        pointer-events: none;
+    }
+
+    :global(.dark) .site-nav::after {
+        background: repeating-linear-gradient(
+            -45deg,
+            #ff8a8a 0 14px,
+            transparent 14px 28px,
+            #9ecbff 28px 42px,
+            transparent 42px 56px
+        );
+    }
+
+    .site-nav a {
+        color: black;
+        text-decoration: underline;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .site-nav a:hover {
+        text-decoration: underline;
+    }
+
+    :global(.dark) .site-nav a {
+        color: white;
+    }
+
+    :global(.dark) .site-nav a:hover {
+        color: #ddd;
+    }
+</style>

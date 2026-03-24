@@ -1,11 +1,8 @@
 ---
-import Footer from "../components/Footer.astro";
+import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import { getLangFromUrl, useTranslations } from "@/i18n";
 
 const { pageTitle } = Astro.props;
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 ---
 
 <!doctype html>

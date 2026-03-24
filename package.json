@@ -7,9 +7,10 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "subset-font": "node build/fontmin.js",
+    "build": "npm run subset-font && astro build"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.17",
@@ -17,6 +18,7 @@
     "url": "^0.11.4"
   },
   "devDependencies": {
-    "@types/node": "^25.5.0"
+    "@types/node": "^25.5.0",
+    "fontmin": "^1.1.1"
   }
 }

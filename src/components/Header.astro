@@ -1,21 +1,43 @@
 ---
 import Navigation from "./Navigation.astro";
 import ThemeIcon from "./ThemeIcon.astro";
+import { getLangFromUrl, getTranslations } from "@/i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
 ---
 
-<header>
-    <nav>
-        <h1>SanYeCao Blog</h1>
-        <div>
-            <ThemeIcon />
-        </div>
+<header class="site-header">
+    <div class="theme-icon-wrap">
+        <ThemeIcon />
+    </div>
+
+    <nav class="header-nav">
+        <h1>{t.banner.title}</h1>
         <Navigation />
     </nav>
 </header>
 
 <style>
-    div {
+    .site-header {
+        position: relative;
+        padding-top: 0.5rem;
+    }
+
+    .theme-icon-wrap {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .header-nav {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .header-nav h1 {
+        margin: 0;
+        font-style: italic;
     }
 </style>

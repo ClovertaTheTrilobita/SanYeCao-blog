@@ -1,0 +1,17 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostList from "@/components/Posts/PostList.astro";
+import "@/styles/global.css";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+const pageTitle = "Homepage";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <h1>My Astro Site</h1>
+  <PostList />
+</BaseLayout>
