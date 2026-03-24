@@ -1,0 +1,33 @@
+---
+import Footer from "@/components/Footer.astro";
+import PostList from "@/components/Posts/PostList.astro";
+import "@/styles/global.css";
+
+const pageTitle = "About Me";
+---
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{pageTitle}</title>
+</head>
+<body>
+  <h1>{pageTitle}</h1>
+  <h2>... and my new Astro site!</h2>
+
+  <p>
+    I am working through Astro's introductory tutorial. This is the second page
+    on my website, and it's the first one I built myself!
+  </p>
+
+  <p>
+    This site will update as I complete more of the tutorial, so keep checking
+    back and see how my journey is going!
+  </p>
+
+  <h1>My Astro Learning Blog</h1>
+  <p>This is where I will post about my journey learning Astro.</p>
+  <PostList />
+
+  <Footer />
+</body>

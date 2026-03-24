@@ -1,0 +1,23 @@
+---
+const data=Astro.props
+---
+<li>
+        <a href={data.url} class="post-item">
+          <span>{data.title}</span>
+          <span>{data.date}</span>
+        </a>
+</li>
+
+<style>
+  .post-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    text-decoration: none;
+  }
+
+  .post-item span:last-child {
+    white-space: nowrap;
+    }
+</style>

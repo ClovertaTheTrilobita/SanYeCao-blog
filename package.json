@@ -12,6 +12,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.0.8"
+    "astro": "^6.0.8",
+    "url": "^0.11.4"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0"
   }
 }

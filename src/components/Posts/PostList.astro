@@ -1,0 +1,18 @@
+---
+import PostItem from "./PostItem.astro";
+
+const allPosts = Object.values(import.meta.glob('@/pages/posts/*.md', { eager: true }));
+---
+
+<ul>
+  {allPosts.map((post: any) => {
+    const formattedDate = new Date(post.frontmatter.pubDate)
+      .toISOString()
+      .split("T")[0];
+
+    return (
+      <PostItem url={post.url} title={post.frontmatter.title} date={formattedDate}/>
+    );
+  })}
+</ul>
+
