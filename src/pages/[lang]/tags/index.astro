@@ -1,14 +1,14 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import { getTranslations } from "@/i18n";
+import { getTranslations, type Lang } from "@/i18n";
 import "@/styles/global.css";
 
 export function getStaticPaths() {
     return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
 }
 
-const { lang } = Astro.params;
+const lang: Lang = Astro.params.lang === "en" ? "en" : "zh";
 const t = getTranslations(lang);
 const allPosts = await getCollection("blog");
 const tags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
@@ -16,6 +16,7 @@ const pageTitle = lang === "zh" ? "标签索引" : "Tag Index";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
+    <h1>{t.tags.title}</h1>
     <div class="tags">
         {
             tags.map((tag) => (

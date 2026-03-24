@@ -1,7 +1,10 @@
 ---
 import { getCollection } from "astro:content";
 import PostItem from "./PostItem.astro";
+import { getLangFromUrl, getTranslations, type Lang } from "@/i18n";
 
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
 const allPosts = await getCollection("blog");
 ---
 
@@ -14,7 +17,7 @@ const allPosts = await getCollection("blog");
 
       return (
         <PostItem
-          url={`/posts/${post.id}/`}
+          url={`/${lang}/posts/${post.id}/`}
           title={post.data.title}
           date={formattedDate}
         />

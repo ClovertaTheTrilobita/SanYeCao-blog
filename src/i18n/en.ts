@@ -40,6 +40,9 @@ export default {
             "In addition, this blog is fully open source. You can find its source code through the link in the footer.",
         ]
     },
+    tags: {
+        title: "Tags"
+    },
     footer: {
         githubIntro: 'See more on <a href="https://www.github.com/ClovertaTheTrilobita">GitHub</a>!',
         repoIntro: 'This blog is fully open source at <a href="https://www.github.com/ClovertaTheTrilobita/SanYeCao-blog">ClovertaTheTrilobita/SanYeCao-blog</a>'
