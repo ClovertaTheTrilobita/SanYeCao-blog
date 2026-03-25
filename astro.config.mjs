@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-
+import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 import { fileURLToPath } from 'node:url'
 
@@ -16,4 +16,5 @@ export default defineConfig({
   redirects: {
     "/": "/zh",
   },
+  integrations: [sitemap()],
 })

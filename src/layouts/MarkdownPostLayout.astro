@@ -9,7 +9,11 @@ const { frontmatter, lang, postId } = Astro.props;
 const t = getTranslations(lang);
 ---
 
-<BaseLayout pageTitle={frontmatter.title}>
+<BaseLayout
+  pageTitle={frontmatter.title}
+  description={frontmatter.description}
+  image={frontmatter.image?.url}
+>
   <div class="post-header">
     <div class="post-meta">
       <h1 class="post-title">{frontmatter.title}</h1>
@@ -43,6 +47,34 @@ const t = getTranslations(lang);
 
   <Giscus term={postId} />
 </BaseLayout>
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: frontmatter.title,
+    description: frontmatter.description,
+    image: frontmatter.image
+      ? [
+          new URL(
+            frontmatter.image.url ?? frontmatter.image,
+            Astro.site,
+          ).toString(),
+        ]
+      : undefined,
+    datePublished: frontmatter.pubDate,
+    dateModified: frontmatter.updatedDate ?? frontmatter.pubDate,
+    author: {
+      "@type": "Person",
+      name: "CLoverta",
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": new URL(Astro.url.pathname, Astro.site).toString(),
+    },
+  })}
+/>
 
 <style>
   a {

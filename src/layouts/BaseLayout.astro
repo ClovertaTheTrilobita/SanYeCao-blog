@@ -2,8 +2,9 @@
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import { ClientRouter } from "astro:transitions";
+import SEO from "@/components/SEO.astro";
 
-const { pageTitle } = Astro.props;
+const { pageTitle, description = "我的个人博客", image } = Astro.props;
 ---
 
 <!doctype html>
@@ -11,6 +12,7 @@ const { pageTitle } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
+		<SEO title={pageTitle} description={description} image={image} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
