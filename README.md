@@ -12,7 +12,7 @@
 
 ## 😋 特性
 
-<img width="2879" height="1853" alt="image" src="https://github.com/user-attachments/assets/9a583edf-078f-4a26-b957-0662f2ca9ef6" style="zoom:23%;"/>
+<img width="2879" height="1853" alt="image" src="https://github.com/user-attachments/assets/9f6f7018-c8a4-46f7-9d30-1132fcea53da" />
 
 - 使用纯静态页面，相应迅速，轻盈美观
 - 操作简易，Github Action自动部署
