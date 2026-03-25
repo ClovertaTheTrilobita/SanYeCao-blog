@@ -59,6 +59,10 @@ jobs:
       - name: Deploy to server
         run: |
           rsync -avz --delete \
+            --omit-dir-times \
+            --no-perms \
+            --no-owner \
+            --no-group \
             -e "ssh -p ${DEPLOY_PORT}" \
             dist/ \
             ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/
