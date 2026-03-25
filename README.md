@@ -24,7 +24,7 @@
 
 ### 1. Fork 这个仓库
 
-[screenshot]
+<img width="294" height="155" alt="image" src="https://github.com/user-attachments/assets/6ffc9a32-c084-463f-8988-f7488baa44e0" />
 
 并将其克隆到本地。
 
