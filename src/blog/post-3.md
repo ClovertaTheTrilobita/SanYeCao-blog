@@ -6,7 +6,7 @@ author: "三叶"
 image: 
     url: "https://files.seeusercontent.com/2026/03/25/sTq9/pasted-image-1774456630694.webp"
     alt: "zako2"
-tags:  ["peterson算法", "操作系统"]
+tags:  ["算法", "操作系统", "学习笔记"]
 ---
 
 在OS课程上看到一个有意思的算法——Peterson算法，那么为什么Peterson算法能满足“忙则等待”、“空闲让进”、“有限等待”这三个条件呢？
