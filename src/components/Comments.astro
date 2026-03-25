@@ -1,301 +1,162 @@
 ---
-import { getCollection } from "astro:content";
 import { getLangFromUrl } from "@/i18n";
 
-const token = import.meta.env.GITHUB_TOKEN;
-const owner = import.meta.env.GISCUS_REPO_OWNER ?? "ClovertaTheTrilobita";
-const name = import.meta.env.GISCUS_REPO_NAME ?? "SanYeCao-blog";
-const categoryId = import.meta.env.GISCUS_CATEGORY_ID ?? "DIC_kwDORvuVpM4C5MDE";
 const limit = Number(Astro.props.limit ?? 5);
-
 const lang = getLangFromUrl(Astro.url);
-const allPosts = await getCollection("blog");
-
-type CommentAuthor = {
-    login?: string;
-    avatarUrl?: string;
-    url?: string;
-};
-
-type RawReply = {
-    id: string;
-    body?: string;
-    updatedAt: string;
-    author?: CommentAuthor | null;
-};
-
-type RawComment = {
-    id: string;
-    body?: string;
-    updatedAt: string;
-    author?: CommentAuthor | null;
-    replies?: {
-        nodes?: RawReply[];
-    };
-};
-
-type DiscussionNode = {
-    title: string;
-    comments?: {
-        nodes?: RawComment[];
-    };
-};
-
-type LatestCommentItem = {
-    id: string;
-    body?: string;
-    updatedAt: string;
-    author?: CommentAuthor | null;
-    postId: string;
-    postTitle: string;
-    localUrl: string;
-    isReply: boolean;
-    replyTo?: string;
-};
-
-function normalizePath(path: string) {
-    return path.replace(/^\/+|\/+$/g, "");
-}
-
-function excerpt(text = "", max = 110) {
-    const plain = text.replace(/\s+/g, " ").trim();
-    if (plain.length <= max) return plain;
-    return plain.slice(0, max) + "…";
-}
 
 function formatDate(iso: string) {
     return new Date(iso).toISOString().slice(0, 10);
 }
-
-async function fetchLatestComments(): Promise<LatestCommentItem[]> {
-    if (!token) return [];
-
-    const query = `
-  query($owner: String!, $name: String!, $categoryId: ID!) {
-    repository(owner: $owner, name: $name) {
-      discussions(
-        first: 20
-        categoryId: $categoryId
-        orderBy: { field: UPDATED_AT, direction: DESC }
-      ) {
-        nodes {
-          title
-          comments(last: 10) {
-            nodes {
-              id
-              body
-              updatedAt
-              author {
-                ... on User {
-                  login
-                  avatarUrl
-                  url
-                }
-                ... on Organization {
-                  login
-                  avatarUrl
-                  url
-                }
-              }
-              replies(first: 10) {
-                nodes {
-                  id
-                  body
-                  updatedAt
-                  author {
-                    ... on User {
-                      login
-                      avatarUrl
-                      url
-                    }
-                    ... on Organization {
-                      login
-                      avatarUrl
-                      url
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-    const res = await fetch("https://api.github.com/graphql", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-            query,
-            variables: { owner, name, categoryId },
-        }),
-    });
-
-    const json = await res.json();
-    const discussions = (json?.data?.repository?.discussions?.nodes ??
-        []) as DiscussionNode[];
-
-    // 用 post.id 建本地文章索引
-    const postMap = new Map(
-        allPosts.map((post: any) => [
-            normalizePath(post.id),
-            {
-                title: post.data.title,
-                url: `/${lang}/posts/${post.id}/#comments`,
-            },
-        ]),
-    );
-
-    const comments: LatestCommentItem[] = [];
-
-    for (const discussion of discussions) {
-        const discussionKey = normalizePath(discussion.title);
-
-        let matchedPostId: string | undefined;
-
-        if (postMap.has(discussionKey)) {
-            matchedPostId = discussionKey;
-        } else {
-            matchedPostId = [...postMap.keys()].find(
-                (postId) =>
-                    discussionKey === postId ||
-                    discussionKey.includes(postId) ||
-                    postId.includes(discussionKey),
-            );
-        }
-
-        if (!matchedPostId) continue;
-
-        const postInfo = postMap.get(matchedPostId);
-        if (!postInfo) continue;
-
-        for (const comment of discussion.comments?.nodes ?? []) {
-            comments.push({
-                id: comment.id,
-                body: comment.body,
-                updatedAt: comment.updatedAt,
-                author: comment.author,
-                postId: matchedPostId,
-                postTitle: postInfo.title,
-                localUrl: postInfo.url,
-                isReply: false,
-            });
-
-            for (const reply of comment.replies?.nodes ?? []) {
-                comments.push({
-                    id: reply.id,
-                    body: reply.body,
-                    updatedAt: reply.updatedAt,
-                    author: reply.author,
-                    postId: matchedPostId,
-                    postTitle: postInfo.title,
-                    localUrl: postInfo.url,
-                    isReply: true,
-                    replyTo: comment.author?.login ?? "Unknown",
-                });
-            }
-        }
-    }
-
-    return comments
-        .sort(
-            (a, b) =>
-                new Date(b.updatedAt).getTime() -
-                new Date(a.updatedAt).getTime(),
-        )
-        .slice(0, limit);
-}
-
-const comments = await fetchLatestComments();
 ---
 
-<section class="latest-comments">
+<section
+    id="latest-comments"
+    class="latest-comments"
+    data-lang={lang}
+    data-limit={limit}
+>
     <h2>{lang === "zh" ? "最新评论" : "Latest Comments"}</h2>
 
-    {
-        comments.length === 0 ? (
-            <p class="empty">
-                {lang === "zh" ? "还没有评论。" : "No comments yet."}
-            </p>
-        ) : (
-            <ul class="comment-list">
-                {comments.map((comment) => (
-                    <li
-                        class={`comment-card ${comment.isReply ? "is-reply" : ""}`}
-                    >
-                        <a
-                            href={comment.localUrl}
-                            class="comment-link"
-                            data-astro-reload
-                        >
-                            <div class="comment-top">
-                                {comment.author?.avatarUrl && (
-                                    <img
-                                        src={comment.author.avatarUrl}
-                                        alt={comment.author?.login ?? "author"}
-                                        class="comment-avatar"
-                                    />
-                                )}
+    <div class="comments-loading" id="comments-loading">
+        <div class="loading-card"></div>
+        <div class="loading-card"></div>
+        <div class="loading-card"></div>
+    </div>
 
-                                <div class="comment-meta">
-                                    <span class="comment-author">
-                                        {comment.author?.login ?? "Unknown"}
-                                    </span>
-                                    <span class="comment-date">
-                                        {formatDate(comment.updatedAt)}
-                                    </span>
-                                </div>
+    <ul class="comment-list" id="comment-list" style="display: none;"></ul>
 
-                                <span
-                                    class="comment-post-title"
-                                    title={comment.postTitle}
-                                >
-                                    {comment.postTitle}
-                                </span>
-                            </div>
+    <p class="empty" id="comments-empty" style="display: none;">
+        {lang === "zh" ? "还没有评论。" : "No comments yet."}
+    </p>
 
-                            {comment.isReply && (
-                                <p class="comment-kind">
-                                    {lang === "zh"
-                                        ? `回复 @${comment.replyTo ?? "Unknown"}`
-                                        : `Reply to @${comment.replyTo ?? "Unknown"}`}
-                                </p>
-                            )}
-
-                            <p class="comment-body">{excerpt(comment.body)}</p>
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        )
-    }
+    <p class="empty" id="comments-error" style="display: none;">
+        {lang === "zh" ? "评论加载失败。" : "Failed to load comments."}
+    </p>
 </section>
 
-<style>
-    .comment-kind {
-        margin: 0 0 0.35rem 0;
-        font-size: 0.82rem;
-        color: #8c8c8c;
-        font-style: italic;
-    }
+<script>
+    type CommentAuthor = {
+        login?: string;
+        avatarUrl?: string;
+        url?: string;
+    };
 
-    .comment-card.is-reply .comment-link {
-        border-style: dashed;
-        background: rgba(160, 175, 190, 0.1);
-    }
+    type LatestCommentItem = {
+        id: string;
+        body?: string;
+        updatedAt: string;
+        author?: CommentAuthor | null;
+        postId: string;
+        postTitle: string;
+        localUrl: string;
+        isReply: boolean;
+        replyTo?: string;
+    };
 
-    :global(.dark) .comment-kind {
-        color: #b8b8b8;
-    }
+    type CommentsResponse = {
+        comments?: LatestCommentItem[];
+        error?: string;
+    };
 
-    :global(.dark) .comment-card.is-reply .comment-link {
-        background: rgba(180, 190, 200, 0.1);
+    const root = document.getElementById(
+        "latest-comments",
+    ) as HTMLElement | null;
+    if (root) {
+        const lang = root.dataset.lang || "zh";
+        const limit = root.dataset.limit || "5";
+
+        const loadingEl = root.querySelector("#comments-loading");
+        const listEl = root.querySelector("#comment-list");
+        const emptyEl = root.querySelector("#comments-empty");
+        const errorEl = root.querySelector("#comments-error");
+
+        if (
+            !(loadingEl instanceof HTMLElement) ||
+            !(listEl instanceof HTMLElement) ||
+            !(emptyEl instanceof HTMLElement) ||
+            !(errorEl instanceof HTMLElement)
+        ) {
+            throw new Error("Comments elements not found");
+        }
+
+        const formatDate = (iso: string) =>
+            new Date(iso).toISOString().slice(0, 10);
+
+        const renderComment = (comment: LatestCommentItem) => {
+            console.log("Start render");
+            const li = document.createElement("li");
+            li.className = `comment-card ${comment.isReply ? "is-reply" : ""}`;
+
+            li.innerHTML = `
+        <a href="${comment.localUrl}" class="comment-link" data-astro-reload>
+          <div class="comment-top">
+            ${
+                comment.author?.avatarUrl
+                    ? `<img
+                    src="${comment.author.avatarUrl}"
+                    alt="${comment.author?.login ?? "author"}"
+                    class="comment-avatar"
+                  />`
+                    : ""
+            }
+
+            <div class="comment-meta">
+              <span class="comment-author">${comment.author?.login ?? "Unknown"}</span>
+              <span class="comment-date">${formatDate(comment.updatedAt)}</span>
+            </div>
+
+            <span class="comment-post-title" title="${comment.postTitle}">
+              ${comment.postTitle}
+            </span>
+          </div>
+
+          ${
+              comment.isReply
+                  ? `<p class="comment-kind">${
+                        lang === "zh"
+                            ? `回复 @${comment.replyTo ?? "Unknown"}`
+                            : `Reply to @${comment.replyTo ?? "Unknown"}`
+                    }</p>`
+                  : ""
+          }
+
+          <p class="comment-body">${comment.body ?? ""}</p>
+        </a>
+      `;
+
+            return li;
+        };
+
+        fetch(`/api/comments.json?lang=${lang}&limit=${limit}`)
+            .then((res) => {
+                if (!res.ok) throw new Error("Request failed");
+                return res.json() as Promise<CommentsResponse>;
+            })
+            .then((data) => {
+                loadingEl.style.display = "none";
+
+                const comments = data.comments ?? [];
+
+                if (!comments.length) {
+                    emptyEl.style.display = "block";
+                    return;
+                }
+
+                listEl.style.display = "grid";
+
+                comments.forEach((comment) => {
+                    listEl.appendChild(renderComment(comment));
+                });
+            })
+            .catch((err) => {
+                console.error("Comments fetch failed:", err);
+                loadingEl.style.display = "none";
+                errorEl.style.display = "block";
+            });
     }
+</script>
+
+<style is:global>
     .latest-comments {
         margin-top: 1.5rem;
     }
@@ -325,6 +186,11 @@ const comments = await fetchLatestComments();
         background: rgba(160, 175, 190, 0.06);
     }
 
+    .comment-card.is-reply .comment-link {
+        border-style: dashed;
+        background: rgba(160, 175, 190, 0.1);
+    }
+
     .comment-top {
         display: flex;
         align-items: center;
@@ -349,24 +215,6 @@ const comments = await fetchLatestComments();
         overflow-wrap: anywhere;
     }
 
-    :global(.dark) .comment-post-title {
-        color: #c8d2dc;
-    }
-
-    @media (max-width: 640px) {
-        .comment-top {
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-
-        .comment-post-title {
-            margin-left: 0;
-            max-width: 100%;
-            width: 100%;
-            text-align: left;
-        }
-    }
-
     .comment-avatar {
         width: 42px;
         height: 42px;
@@ -384,6 +232,13 @@ const comments = await fetchLatestComments();
         color: #6f8090;
     }
 
+    .comment-kind {
+        margin: 0 0 0.35rem 0;
+        font-size: 0.82rem;
+        color: #8c8c8c;
+        font-style: italic;
+    }
+
     .comment-body {
         margin: 0;
         color: #555;
@@ -395,9 +250,44 @@ const comments = await fetchLatestComments();
         color: #6f8090;
     }
 
+    .comments-loading {
+        display: grid;
+        gap: 0.9rem;
+    }
+
+    .loading-card {
+        height: 92px;
+        border: 1px dashed #aeb8c2;
+        background: linear-gradient(
+            90deg,
+            rgba(160, 175, 190, 0.06) 25%,
+            rgba(160, 175, 190, 0.16) 50%,
+            rgba(160, 175, 190, 0.06) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.2s infinite linear;
+    }
+
+    @keyframes shimmer {
+        from {
+            background-position: 200% 0;
+        }
+        to {
+            background-position: -200% 0;
+        }
+    }
+
     :global(.dark) .comment-link {
         border-color: #7f8c97;
         background: rgba(180, 190, 200, 0.06);
+    }
+
+    :global(.dark) .comment-card.is-reply .comment-link {
+        background: rgba(180, 190, 200, 0.1);
+    }
+
+    :global(.dark) .comment-post-title {
+        color: #c8d2dc;
     }
 
     :global(.dark) .comment-date,
@@ -405,7 +295,36 @@ const comments = await fetchLatestComments();
         color: #aab7c4;
     }
 
+    :global(.dark) .comment-kind {
+        color: #b8b8b8;
+    }
+
     :global(.dark) .comment-body {
         color: #d3d7db;
+    }
+
+    :global(.dark) .loading-card {
+        border-color: #7f8c97;
+        background: linear-gradient(
+            90deg,
+            rgba(180, 190, 200, 0.06) 25%,
+            rgba(180, 190, 200, 0.16) 50%,
+            rgba(180, 190, 200, 0.06) 75%
+        );
+        background-size: 200% 100%;
+    }
+
+    @media (max-width: 640px) {
+        .comment-top {
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .comment-post-title {
+            margin-left: 0;
+            max-width: 100%;
+            width: 100%;
+            text-align: left;
+        }
     }
 </style>
