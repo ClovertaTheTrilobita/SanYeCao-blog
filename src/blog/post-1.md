@@ -6,7 +6,7 @@ author: "三叶"
 image: 
     url: "de040e63935cfba0864716e0e3577515ef9a8590.jpg"
     alt: "img"
-tags: ["Python", "Nonebot", "QQ机器人", "教程"]
+tags: ["Python", "Nonebot2", "QQ机器人", "教程"]
 ---
 
 之前和群u一起基于nonbot2的qq适配器搭了个群聊机器人。
