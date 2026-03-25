@@ -12,19 +12,23 @@
 
 ## 😋 特性
 
-[screenshots]
+<br>
+
+<img width="2879" height="1853" alt="image" src="https://github.com/user-attachments/assets/9f6f7018-c8a4-46f7-9d30-1132fcea53da" style="zoom:25%;" />
+
+<br>
 
 - 使用纯静态页面，相应迅速，轻盈美观
 - 操作简易，Github Action自动部署
 -  <del><i>Astro Is All You Need</i></del>
 
-
+更多预览请移步：<b>[Images.md](docs/Images.md)</b>。
 
 ## 🧳 使用
 
 ### 1. Fork 这个仓库
 
-[screenshot]
+<img width="294" height="155" alt="image" src="https://github.com/user-attachments/assets/6ffc9a32-c084-463f-8988-f7488baa44e0" />
 
 并将其克隆到本地。
 
