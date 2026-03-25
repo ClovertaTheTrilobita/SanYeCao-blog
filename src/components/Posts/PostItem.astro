@@ -4,7 +4,7 @@ const data = Astro.props;
 ---
 
 <li class="post-card">
-  <a href={data.url} class="post-link">
+  <a href={data.url} class="post-link" data-astro-reload>
     <div class="post-text">
       <span class="post-title">{data.title}</span>
       <span class="post-description">{data.description}</span>

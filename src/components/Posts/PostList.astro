@@ -73,11 +73,18 @@ async function fetchDiscussionStats(): Promise<DiscussionNode[]> {
 }
 
 const discussions = await fetchDiscussionStats();
+
+const sortedPosts = [...allPosts].sort(
+  (a, b) =>
+    new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
+);
+
+const latestPosts = sortedPosts.slice(0, 5);
 ---
 
 <ul>
   {
-    allPosts.map((post: any) => {
+    latestPosts.map((post: any) => {
       const formattedDate = new Date(post.data.pubDate)
         .toISOString()
         .split("T")[0];
@@ -112,9 +119,35 @@ const discussions = await fetchDiscussionStats();
   }
 </ul>
 
+<div class="more-link-wrap">
+  <a href={`/${lang}/timeline`} class="more-link">
+    {lang === "zh" ? ">>>更多" : ">>>More"}
+  </a>
+</div>
+
 <style>
   ul {
     margin: 0;
     padding-left: 0;
+  }
+
+  .more-link-wrap {
+    margin-top: 1rem;
+    text-align: right;
+  }
+
+  .more-link {
+    color: #6f8090;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.14rem;
+  }
+
+  .more-link:hover {
+    text-decoration: underline;
+  }
+
+  :global(.dark) .more-link {
+    color: #aab7c4;
   }
 </style>
