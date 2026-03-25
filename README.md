@@ -1,46 +1,59 @@
-# Astro Starter Kit: Basics
+# SanYeCao-Blog
 
-```sh
-npm create astro@latest -- --template basics
-```
+<p align="center"><br>
+    ✨三叶草Blog✨<br>
+    🌊轻度/快速/美观🌊<br><br>
+    Built With<br>
+    <img alt="Static Badge" src="https://img.shields.io/badge/Astro-6.0-purple">
+    <img alt="Static Badge" src="https://img.shields.io/badge/Nodejs-24-green">
+    <img alt="Static Badge" src="https://img.shields.io/badge/Heart-♥️-pink">
+    <br>
+</p>
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 😋 特性
 
-## 🚀 Project Structure
+[screenshots]
 
-Inside of your Astro project, you'll see the following folders and files:
+- 使用纯静态页面，相应迅速，轻盈美观
+- 操作简易，Github Action自动部署
+-  <del><i>Astro Is All You Need</i></del>
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
-## 🧞 Commands
+## 🧳 使用
 
-All commands are run from the root of the project, from a terminal:
+### 1. Fork 这个仓库
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+[screenshot]
 
-## 👀 Want to learn more?
+并将其克隆到本地。
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+### 2. 运行/构建
+
+> [!IMPORTANT]
+>
+> 在开始之前，请先<b>将根目录的`.env.example`重命名为`.env`并配置好环境变量</b>，否则功能会不完善
+
+有关环境变量的说明详见：<b>[EnvVariables.md](docs/EnvVariables.md)</b>
+
+- 本地调试
+
+  ```shell
+  npm run dev
+  ```
+
+- 本地构建
+
+  ```shell
+  npm run build
+  ```
+
+### 3. 部署
+
+#### 使用Github Actions自动化部署
+
+详情参见：<b>[GithubActions.md](docs/GithubActions.md)</b>。
+
+#### 手动部署
+
+将生成的`dist/`目录上传至你的服务器，使用`NGINX`指向index.html。
