@@ -3,6 +3,10 @@ import { getCollection } from "astro:content";
 import PostItem from "./PostItem.astro";
 import { getLangFromUrl } from "@/i18n";
 
+const token = import.meta.env.GITHUB_TOKEN;
+const owner = import.meta.env.GISCUS_REPO_OWNER;
+const name = import.meta.env.GISCUS_REPO_NAME;
+const categoryId = import.meta.env.GISCUS_CATEGORY_ID;
 const lang = getLangFromUrl(Astro.url);
 const allPosts = await getCollection("blog");
 
@@ -25,7 +29,7 @@ function normalizePath(path: string) {
 }
 
 async function fetchDiscussionStats(): Promise<DiscussionNode[]> {
-  const token = import.meta.env.GITHUB_TOKEN;
+  // const token = import.meta.env.GITHUB_TOKEN;
   if (!token) return [];
 
   const query = `
@@ -57,9 +61,9 @@ async function fetchDiscussionStats(): Promise<DiscussionNode[]> {
     body: JSON.stringify({
       query,
       variables: {
-        owner: "ClovertaTheTrilobita",
-        name: "SanYeCao-blog",
-        categoryId: "DIC_kwDORvuVpM4C5MDE",
+        owner: owner,
+        name: name,
+        categoryId: categoryId,
       },
     }),
   });

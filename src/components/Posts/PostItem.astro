@@ -1,4 +1,5 @@
 ---
+import "@/styles/global.css";
 const data = Astro.props;
 ---
 
@@ -13,7 +14,7 @@ const data = Astro.props;
 
         <span class="post-stats">
           <span class="post-stat">💬 {data.commentCount ?? 0}</span>
-          <span class="post-stat">👍 {data.reactionCount ?? 0}</span>
+          <span class="post-stat">❤ {data.reactionCount ?? 0}</span>
         </span>
       </div>
     </div>
@@ -51,9 +52,10 @@ const data = Astro.props;
   }
 
   .post-title {
+    font-family: "Recursive Mono", "Maple Mono";
     color: inherit;
     font-weight: 700;
-    font-size: 1.05rem;
+    font-size: 1.34rem;
     line-height: 1.6;
     display: -webkit-box;
     -webkit-line-clamp: 3;
