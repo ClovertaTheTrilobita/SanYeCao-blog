@@ -4,7 +4,7 @@ pubDate: 2026-03-26
 description: '是终点，也是起点。纪念博客重新开张'
 author: "三叶"
 image: 
-    url: "https://files.seeusercontent.com/2026/03/25/zhK7/pasted-image-1774459137516.webp"
+    url: "https://s2.loli.net/2024/12/15/2sJYvf6N1MObRXd.jpg"
     alt: "baka"
 tags:  ["随笔"]
 ---
@@ -39,13 +39,9 @@ tags:  ["随笔"]
 
 我发的第一篇博客也是在CSDN上，后续发的几篇文章中，有一篇阅读量居然达到了惊人的3w（我知道CSDN数据注水，但、但3w啊喂！）
 
-<br>
-
 ![pasted-image-1774475485913.webp](https://files.seeusercontent.com/2026/03/25/Rfn5/pasted-image-1774475485913.webp)
 
 <p align="center"><sup>当时注册的CSDN账号</sup></p>
-
-<br>
 
 随后众所周知，CSDN变得越来越CS了（恼），无节制地塞入狗皮膏药一样的广告和越发难看的吃相。压死我的最后一根稻草，则是一天有个人加了我的交流群，问我为什么要把文章改为收费，那时候我才突然发现，CSDN不知道什么时候偷偷把我阅读量比较高的那几篇文章设置成了仅VIP可阅读全文。
 
@@ -57,13 +53,9 @@ tags:  ["随笔"]
 
 但是高度封装和高度集成的另一面是极低的效率。首先是WordPress极其反直觉的仪表盘UI设计，打开仪表盘的一瞬间我的眼睛像是被椰树牌的广告强健了一样，毫无主次可言的选项密密麻麻地在我眼前铺开。于此同时。WordPress令人感叹的加载速度无异于让我本来就疲于处理的大脑阻塞空转在等待加载。
 
-<br>
-
 ![pasted-image-1774479167963.webp](https://files.seeusercontent.com/2026/03/25/lP7v/pasted-image-1774479167963.webp)
 
 <p align="center"><sup>也许是我的大脑比较单核，但最开始我真的找不到主题设置在哪</sup></p>
-
-<br>
 
 每次需要在仪表盘更改设定时都仿佛在玩aimlab，要尽可能快速点击的同时又不能点错。aimlab点错了没有惩罚，但WordPress若点错一个按钮，随之而来的是硬控好几秒的加载时间。
 
@@ -73,13 +65,9 @@ tags:  ["随笔"]
 
 群友到现在终于没有见——大约三叶的确已经不更新了。
 
-<br>
-
 <img src="https://s2.loli.net/2024/12/15/2sJYvf6N1MObRXd.jpg" alt="1733496064080.jpg" style="zoom:25%;" />
 
 <p align="center"><sup>我不知道我为什么要贴这个图，它很可爱，请给我打钱</sup></p>
-
-<br>
 
 让我下定决心从头写一个全新的博客的契机，是我看到了<b>[閉源 lib](https://ex-tasty.com)</b>佬的博客。
 
@@ -90,4 +78,6 @@ tags:  ["随笔"]
 于是我就抄袭……咳不是，于是我就借鉴了很多<b>[極限風味](https://ex-tasty.com)</b>的设计理念，经过两天的熬大夜，花了30多个小时，基于  <b>[Astro](https://astro.build/)</b> 重写了这个博客。
 
 它快速、轻量、美观、便捷，相比于原来那个4年没更新的WordPress主题，它拥有更出色的移动端适配。虽然作为第一个版本目前还有一些小瑕疵尚未修复，但我会尝试在接下来的时间里慢慢把它维护好。
+
+顺带一提，这个博客也开源于<b>[ClovertaTheTrilobita/SanYeCao-blog](https://github.com/ClovertaTheTrilobita/SanYeCao-blog/)</b>，且使用文档也应当足够详细，欢迎尝试（
 
