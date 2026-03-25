@@ -7,7 +7,15 @@ const data = Astro.props;
     <div class="post-text">
       <span class="post-title">{data.title}</span>
       <span class="post-description">{data.description}</span>
-      <span class="post-date">{data.date}</span>
+
+      <div class="post-meta-row">
+        <span class="post-date">{data.date}</span>
+
+        <span class="post-stats">
+          <span class="post-stat">💬 {data.commentCount ?? 0}</span>
+          <span class="post-stat">👍 {data.reactionCount ?? 0}</span>
+        </span>
+      </div>
     </div>
 
     <img src={data.img} alt={data.title} class="post-image" />
@@ -53,11 +61,40 @@ const data = Astro.props;
     overflow: hidden;
   }
 
+  .post-description {
+    color: black;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+
   .post-date {
     color: gray;
     font-size: 0.95rem;
     white-space: nowrap;
     line-height: 1.6;
+  }
+
+  .post-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: #6f8090;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    white-space: nowrap;
+  }
+
+  .post-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
   }
 
   .post-image {
@@ -71,14 +108,12 @@ const data = Astro.props;
     display: block;
   }
 
-  .post-description {
-    color: black;
-    font-weight: 400;
-    font-style: italic;
-  }
-
   :global(.dark) .post-description {
     color: #e6e6e6;
+  }
+
+  :global(.dark) .post-stats {
+    color: #aab7c4;
   }
 
   @media (max-width: 640px) {

@@ -1,11 +1,74 @@
 ---
 import { getCollection } from "astro:content";
 import PostItem from "./PostItem.astro";
-import { getLangFromUrl, getTranslations, type Lang } from "@/i18n";
+import { getLangFromUrl } from "@/i18n";
 
 const lang = getLangFromUrl(Astro.url);
-const t = getTranslations(lang);
 const allPosts = await getCollection("blog");
+
+type ReactionGroup = {
+  users?: {
+    totalCount?: number;
+  };
+};
+
+type DiscussionNode = {
+  title: string;
+  comments?: {
+    totalCount?: number;
+  };
+  reactionGroups?: ReactionGroup[];
+};
+
+function normalizePath(path: string) {
+  return path.replace(/^\/+|\/+$/g, "");
+}
+
+async function fetchDiscussionStats(): Promise<DiscussionNode[]> {
+  const token = import.meta.env.GITHUB_TOKEN;
+  if (!token) return [];
+
+  const query = `
+    query($owner: String!, $name: String!, $categoryId: ID!) {
+      repository(owner: $owner, name: $name) {
+        discussions(first: 100, categoryId: $categoryId) {
+          nodes {
+            title
+            comments(first: 0) {
+              totalCount
+            }
+            reactionGroups {
+              users {
+                totalCount
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const res = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      query,
+      variables: {
+        owner: "ClovertaTheTrilobita",
+        name: "SanYeCao-blog",
+        categoryId: "DIC_kwDORvuVpM4C5MDE",
+      },
+    }),
+  });
+
+  const json = await res.json();
+  return (json?.data?.repository?.discussions?.nodes ?? []) as DiscussionNode[];
+}
+
+const discussions = await fetchDiscussionStats();
 ---
 
 <ul>
@@ -15,6 +78,21 @@ const allPosts = await getCollection("blog");
         .toISOString()
         .split("T")[0];
 
+      const pathname = `/${lang}/posts/${post.id}/`;
+
+      const matchedDiscussion = discussions.find((d: DiscussionNode) => {
+        return normalizePath(d.title) === normalizePath(pathname);
+      });
+
+      const reactionCount =
+        matchedDiscussion?.reactionGroups?.reduce(
+          (sum: number, group: ReactionGroup) =>
+            sum + (group.users?.totalCount ?? 0),
+          0,
+        ) ?? 0;
+
+      const commentCount = matchedDiscussion?.comments?.totalCount ?? 0;
+
       return (
         <PostItem
           url={`/${lang}/posts/${post.id}/`}
@@ -22,6 +100,8 @@ const allPosts = await getCollection("blog");
           description={post.data.description}
           date={formattedDate}
           img={post.data.image.url}
+          commentCount={commentCount}
+          reactionCount={reactionCount}
         />
       );
     })
