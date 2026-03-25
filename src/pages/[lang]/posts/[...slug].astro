@@ -24,6 +24,6 @@ const { post, lang } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<MarkdownPostLayout frontmatter={post.data} lang={lang}>
+<MarkdownPostLayout frontmatter={post.data} lang={lang} postId={post.id}>
     <Content />
 </MarkdownPostLayout>

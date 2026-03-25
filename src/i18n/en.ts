@@ -9,6 +9,7 @@ export default {
         tags: "Tags",
         about: "About",
         timeline: "Timeline",
+        friends: "Friends"
     },
     post: {
         writtenBy: "Written by",

@@ -1,0 +1,81 @@
+---
+import "@/styles/global.css";
+const { name, description, avatar, url } = Astro.props;
+---
+
+<a
+    href={url}
+    class="friendly-link-card"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    <div class="friendly-link-text">
+        <div class="friendly-link-title">{name}</div>
+        <div class="friendly-link-description">{description}</div>
+    </div>
+
+    <img src={avatar} alt={name} class="friendly-link-avatar" />
+</a>
+
+<style>
+    .friendly-link-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.1rem 0.5rem;
+        background: #fffcf1;
+        border: 2px solid #ede3d0;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .friendly-link-text {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .friendly-link-title {
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 1.4;
+        color: #2f2a22;
+        margin-bottom: 0.25rem;
+        overflow-wrap: anywhere;
+    }
+
+    .friendly-link-description {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: #6f6a5f;
+        font-style: italic;
+        overflow-wrap: anywhere;
+    }
+
+    .friendly-link-avatar {
+        width: 72px;
+        height: 72px;
+        object-fit: cover;
+        object-position: center;
+        padding: 0.3rem 0.3rem;
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .friendly-link-card:hover {
+        background: #efe2be;
+    }
+
+    :global(.dark) .friendly-link-card {
+        background: #3a352b;
+        border-color: #8f8268;
+    }
+
+    :global(.dark) .friendly-link-title {
+        color: #f0e6cf;
+    }
+
+    :global(.dark) .friendly-link-description {
+        color: #c8bfae;
+    }
+</style>

@@ -82,7 +82,7 @@ const discussions = await fetchDiscussionStats();
         .toISOString()
         .split("T")[0];
 
-      const pathname = `/${lang}/posts/${post.id}/`;
+      const pathname = `/${post.id}/`;
 
       const matchedDiscussion = discussions.find((d: DiscussionNode) => {
         return normalizePath(d.title) === normalizePath(pathname);

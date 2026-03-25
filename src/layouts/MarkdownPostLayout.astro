@@ -4,8 +4,8 @@ import Giscus from "@/components/Giscus.astro";
 import { getLangFromUrl, getTranslations } from "@/i18n";
 import "@/styles/global.css";
 
-const { frontmatter } = Astro.props;
-const lang = getLangFromUrl(Astro.url);
+const { frontmatter, lang, postId } = Astro.props;
+// const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 ---
 
@@ -41,7 +41,7 @@ const t = getTranslations(lang);
 
   <slot />
 
-  <Giscus />
+  <Giscus term={postId} />
 </BaseLayout>
 
 <style>

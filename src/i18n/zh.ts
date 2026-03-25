@@ -8,7 +8,8 @@ export default {
         posts: "文章",
         tags: "标签",
         about: "关于",
-        timeline: "时间轴"
+        timeline: "时间轴",
+        friends: "友链"
     },
     post: {
         writtenBy: "作者",

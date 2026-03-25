@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import PostTimeline from "@/components/Posts/PostTimeline.astro";
+import FriendlyLinkList from "@/components/FriendlyLinks/FriendlyLinkList.astro";
 import { getLangFromUrl, getTranslations } from "@/i18n";
 import "@/styles/global.css";
 
@@ -10,10 +10,9 @@ export function getStaticPaths() {
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
-const headerTitle = lang === "zh" ? "时间轴" : "Timeline";
+const headerTitle = lang === "zh" ? "友情链接" : "Friends";
 ---
 
 <BaseLayout pageTitle={headerTitle}>
-    <h1>{t.nav.timeline}</h1>
-    <PostTimeline />
+    <FriendlyLinkList />
 </BaseLayout>

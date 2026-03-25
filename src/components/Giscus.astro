@@ -1,5 +1,5 @@
 ---
-
+const { term } = Astro.props;
 ---
 
 <section class="comments">
@@ -11,8 +11,9 @@
         data-repo-id="R_kgDORvuVpA"
         data-category="Comments"
         data-category-id="DIC_kwDORvuVpM4C5MDE"
-        data-mapping="pathname"
-        data-strict="0"
+        data-mapping="specific"
+        data-term={term}
+        data-strict="1"
         data-reactions-enabled="1"
         data-emit-metadata="0"
         data-input-position="bottom"
@@ -20,8 +21,7 @@
         data-lang="en"
         data-loading="lazy"
         crossorigin="anonymous"
-        async
-    ></script>
+        async></script>
 
     <script is:inline>
         function setGiscusTheme(theme) {
