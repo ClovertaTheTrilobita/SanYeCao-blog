@@ -10,7 +10,7 @@ tags:  ["操作系统", "NixOS"]
 
 ---
 
-# 在已有Windows的情况下安装NixOS双系统
+# 在已有Windows的情况下安装NixOS双系统 
 
 在网上找了些现有的NixOS安装教程，但其中很多已过时/不可用。 
 
