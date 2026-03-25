@@ -228,7 +228,11 @@ const comments = await fetchLatestComments();
                     <li
                         class={`comment-card ${comment.isReply ? "is-reply" : ""}`}
                     >
-                        <a href={comment.localUrl} class="comment-link">
+                        <a
+                            href={comment.localUrl}
+                            class="comment-link"
+                            data-astro-reload
+                        >
                             <div class="comment-top">
                                 {comment.author?.avatarUrl && (
                                     <img
