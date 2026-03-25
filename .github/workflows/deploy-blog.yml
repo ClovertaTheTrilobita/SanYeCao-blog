@@ -11,7 +11,6 @@ on:
       - 'package-lock.json'
       - 'astro.config.mjs'
       - 'astro.config.ts'
-      - 'src/content/**'
       - 'public/**'
       - '.github/workflows/deploy-blog.yml'
   workflow_dispatch:
