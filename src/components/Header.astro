@@ -13,12 +13,19 @@ const t = getTranslations(lang);
     </div>
 
     <nav class="header-nav">
-        <h1>{t.banner.title}</h1>
+        <h1>
+            <a href="/" data-astro-reload>{t.banner.title}</a>
+        </h1>
         <Navigation />
     </nav>
 </header>
 
 <style>
+    .header-nav h1 a {
+        color: inherit;
+        text-decoration: none;
+    }
+
     .site-header {
         position: relative;
         padding-top: 0.5rem;
