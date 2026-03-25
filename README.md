@@ -12,13 +12,13 @@
 
 ## 😋 特性
 
-[screenshots]
+<img width="2879" height="1920" alt="image" src="https://github.com/user-attachments/assets/542c08c3-269f-476f-94c9-855bb9acc721" />
 
 - 使用纯静态页面，相应迅速，轻盈美观
 - 操作简易，Github Action自动部署
 -  <del><i>Astro Is All You Need</i></del>
 
-
+更多预览请移步：<b>[Images.md](docs/Images.md)</b>。
 
 ## 🧳 使用
 
