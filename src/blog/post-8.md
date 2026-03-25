@@ -4,8 +4,8 @@ pubDate: 2026-03-26
 description: '是终点，也是起点。纪念博客重新开张'
 author: "三叶"
 image: 
-    url: "https://s2.loli.net/2024/12/15/2sJYvf6N1MObRXd.jpg"
-    alt: "baka"
+    url: "https://files.seeusercontent.com/2026/03/25/0rSi/rikka-manga.jpeg"
+    alt: "rikka"
 tags:  ["随笔"]
 ---
 
