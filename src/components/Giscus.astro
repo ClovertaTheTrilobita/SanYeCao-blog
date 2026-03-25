@@ -1,5 +1,11 @@
 ---
 const { term } = Astro.props;
+
+const repoOwner = import.meta.env.GISCUS_REPO_OWNER;
+const repoName = import.meta.env.GISCUS_REPO_NAME;
+const categoryId = import.meta.env.GISCUS_CATEGORY_ID;
+const dataRepoId = import.meta.env.GISCUS_DATA_REPO_ID;
+const repo = `${repoOwner}/${repoName}`;
 ---
 
 <section class="comments">
@@ -7,10 +13,10 @@ const { term } = Astro.props;
 
     <script
         src="https://giscus.app/client.js"
-        data-repo="ClovertaTheTrilobita/SanYeCao-blog"
-        data-repo-id="R_kgDORvuVpA"
+        data-repo={repo}
+        data-repo-id={dataRepoId}
         data-category="Comments"
-        data-category-id="DIC_kwDORvuVpM4C5MDE"
+        data-category-id={categoryId}
         data-mapping="specific"
         data-term={term}
         data-strict="1"
