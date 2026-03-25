@@ -5,19 +5,29 @@ const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 ---
 
-<nav class="site-nav">
-    <a href={`/${lang}`} data-astro-reload>{t.nav.home}</a>
-    <a href={`/${lang}/about`}>{t.nav.about}</a>
-    <a href={`/${lang}/tags`}>{t.nav.tags}</a>
-    <a href={`/${lang}/timeline`}>{t.nav.timeline}</a>
-    <a href={`/${lang}/friends`}>{t.nav.friends}</a>
+<nav class="site-nav" aria-label="Site navigation">
+    <div class="site-nav-desktop">
+        <a href={`/${lang}`} data-astro-reload>{t.nav.home}</a>
+        <a href={`/${lang}/about`}>{t.nav.about}</a>
+        <a href={`/${lang}/tags`}>{t.nav.tags}</a>
+        <a href={`/${lang}/timeline`}>{t.nav.timeline}</a>
+        <a href={`/${lang}/friends`}>{t.nav.friends}</a>
+    </div>
+
+    <details class="site-nav-mobile">
+        <summary>☰ {lang === "zh" ? "导航栏" : "Menu"}</summary>
+        <div class="dropdown-menu">
+            <a href={`/${lang}`} data-astro-reload>{t.nav.home}</a>
+            <a href={`/${lang}/about`}>{t.nav.about}</a>
+            <a href={`/${lang}/tags`}>{t.nav.tags}</a>
+            <a href={`/${lang}/timeline`}>{t.nav.timeline}</a>
+            <a href={`/${lang}/friends`}>{t.nav.friends}</a>
+        </div>
+    </details>
 </nav>
 
 <style>
     .site-nav {
-        display: flex;
-        gap: 1.5rem;
-        align-items: center;
         margin: 1rem 0;
         padding-bottom: 3rem;
         position: relative;
@@ -50,6 +60,12 @@ const t = getTranslations(lang);
         );
     }
 
+    .site-nav-desktop {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
     .site-nav a {
         color: black;
         text-decoration: underline;
@@ -67,5 +83,73 @@ const t = getTranslations(lang);
 
     :global(.dark) .site-nav a:hover {
         color: #ddd;
+    }
+
+    .site-nav-mobile {
+        display: none;
+        position: relative;
+    }
+
+    .site-nav-mobile summary {
+        list-style: none;
+        cursor: pointer;
+        display: inline-block;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: black;
+        text-decoration: underline;
+        user-select: none;
+    }
+
+    .site-nav-mobile summary::-webkit-details-marker {
+        display: none;
+    }
+
+    :global(.dark) .site-nav-mobile summary {
+        color: white;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 0.75rem);
+        left: 0;
+        min-width: 180px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.9rem 1rem;
+        background: #fffaf5;
+        border: 2px dashed #8b5e3c;
+        border-radius: 0;
+        z-index: 20;
+    }
+
+    .dropdown-menu a {
+        font-size: 1rem;
+        text-decoration: none;
+        color: black;
+    }
+
+    .dropdown-menu a:hover {
+        text-decoration: underline;
+    }
+
+    :global(.dark) .dropdown-menu {
+        background: #1f1b18;
+        border-color: #c8a98a;
+    }
+
+    :global(.dark) .dropdown-menu a {
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .site-nav-desktop {
+            display: none;
+        }
+
+        .site-nav-mobile {
+            display: block;
+        }
     }
 </style>
