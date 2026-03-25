@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostItem from "@/components/Posts/PostItem.astro";
 import { getTranslations, type Lang } from "@/i18n";
+import "@/styles/global.css";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
@@ -31,10 +32,55 @@ const t = getTranslations(lang);
 ---
 
 <BaseLayout pageTitle={String(tag)}>
-  <p>
-    {lang === "zh" ? `带有标签 ${tag} 的文章` : `Posts tagged with ${tag}`}
+  <p class="tag-heading">
+    {lang === "zh" ? "带有标签" : "Posts tagged with"}{" "}
+    <span class="tag-chip">{tag}</span>
+    {lang === "zh" ? "的文章" : ""}
   </p>
   <ul>
-    {posts.map((post) => <PostItem post={post} lang={lang} />)}
+    {
+      posts.map((post: any) => {
+        const formattedDate = new Date(post.data.pubDate)
+          .toISOString()
+          .split("T")[0];
+
+        return (
+          <PostItem
+            url={`/${lang}/posts/${post.id}/`}
+            title={post.data.title}
+            date={formattedDate}
+            img={post.data.image.url}
+          />
+        );
+      })
+    }
   </ul>
 </BaseLayout>
+
+<style>
+  .tag-heading {
+    margin: 0 0 1rem 0;
+  }
+
+  .tag-chip {
+    display: inline-block;
+    padding: 0.22em 0.65em;
+    font-size: 0.88rem;
+    line-height: 1.2;
+    border: 1px dashed #8b6b4a;
+    border-radius: 0;
+    background-color: transparent;
+    color: #6f4e37;
+    vertical-align: middle;
+  }
+
+  :global(.dark) .tag-chip {
+    border-color: #d8c7a1;
+    color: #e6d8b8;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 0;
+  }
+</style>

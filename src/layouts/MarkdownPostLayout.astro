@@ -37,6 +37,8 @@ const t = getTranslations(lang);
     />
   </div>
 
+  <div class="post-divider"></div>
+
   <slot />
 
   <Giscus />
@@ -89,6 +91,15 @@ const t = getTranslations(lang);
     object-position: center;
     border-radius: 0.4rem;
     display: block;
+  }
+
+  .post-divider {
+    border-top: 1px dashed #dfe4e9;
+    margin: 1.2rem 0 1.5rem;
+  }
+
+  :global(.dark) .post-divider {
+    border-top-color: #7f91a3;
   }
 
   .tags {

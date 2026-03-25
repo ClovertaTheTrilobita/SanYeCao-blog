@@ -6,6 +6,7 @@ const data = Astro.props;
   <a href={data.url} class="post-link">
     <div class="post-text">
       <span class="post-title">{data.title}</span>
+      <span class="post-description">{data.description}</span>
       <span class="post-date">{data.date}</span>
     </div>
 
@@ -68,6 +69,16 @@ const data = Astro.props;
     border-radius: 0.5rem;
     flex-shrink: 0;
     display: block;
+  }
+
+  .post-description {
+    color: black;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  :global(.dark) .post-description {
+    color: #e6e6e6;
   }
 
   @media (max-width: 640px) {

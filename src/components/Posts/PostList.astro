@@ -19,6 +19,7 @@ const allPosts = await getCollection("blog");
         <PostItem
           url={`/${lang}/posts/${post.id}/`}
           title={post.data.title}
+          description={post.data.description}
           date={formattedDate}
           img={post.data.image.url}
         />

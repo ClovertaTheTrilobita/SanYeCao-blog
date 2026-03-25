@@ -8,6 +8,7 @@ export default {
         posts: "文章",
         tags: "标签",
         about: "关于",
+        timeline: "时间轴"
     },
     post: {
         writtenBy: "作者",
@@ -46,7 +47,7 @@ export default {
     },
     tags: {
         title: "标签",
-        description: "在这里收集着整篇博客出现过的标签，点击标签跳转对应的文章列表。"
+        description: "在这里收集着整篇博客出现过的标签，点击标签跳转对应的文章列表。",
     },
     footer: {
         githubIntro: '在 <a href="https://www.github.com/ClovertaTheTrilobita">GitHub</a> 查看更多！',

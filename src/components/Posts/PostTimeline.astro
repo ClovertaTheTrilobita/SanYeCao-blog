@@ -1,0 +1,182 @@
+---
+import { getCollection } from "astro:content";
+import { getLangFromUrl, getTranslations } from "@/i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+const allPosts = await getCollection("blog");
+
+const sortedPosts = [...allPosts].sort(
+    (a, b) =>
+        new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
+);
+
+const groupedPosts = sortedPosts.reduce((acc: any[], post: any) => {
+    const month = new Date(post.data.pubDate).toISOString().slice(0, 7);
+    const lastGroup = acc[acc.length - 1];
+
+    if (lastGroup && lastGroup.month === month) {
+        lastGroup.posts.push(post);
+    } else {
+        acc.push({
+            month,
+            posts: [post],
+        });
+    }
+
+    return acc;
+}, []);
+---
+
+<ul class="timeline">
+    {
+        groupedPosts.map((group) => (
+            <li class="timeline-item">
+                <div class="timeline-node" aria-hidden="true" />
+
+                <div class="timeline-group">
+                    <p class="post-date">{group.month}</p>
+
+                    <div class="month-posts">
+                        {group.posts.map((post: any) => (
+                            <a
+                                href={`/${lang}/posts/${post.id}/`}
+                                class="timeline-card"
+                            >
+                                <h2 class="post-title">{post.data.title}</h2>
+                                <p class="post-description">
+                                    {post.data.description}
+                                </p>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </li>
+        ))
+    }
+</ul>
+
+<style>
+    .timeline {
+        list-style: none;
+        margin: 0;
+        padding: 0 0 0 1.6rem;
+        position: relative;
+    }
+
+    .timeline::before {
+        content: "";
+        position: absolute;
+        top: 0.2rem;
+        bottom: 0.2rem;
+        left: 0.4rem;
+        width: 2px;
+        background: #9aa7b3;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin: 0 0 1.8rem 0;
+        padding-left: 1.2rem;
+    }
+
+    .timeline-node {
+        position: absolute;
+        left: calc(0.4rem - 0.25rem + 1px);
+        top: 0.75rem;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: #8e8e8e;
+        z-index: 1;
+    }
+
+    .timeline-group {
+        min-width: 0;
+    }
+
+    .post-date {
+        margin: 0 0 0.6rem 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.4;
+        color: #6f8090;
+    }
+
+    .month-posts {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .timeline-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        text-decoration: none;
+        color: inherit;
+        min-width: 0;
+    }
+
+    .post-title {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 700;
+        line-height: 1.5;
+        color: inherit;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .post-description {
+        margin: 0;
+        font-size: 0.88rem;
+        color: #555;
+        font-style: italic;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .timeline-card:hover .post-title {
+        text-decoration: underline;
+    }
+
+    :global(.dark) .timeline::before {
+        background: #6f8090;
+    }
+
+    :global(.dark) .timeline-node {
+        background: #9a9a9a;
+    }
+
+    :global(.dark) .post-date {
+        color: #aab7c4;
+    }
+
+    :global(.dark) .post-description {
+        color: #c8c8c8;
+    }
+
+    @media (max-width: 640px) {
+        .timeline {
+            padding-left: 1.3rem;
+        }
+
+        .timeline-item {
+            padding-left: 1rem;
+        }
+
+        .post-date {
+            font-size: 1.1rem;
+        }
+
+        .post-title {
+            font-size: 1rem;
+        }
+
+        .post-description {
+            font-size: 0.84rem;
+        }
+    }
+</style>

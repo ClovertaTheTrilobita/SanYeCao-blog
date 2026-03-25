@@ -8,6 +8,7 @@ export default {
         posts: "Posts",
         tags: "Tags",
         about: "About",
+        timeline: "timeline",
     },
     post: {
         writtenBy: "Written by",

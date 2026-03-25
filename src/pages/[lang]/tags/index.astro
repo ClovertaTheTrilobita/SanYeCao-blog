@@ -18,6 +18,7 @@ const pageTitle = lang === "zh" ? "标签索引" : "Tag Index";
 <BaseLayout pageTitle={pageTitle}>
     <h1>{t.tags.title}</h1>
     <p>{t.tags.description}</p>
+
     <div class="tags">
         {
             tags.map((tag) => (
@@ -30,21 +31,37 @@ const pageTitle = lang === "zh" ? "标签索引" : "Tag Index";
 </BaseLayout>
 
 <style>
-    a {
-        color: #00539f;
-    }
-
     .tags {
         display: flex;
         flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.8rem;
     }
 
     .tag {
-        margin: 0.25em;
-        border: dotted 1px #a1a1a1;
-        border-radius: 0.5em;
-        padding: 0.5em 1em;
-        font-size: 1.15em;
-        background-color: #f8fcfd;
+        margin: 0;
+        padding: 0.22em 0.65em;
+        font-size: 1rem;
+        line-height: 1.2;
+        border: 1px dashed #8b6b4a;
+        border-radius: 0;
+        background-color: transparent;
+    }
+
+    .tag a {
+        color: #6f4e37;
+        text-decoration: none;
+    }
+
+    .tag a:hover {
+        text-decoration: underline;
+    }
+
+    :global(.dark) .tag {
+        border-color: #d8c7a1;
+    }
+
+    :global(.dark) .tag a {
+        color: #e6d8b8;
     }
 </style>
