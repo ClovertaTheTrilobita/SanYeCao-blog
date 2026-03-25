@@ -135,3 +135,9 @@ html.dark {
 .dark a:focus {
   color: #c2deff;
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
