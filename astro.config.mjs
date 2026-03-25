@@ -12,5 +12,8 @@ export default defineConfig({
       },
     },
   },
-  site: "https://blog.cloverta.top"
+  site: "https://blog.cloverta.top",
+  redirects: {
+    "/": "/zh",
+  },
 })

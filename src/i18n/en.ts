@@ -19,7 +19,7 @@ export default {
     },
     langSwitcher: "中文",
     home: {
-        title: "Welcome in — mind the turn to the left",
+        title: "Welcome in — please mind the gap",
         content: [
             "These few lines speak what the heart would say; Ink and paper end, but thoughts still stay",
             "Welcome to Cloverta's blog.",
