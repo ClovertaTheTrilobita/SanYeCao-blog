@@ -7,7 +7,6 @@ image:
     url: "https://files.seeusercontent.com/2026/03/25/zhK7/pasted-image-1774459137516.webp"
     alt: "baka"
 tags:  ["操作系统", "NixOS"]
-
 ---
 
 # 在已有Windows的情况下安装NixOS双系统 
