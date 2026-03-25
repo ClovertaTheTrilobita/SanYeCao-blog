@@ -3,7 +3,7 @@ name: Deploy Astro Blog
 on:
   push:
     branches:
-      - main
+      - blog-content
     paths:
       - 'src/blog/**'
       - 'src/friends/**'
