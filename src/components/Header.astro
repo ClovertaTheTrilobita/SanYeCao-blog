@@ -24,6 +24,7 @@ const t = getTranslations(lang);
     .header-nav h1 a {
         color: inherit;
         text-decoration: none;
+        display: block;
     }
 
     .site-header {
@@ -31,14 +32,11 @@ const t = getTranslations(lang);
         padding-top: 0.5rem;
     }
 
-    .site-header .header-nav h1 {
-        font-size: 2.5rem;
-    }
-
     .theme-icon-wrap {
         position: absolute;
         top: 0;
         right: 0;
+        z-index: 2;
     }
 
     .header-nav {
@@ -50,5 +48,23 @@ const t = getTranslations(lang);
     .header-nav h1 {
         margin: 0;
         font-style: italic;
+        line-height: 1.1;
+
+        /* 给右上角 ThemeIcon 留空间 */
+        max-width: calc(100% - 4rem);
+
+        /* 桌面正常，手机自动缩小 */
+        font-size: clamp(1.6rem, 6vw, 2.5rem);
+    }
+
+    @media (max-width: 768px) {
+        .site-header {
+            padding-top: 0.25rem;
+        }
+
+        .header-nav h1 {
+            max-width: calc(100% - 3.5rem);
+            font-size: clamp(1.25rem, 7vw, 2rem);
+        }
     }
 </style>
