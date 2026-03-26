@@ -14,7 +14,7 @@
 
 <br>
 
-<img width="2880" height="1855" alt="image" src="https://github.com/user-attachments/assets/0f020f42-ff0f-4307-bcfa-4e9f37569661" style="zoom:25%;"/>
+<img width="727" height="384" alt="mockup-all-clean(1)" src="https://github.com/user-attachments/assets/6b2592e4-70c5-49f7-b8b6-d8c93adba1c6"   style="display: block; margin: 0 auto; zoom: 25%;"/>
 
 <br>
 
