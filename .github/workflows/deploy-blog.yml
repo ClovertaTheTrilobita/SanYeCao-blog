@@ -15,12 +15,29 @@ on:
       - '.github/workflows/deploy-blog.yml'
   workflow_dispatch:
 
+  discussion:
+    types: [created, category_changed]
+
+  discussion_comment:
+    types: [created, edited, deleted]
+
 concurrency:
   group: deploy-blog
   cancel-in-progress: true
 
 jobs:
   build-and-deploy:
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'discussion' &&
+        github.event.discussion.category.slug == 'comments'
+      ) ||
+      (
+        github.event_name == 'discussion_comment' &&
+        github.event.discussion.category.slug == 'comments'
+      )
     runs-on: ubuntu-latest
 
     env:
@@ -30,8 +47,10 @@ jobs:
       DEPLOY_USER: ${{ vars.DEPLOY_USER }}
 
     steps:
-      - name: Checkout
+      - name: Checkout blog-content branch
         uses: actions/checkout@v4
+        with:
+          ref: blog-content
 
       - name: Setup Node
         uses: actions/setup-node@v4
