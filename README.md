@@ -1,5 +1,6 @@
 # SanYeCao-Blog
 
+<p align="right">[<a href="README.md">中文</a> | <a href="README-en.md">English</a>]</p>
 <p align="center"><br>
     ✨三叶草Blog✨<br>
     🌊轻度/快速/美观🌊<br><br>
@@ -14,11 +15,11 @@
 
 <br>
 
-<img width="2879" height="1853" alt="image" src="https://github.com/user-attachments/assets/9f6f7018-c8a4-46f7-9d30-1132fcea53da" style="zoom:25%;" />
+<img width="1670" height="889" alt="image" src="https://github.com/user-attachments/assets/ded8f5ae-7f48-4b62-a79d-6b482fc77764" />
 
 <br>
 
-- 使用纯静态页面，相应迅速，轻盈美观
+- 使用纯静态页面，响应迅速，轻盈美观
 - 操作简易，Github Action自动部署
 -  <del><i>Astro Is All You Need</i></del>
 

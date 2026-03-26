@@ -1,5 +1,7 @@
 ## Github Actions自动部署
 
+<p align="right">[<a href="GithubActions.md">中文</a> | <a href="GithubActions-en.md">English</a>]</p>
+
 > [!NOTE]
 >
 > 此项目的Github Actions监听`src/blog`和`src/friends`两个目录的`git push`操作，两个目录有更新则触发构建流水线。

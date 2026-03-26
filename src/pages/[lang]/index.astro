@@ -16,7 +16,30 @@ const pageTitle = t.home.title;
 ---
 
 <BaseLayout pageTitle={headerTitle}>
-  <h1>{pageTitle}</h1>
+  <h1 class="page-title">
+    <span>{pageTitle}</span>
+    <a
+      href={`${import.meta.env.SITE}/rss.xml`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="RSS Feed"
+      class="rss-link"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        width="33"
+        height="33"
+        aria-hidden="true"
+        style="margin-left: -15px; margin-bottom: -5px; color:#3f50e5"
+      >
+        <path
+          d="M6.18 17.82a1.64 1.64 0 1 1 0 3.28 1.64 1.64 0 0 1 0-3.28ZM3 10.44v2.25c4.56 0 8.27 3.71 8.27 8.27h2.25C13.52 15.16 8.84 10.44 3 10.44Zm0-4.54v2.25c7.06 0 12.81 5.75 12.81 12.81h2.25C18.06 12.66 11.3 5.9 3 5.9Z"
+        ></path>
+      </svg>
+    </a>
+  </h1>
   <div class="content">
     {t.home.content.map((line: string) => <p set:html={line} />)}
   </div>

@@ -1,5 +1,7 @@
 ## 环境变量说明
 
+<p align="right">[<a href="EnvVariables.md">中文</a> | <a href="EnvVariables-en.md">English</a>]</p>
+
 在项目的`.env.example`中，列举了如下环境变量
 
 | 变量名                | 内容                                                         |
