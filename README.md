@@ -19,7 +19,7 @@
 
 <br>
 
-- 使用纯静态页面，相应迅速，轻盈美观
+- 使用纯静态页面，响应迅速，轻盈美观
 - 操作简易，Github Action自动部署
 -  <del><i>Astro Is All You Need</i></del>
 
