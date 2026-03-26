@@ -5,8 +5,8 @@ import { getCollection } from 'astro:content';
 export async function GET(context) {
     const posts = await getCollection("blog");
     return rss({
-        title: 'Astro Learner | Blog',
-        description: 'My journey learning Astro',
+        title: 'Cloverta的博客',
+        description: '在这里，发现更多（雾）欢迎来到三叶的博客🥳',
         site: context.site,
         items: await pagesGlobToRssItems(import.meta.glob('./**/*.md')),
         items: posts.map((post) => ({
