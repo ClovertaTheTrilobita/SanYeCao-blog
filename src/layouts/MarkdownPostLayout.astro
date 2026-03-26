@@ -5,7 +5,6 @@ import { getLangFromUrl, getTranslations } from "@/i18n";
 import "@/styles/global.css";
 
 const { frontmatter, lang, postId } = Astro.props;
-// const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 ---
 
@@ -14,38 +13,42 @@ const t = getTranslations(lang);
   description={frontmatter.description}
   image={frontmatter.image?.url}
 >
-  <div class="post-header">
-    <div class="post-meta">
-      <h1 class="post-title">{frontmatter.title}</h1>
-      <p class="description"><em>{frontmatter.description}</em></p>
-      <p class="meta-line">
-        {t.post.publishedOn}: {frontmatter.pubDate.toLocaleDateString()}
-      </p>
-      <p class="meta-line">{t.post.writtenBy}: {frontmatter.author}</p>
+  <article class="post-article">
+    <div class="post-header">
+      <div class="post-meta">
+        <h1 class="post-title">{frontmatter.title}</h1>
+        <p class="description"><em>{frontmatter.description}</em></p>
+        <p class="meta-line">
+          {t.post.publishedOn}: {frontmatter.pubDate.toLocaleDateString()}
+        </p>
+        <p class="meta-line">{t.post.writtenBy}: {frontmatter.author}</p>
 
-      <div class="tags">
-        {
-          frontmatter.tags.map((tag: string) => (
-            <p class="tag">
-              <a href={`/${lang}/tags/${tag}`}>{tag}</a>
-            </p>
-          ))
-        }
+        <div class="tags">
+          {
+            frontmatter.tags.map((tag: string) => (
+              <p class="tag">
+                <a href={`/${lang}/tags/${tag}`}>{tag}</a>
+              </p>
+            ))
+          }
+        </div>
       </div>
+
+      <img
+        src={frontmatter.image.url}
+        alt={frontmatter.image.alt}
+        class="post-cover"
+      />
     </div>
 
-    <img
-      src={frontmatter.image.url}
-      alt={frontmatter.image.alt}
-      class="post-cover"
-    />
-  </div>
+    <div class="post-divider"></div>
 
-  <div class="post-divider"></div>
+    <div class="post-content">
+      <slot />
+    </div>
 
-  <slot />
-
-  <Giscus term={postId} />
+    <Giscus term={postId} />
+  </article>
 </BaseLayout>
 
 <script
@@ -77,6 +80,27 @@ const t = getTranslations(lang);
 />
 
 <style>
+  .post-content {
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      "PingFang SC",
+      "Hiragino Sans GB",
+      "Microsoft YaHei",
+      "Noto Sans CJK SC",
+      "Source Han Sans SC",
+      sans-serif;
+  }
+
+  .post-content :global(code),
+  .post-content :global(pre),
+  .post-content :global(kbd),
+  .post-content :global(samp) {
+    font-family: "Maple Mono", "Maple Mono CN", monospace;
+  }
+
   a {
     color: var(--post-link-color);
   }
