@@ -38,7 +38,7 @@ Then clone it to your local machine.
 >
 > Before getting started, please <b>rename `.env.example` in the root directory to `.env` and configure the environment variables</b>, otherwise some features may not work properly.
 
-For details about environment variables, see: <b>[EnvVariables.md](docs/EnvVariables.md)</b>
+For details about environment variables, see: <b>[EnvVariables-en.md](docs/EnvVariables-en.md)</b>
 
 - Local development
 
@@ -56,7 +56,7 @@ For details about environment variables, see: <b>[EnvVariables.md](docs/EnvVaria
 
 #### Deploy automatically with GitHub Actions
 
-For details, see: <b>[GithubActions.md](docs/GithubActions.md)</b>.
+For details, see: <b>[GithubActions-en.md](docs/GithubActions-en.md)</b>.
 
 #### Manual deployment
 
