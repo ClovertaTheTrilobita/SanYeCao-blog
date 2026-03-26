@@ -42,6 +42,7 @@ const groupedPosts = sortedPosts.reduce((acc: any[], post: any) => {
                             <a
                                 href={`/${lang}/posts/${post.id}/`}
                                 class="timeline-card"
+                                data-astro-reload
                             >
                                 <h2 class="post-title">{post.data.title}</h2>
                                 <p class="post-description">
