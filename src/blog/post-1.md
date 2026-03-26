@@ -438,4 +438,4 @@ def format_weather(location):
 
 为什么不加一下我们的QQ群(710101225)来和代码领域大神群u们一起吹水呢（doge）
 
-如果你喜欢，非常感谢能给我们的[仓库](https://github.com/ClovertaTheTrilobita/SanYeCao-Nonebot)点个star。 ​
+如果你喜欢，非常感谢能给我们的[仓库](https://github.com/ClovertaTheTrilobita/SanYeCao-Nonebot)点个star。 ​ 
