@@ -43,7 +43,7 @@ tags:  ["算法", "操作系统", "学习笔记"]
 
 semaphore rw = 1; // 读写锁，用于实现共享进程的互斥访问 int count = 0; // 记录有几个读进程在访问文件 semaphore mutex = 1; // count的读写锁，防止同时有两个读进程访问count导致其中一个死锁 <div></div> writer () { while(1){ P(rw); // 给缓冲区上锁，进行P操作， rw-- 写文件; V(rw); // 解锁，进行V操作，rw++ } } <div></div> reader () { while(1){ P(mutex); // 给count上锁，防止有两个读进程同时读到count==0,导致死锁。 if (count == 0){ P(rw); // 如果count为0,则检查缓冲区是否上锁，若上锁则等待，若无锁则为缓冲区上锁。 } count++; V(mutex); // 解除count锁 读文件; P(mutex); // 给count上锁，防止有两个进程同时读到count==0,导致rw+2产生异常 count--; if (count == 0){ V(rw); // 如果count为0,则代表这个进程为最后一个读进程，解除缓冲区的锁。 } V(mutex); } }
 
-```
+```c++
 semaphore rw = 1; // 读写锁，用于实现共享进程的互斥访问
 int count = 0; // 记录有几个读进程在访问文件
 semaphore mutex = 1; // count的读写锁，防止同时有两个读进程访问count导致其中一个死锁
@@ -93,7 +93,7 @@ reader () {
 
 semaphore rw = 1; int count = 0; semaphore mutex = 1; semephore w = 1; // 用于实现写优先 <div></div> writer () { while (1) { P(w); // 写进程先给w锁上锁，上锁后后来的读进程都需等待这个写进程解锁。 P(rw); // 给缓冲区上锁 写文件; V(rw); V(w); // 解锁，允许读进程加入读队列。 } } <div></div> reader () { while (1) { P(w); // 新的读进程加入时先检查w锁是否上锁,若已上锁则阻塞等待。若未上锁则先给它上锁 P(mutex); if (count == 0) P(rw); count++; V(mutex); V(w); // 读进程加入队列之后，将w锁解锁，保证加入队列操作的原子性。 读文件; P(mutex); count--; if (count == 0) V(rw); V(mutex); } }
 
-```
+```c++
 semaphore rw = 1; 
 int count = 0;
 semaphore mutex = 1;

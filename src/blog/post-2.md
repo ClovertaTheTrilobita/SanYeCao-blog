@@ -31,11 +31,11 @@ tags: ["树莓派", "Linux", "教程"]
 
 进入安装包所在的目录，并在终端输入
 
-```
+```shell
 dpkg -i sunshine-debian-bookworm-arm64.deb
 ```
 
-```
+```shell
 dpkg -i sunshine-debian-bookworm-arm64.deb
 ```
 
@@ -43,11 +43,11 @@ dpkg -i sunshine-debian-bookworm-arm64.deb
 
 如果出现缺少依赖的问题，输入
 
-```
+```shell
 sudo apt-get install -f
 ```
 
-```
+```shell
 sudo apt-get install -f
 ```
 
@@ -55,11 +55,11 @@ sudo apt-get install -f
 
 终端输入
 
-```
+```shell
 sunshine
 ```
 
-```
+```shell
 sunshine
 ```
 
@@ -75,11 +75,11 @@ sunshine
 
 确保树莓派的软件是全新的，运行以下命令：
 
-```
+```shell
 sudo apt update && sudo apt full-upgrade -y
 ```
 
-```
+```shell
 sudo apt update && sudo apt full-upgrade -y
 ```
 
@@ -93,22 +93,22 @@ sudo apt update && sudo apt full-upgrade -y
 
  那么首先修改启动配置：
 
-```
+```shell
 sudo nano /boot/firmware/config.txt
 ```
 
-```
+```shell
 sudo nano /boot/firmware/config.txt
 ```
 
 打开启动配置文件，在最后面添加两行
 
-```
+```shell
 dtoverlay=vc4-fkms-v3d
 max_framebuffers=2
 ```
 
-```
+```shell
 dtoverlay=vc4-fkms-v3d
 max_framebuffers=2
 ```
@@ -117,11 +117,11 @@ max_framebuffers=2
 
 之后，输入
 
-```
+```shell
 sudo raspi-config
 ```
 
-```
+```shell
 sudo raspi-config
 ```
 
@@ -137,11 +137,11 @@ sudo raspi-config
 
 打开VNC远程桌面（切记不要用ssh终端），在终端中输入
 
-```
+```shell
 echo $XDG_SESSION_TYPE
 ```
 
-```
+```shell
 echo $XDG_SESSION_TYPE
 ```
 
@@ -155,11 +155,11 @@ echo $XDG_SESSION_TYPE
 
  在终端中输入
 
-```
+```shell
 systemctl enable avahi-daemon
 ```
 
-```
+```shell
 systemctl enable avahi-daemon
 ```
 
@@ -169,11 +169,11 @@ systemctl enable avahi-daemon
 
 在VNC远程桌面的终端输入
 
-```
+```shell
 sunshine
 ```
 
-```
+```shell
 sunshine
 ```
 
