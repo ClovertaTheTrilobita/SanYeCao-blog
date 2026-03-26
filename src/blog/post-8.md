@@ -65,7 +65,7 @@ tags:  ["随笔"]
 
 群友到现在终于没有见——大约三叶的确已经不更新了。
 
-<img src="https://s2.loli.net/2024/12/15/2sJYvf6N1MObRXd.jpg" alt="1733496064080.jpg" style="zoom:25%;" />
+<img src="https://s2.loli.net/2024/12/15/2sJYvf6N1MObRXd.jpg" alt="1733496064080.jpg" style="zoom:25%;" align="center"/>
 
 <p align="center"><sup>我不知道我为什么要贴这个图，它很可爱，请给我打钱</sup></p>
 
