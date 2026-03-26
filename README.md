@@ -15,7 +15,7 @@
 
 <br>
 
-<img width="727" height="384" alt="mockup-all-clean" src="https://github.com/user-attachments/assets/ef14da1c-1c80-4964-9cd6-24a823628505" />
+<img width="1670" height="889" alt="image" src="https://github.com/user-attachments/assets/ded8f5ae-7f48-4b62-a79d-6b482fc77764" />
 
 <br>
 
