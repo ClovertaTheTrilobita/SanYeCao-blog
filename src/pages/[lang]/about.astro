@@ -12,7 +12,10 @@ const t = getTranslations(lang);
 const pageTitle = t.about.title;
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout
+  pageTitle={pageTitle}
+  image={t.about.profilePicture}
+>
   <main class="about">
     <h1>{t.about.title}</h1>
 
