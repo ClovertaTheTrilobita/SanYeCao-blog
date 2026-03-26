@@ -1,4 +1,8 @@
-@font-face {
+@import url("https://unpkg.com/@fontsource/maple-mono@5.2.6/400.css");
+@import url("https://unpkg.com/@fontsource/maple-mono@5.2.6/400-italic.css");
+@import url("https://unpkg.com/@fontsource/maple-mono@5.2.6/700.css");
+
+/* @font-face {
   font-family: "Maple Mono";
   src: url("/fonts/MapleMono-Regular.ttf.woff2") format("woff2");
   font-weight: 400;
@@ -20,7 +24,7 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-}
+} */
 
 @font-face {
   font-family: "Maple Mono CN";
