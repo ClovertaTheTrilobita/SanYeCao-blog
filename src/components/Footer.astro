@@ -10,10 +10,14 @@ const t = getTranslations(lang);
   <p set:html={t.footer.repoIntro} />
 
   <div
-    style="display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; padding-bottom: 12px;"
+    id="beian-wrap"
+    style="display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; padding-bottom: 12px; width: 100%; overflow: hidden;"
   >
-    <!-- 备案信息 -->
-    <div class="beian" style="display: flex; gap: 4px; justify-content: center">
+    <div
+      id="beian-inner"
+      class="beian"
+      style="display: flex; gap: 4px; justify-content: center; white-space: nowrap; transform-origin: center;"
+    >
       <a href="https://beian.miit.gov.cn" target="_blank" style="color: gray;"
         >赣ICP备2025059789号</a
       >
@@ -21,7 +25,7 @@ const t = getTranslations(lang);
       <a
         href="https://beian.mps.gov.cn/#/query/webSearch?code=36020002000597"
         target="_blank"
-        style="display: flex; gap: 2px; color: gray;"
+        style="display: flex; gap: 2px; color: gray; white-space: nowrap;"
       >
         <img
           src="/images/beian.png"
@@ -78,3 +82,18 @@ const t = getTranslations(lang);
     }
   </style>
 </footer>
+
+<script>
+  function fitBeian() {
+    const wrap = document.getElementById("beian-wrap");
+    const inner = document.getElementById("beian-inner");
+    if (!wrap || !inner) return;
+
+    inner.style.transform = "scale(1)";
+    const scale = Math.min(1, wrap.clientWidth / inner.scrollWidth);
+    inner.style.transform = `scale(${scale})`;
+  }
+
+  window.addEventListener("load", fitBeian);
+  window.addEventListener("resize", fitBeian);
+</script>
