@@ -66,6 +66,6 @@ Upload the generated `dist/` directory to your server, and configure `NGINX` to 
 
 ## ⚖️ License 
 
-The source code in this repository is licensed under the MIT License.
+The source code in this repository is licensed under the `MIT License`.
 
-Unless otherwise stated, all blog posts and other original non-code content in this repository are licensed under CC BY-NC-ND 4.0.
+Unless otherwise stated, all blog posts and other original non-code content in this repository are licensed under `CC BY-NC-ND 4.0`.
