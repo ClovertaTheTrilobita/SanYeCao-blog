@@ -13,15 +13,39 @@ const t = getTranslations(lang);
     </div>
 
     <nav class="header-nav">
-        <h1>
-            <a href="/" data-astro-reload>{t.banner.title}</a>
-        </h1>
+        <div class="banner">
+            <a
+                href={`/${lang}/`}
+                data-astro-reload
+                class="banner-link"
+                aria-label="banner"
+            >
+                <span class="banner-logo"></span>
+            </a>
+        </div>
         <Navigation />
     </nav>
 </header>
 
 <style>
-    .header-nav h1 a {
+    .banner-link {
+        display: inline-block;
+    }
+
+    .banner-logo {
+        display: block;
+        height: 55px; /* 按你的 banner 比例改 */
+        background-color: #1f2328;
+
+        -webkit-mask: url("/images/banner-black.svg") no-repeat left / contain;
+        mask: url("/images/banner-black.svg") no-repeat left / contain;
+    }
+
+    :global(html.dark .banner-logo) {
+        background-color: #e6e6e6;
+    }
+
+    .header-nav .banner a {
         color: inherit;
         text-decoration: none;
         display: block;
@@ -45,13 +69,13 @@ const t = getTranslations(lang);
         gap: 1rem;
     }
 
-    .header-nav h1 {
+    .header-nav .banner {
         margin: 0;
         font-style: italic;
         line-height: 1.1;
 
         /* 给右上角 ThemeIcon 留空间 */
-        max-width: calc(100% - 4rem);
+        max-width: calc(100% - 7rem);
 
         /* 桌面正常，手机自动缩小 */
         font-size: clamp(1.6rem, 6vw, 2.5rem);

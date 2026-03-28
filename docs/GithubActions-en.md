@@ -4,11 +4,15 @@
 
 > [!NOTE]
 >
-> This project's GitHub Actions workflow listens for `git push` operations in the `src/blog` and `src/friends` directories. If either directory is updated, the build pipeline will be triggered.
+> This project's GitHub Actions workflow listens for `git push` operations in the `src/blog` and `src/friends` directories on the `blog-content` branch. If either directory is updated, the build pipeline will be triggered.
 
 > [!IMPORTANT]
 >
 > To use this feature, you need to fork this project into your own repository. The workflow can only run in your own repository.
+
+### 0. Create a New Branch
+
+Create a new branch named <b>`blog-content`</b> based on the `master` branch. Please push new articles to this branch in the future.
 
 ### 1. Set up SSH keys
 

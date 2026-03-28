@@ -21,11 +21,10 @@ const {
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{pageTitle}</title>
-		<ClientRouter />
 	</head>
 	<body>
 		<Header />
-		<main class="page-content" transition:name="page">
+		<main class="page-content">
 			<slot />
 		</main>
 		<Footer />
@@ -38,37 +37,5 @@ const {
 		margin: 0;
 		width: 100%;
 		height: 100%;
-	}
-
-	::view-transition-old(page),
-	::view-transition-new(page) {
-		animation-duration: 0.05s;
-		animation-timing-function: ease;
-	}
-
-	::view-transition-old(page) {
-		animation-name: fade-out;
-	}
-
-	::view-transition-new(page) {
-		animation-name: fade-in;
-	}
-
-	@keyframes fade-out {
-		from {
-			opacity: 1;
-		}
-		to {
-			opacity: 0;
-		}
-	}
-
-	@keyframes fade-in {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
 	}
 </style>

@@ -1,7 +1,7 @@
 export default {
     banner: {
         title: "Cloverta的博客",
-        subtitle: ""
+        subtitle: "在这里，发现更多（雾）欢迎来到三叶的博客🥳"
     },
     nav: {
         home: "首页",

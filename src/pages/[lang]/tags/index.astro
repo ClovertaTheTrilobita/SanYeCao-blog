@@ -15,7 +15,7 @@ const tags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
 const pageTitle = lang === "zh" ? "标签索引" : "Tag Index";
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle=`${pageTitle} - ${t.banner.title}` `>
     <h1>{t.tags.title}</h1>
     <p>{t.tags.description}</p>
 

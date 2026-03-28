@@ -4,11 +4,15 @@
 
 > [!NOTE]
 >
-> 此项目的Github Actions监听`src/blog`和`src/friends`两个目录的`git push`操作，两个目录有更新则触发构建流水线。
+> 此项目的Github Actions监听`blog-content`分支中`src/blog`和`src/friends`两个目录的`git push`操作，两个目录有更新则触发构建流水线。
 
 > [!IMPORTANT]
 >
 > 需要使用这个功能请自行Fork一份代码到自己的仓库，在你自己的仓库才能跑流水线。
+
+### 零、新建一个分支
+
+在`master`的基础上新建一个名为<b>`blog-content`</b>的分支，以后新的文章请推送到这个分支里。
 
 ### 一、设置SSH密钥
 

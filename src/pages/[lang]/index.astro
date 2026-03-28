@@ -15,7 +15,7 @@ const headerTitle = lang === "zh" ? "Cloverta的博客" : "Cloverta's blog";
 const pageTitle = t.home.title;
 ---
 
-<BaseLayout pageTitle={headerTitle}>
+<BaseLayout pageTitle=`${headerTitle} - ${t.banner.subtitle}`>
   <h1 class="page-title">
     <span>{pageTitle}</span>
     <a
