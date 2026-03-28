@@ -1,0 +1,38 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import "@/styles/global.css";
+---
+
+<BaseLayout
+    pageTitle="404 Not Found"
+    description="Sorry, the page doesn't exists"
+>
+    <div class="not-found">
+        <img src="/images/marisa.png" alt="Marisa" class="marisa-404" />
+        <div class="hint">
+            <h3>对不起，您请求的页面不存在哦。</h3>
+            <h3>Sorry, the page you are requesting for doesn't exists.</h3>
+        </div>
+    </div>
+</BaseLayout>
+
+<style>
+    .not-found {
+        min-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .marisa-404 {
+        width: 30%;
+        display: block;
+    }
+
+    .hint {
+        text-align: center;
+    }
+</style>
