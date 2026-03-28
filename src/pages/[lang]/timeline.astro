@@ -13,7 +13,7 @@ const t = getTranslations(lang);
 const headerTitle = lang === "zh" ? "时间轴" : "Timeline";
 ---
 
-<BaseLayout pageTitle={headerTitle}>
+<BaseLayout pageTitle=`${headerTitle} - ${t.banner.title}` `>
     <h1>{t.nav.timeline}</h1>
     <PostTimeline />
 </BaseLayout>

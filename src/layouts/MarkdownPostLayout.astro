@@ -9,7 +9,7 @@ const t = getTranslations(lang);
 ---
 
 <BaseLayout
-  pageTitle={frontmatter.title}
+  pageTitle=`${frontmatter.title} - ${t.banner.title}`
   description={frontmatter.description}
   image={frontmatter.image?.url}
 >

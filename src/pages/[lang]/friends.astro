@@ -13,6 +13,6 @@ const t = getTranslations(lang);
 const headerTitle = lang === "zh" ? "友情链接" : "Friends";
 ---
 
-<BaseLayout pageTitle={headerTitle}>
+<BaseLayout pageTitle=`${headerTitle} - ${t.banner.title}`>
     <FriendlyLinkList />
 </BaseLayout>

@@ -1,7 +1,7 @@
 export default {
     banner: {
         title: "Cloverta's Blog",
-        subtitle: ""
+        subtitle: "More to explore here (kinda) — welcome to Cloverta's blog 🥳"
     },
     nav: {
         home: "Home",
