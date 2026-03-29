@@ -11,7 +11,12 @@ const sortedPosts = [...allPosts].sort(
         new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
 );
 
-const groupedPosts = sortedPosts.reduce((acc: any[], post: any) => {
+const filteredPosts = sortedPosts.filter((post: any) => {
+    const postLang = post.id.split("/")[0];
+    return postLang === lang;
+});
+
+const groupedPosts = filteredPosts.reduce((acc: any[], post: any) => {
     const month = new Date(post.data.pubDate).toISOString().slice(0, 7);
     const lastGroup = acc[acc.length - 1];
 

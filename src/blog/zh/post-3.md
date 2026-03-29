@@ -13,7 +13,7 @@ tags:  ["peterson算法", "操作系统"]
 
 先上伪代码：
 
-```
+```cpp
 bool flag[2]; // 表示进入临界区意愿的数组，初始值都为false
 int turn = 0; // turn表示优先让哪个进程进入临界区
 

@@ -79,7 +79,12 @@ const sortedPosts = [...allPosts].sort(
     new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
 );
 
-const latestPosts = sortedPosts.slice(0, 5);
+const filteredPosts = sortedPosts.filter((post: any) => {
+  const postLang = post.id.split("/")[0];
+  return postLang === lang;
+});
+
+const latestPosts = filteredPosts.slice(0, 5);
 ---
 
 <ul>
@@ -89,7 +94,10 @@ const latestPosts = sortedPosts.slice(0, 5);
         .toISOString()
         .split("T")[0];
 
-      const pathname = `/${post.id}/`;
+      const [postLang, ...slugParts] = post.id.split("/");
+      const slug = slugParts.join("/");
+
+      const pathname = `/${slug}/`;
 
       const matchedDiscussion = discussions.find((d: DiscussionNode) => {
         return normalizePath(d.title) === normalizePath(pathname);
@@ -106,7 +114,7 @@ const latestPosts = sortedPosts.slice(0, 5);
 
       return (
         <PostItem
-          url={`/${lang}/posts/${post.id}/`}
+          url={`/${postLang}/posts/${slug}/`}
           title={post.data.title}
           description={post.data.description}
           date={formattedDate}
