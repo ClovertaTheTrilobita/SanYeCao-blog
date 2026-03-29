@@ -9,6 +9,8 @@ image:
 tags: ["Peterson's algorithm", "Operating System"]
 ---
 
+<p style="font-size: 0.85rem;"><i><sub>Content translated by <a href="https://chatgpt.com/">ChatGPT</a>></sub></i></p>
+
 In my OS course, I came across an interesting algorithm — Peterson's Algorithm. So why does Peterson's Algorithm satisfy the three conditions: "mutual exclusion", "progress", and "bounded waiting"?
 
 First, here is the pseudocode:

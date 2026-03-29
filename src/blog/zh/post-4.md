@@ -91,8 +91,6 @@ reader () {
 
 那么我们上代码：
 
-semaphore rw = 1; int count = 0; semaphore mutex = 1; semephore w = 1; // 用于实现写优先 <div></div> writer () { while (1) { P(w); // 写进程先给w锁上锁，上锁后后来的读进程都需等待这个写进程解锁。 P(rw); // 给缓冲区上锁 写文件; V(rw); V(w); // 解锁，允许读进程加入读队列。 } } <div></div> reader () { while (1) { P(w); // 新的读进程加入时先检查w锁是否上锁,若已上锁则阻塞等待。若未上锁则先给它上锁 P(mutex); if (count == 0) P(rw); count++; V(mutex); V(w); // 读进程加入队列之后，将w锁解锁，保证加入队列操作的原子性。 读文件; P(mutex); count--; if (count == 0) V(rw); V(mutex); } }
-
 ```c++
 semaphore rw = 1; 
 int count = 0;

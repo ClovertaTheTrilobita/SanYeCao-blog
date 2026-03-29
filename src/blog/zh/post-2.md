@@ -9,8 +9,6 @@ image:
 tags: ["树莓派", "Linux", "教程"]
 ---
 
-**This blog post also has an English version, click here: [(tutorial) How to Stream Via Sunshine on Your Raspberry Pi 5](https://blog.cloverta.top/archives/203)**​
-
 ## 0.在开始之前
 
 我们需要理解的是，树莓派5是arm64架构处理器，需要看准安装的sunshine版本。
