@@ -43,18 +43,25 @@ const groupedPosts = filteredPosts.reduce((acc: any[], post: any) => {
                     <p class="post-date">{group.month}</p>
 
                     <div class="month-posts">
-                        {group.posts.map((post: any) => (
-                            <a
-                                href={`/${lang}/posts/${post.id}/`}
-                                class="timeline-card"
-                                data-astro-reload
-                            >
-                                <h2 class="post-title">{post.data.title}</h2>
-                                <p class="post-description">
-                                    {post.data.description}
-                                </p>
-                            </a>
-                        ))}
+                        {group.posts.map((post: any) => {
+                            const [postLang, ...slugParts] = post.id.split("/");
+                            const slug = slugParts.join("/");
+
+                            return (
+                                <a
+                                    href={`/${lang}/posts/${slug}/`}
+                                    class="timeline-card"
+                                    data-astro-reload
+                                >
+                                    <h2 class="post-title">
+                                        {post.data.title}
+                                    </h2>
+                                    <p class="post-description">
+                                        {post.data.description}
+                                    </p>
+                                </a>
+                            );
+                        })}
                     </div>
                 </div>
             </li>
