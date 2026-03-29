@@ -4,26 +4,30 @@ import MarkdownPostLayout from "@/layouts/MarkdownPostLayout.astro";
 
 export async function getStaticPaths() {
     const posts = await getCollection("blog");
-    const langs = ["zh", "en"];
 
-    return langs.flatMap((lang) =>
-        posts.map((post) => ({
+    return posts.map((post) => {
+        const [lang, ...slugParts] = post.id.split("/");
+
+        return {
             params: {
                 lang,
-                slug: post.id,
+                slug: slugParts.join("/"),
             },
             props: {
                 post,
                 lang,
             },
-        })),
-    );
+        };
+    });
 }
 
 const { post, lang } = Astro.props;
 const { Content } = await render(post);
+
+const [postLang, ...slugParts] = post.id.split("/");
+const slug = slugParts.join("/");
 ---
 
-<MarkdownPostLayout frontmatter={post.data} lang={lang} postId={post.id}>
+<MarkdownPostLayout frontmatter={post.data} lang={lang} postId={slug}>
     <Content />
 </MarkdownPostLayout>
