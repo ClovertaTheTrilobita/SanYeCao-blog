@@ -133,6 +133,12 @@ html.dark body::after {
   background-image: url("https://files.seeusercontent.com/2026/03/28/nd1W/pasted-image-1774730083896.webp");
 }
 
+@media (max-width: 768px) {
+  body::after {
+    opacity: 0.1;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
