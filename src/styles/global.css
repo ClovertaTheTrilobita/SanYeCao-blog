@@ -135,7 +135,7 @@ html.dark body::after {
 
 @media (max-width: 768px) {
   body::after {
-    opacity: 0.1;
+    opacity: 0.06;
   }
 }
 
