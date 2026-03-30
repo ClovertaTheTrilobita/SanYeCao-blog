@@ -4,6 +4,9 @@ import { getCollection } from 'astro:content';
 
 export async function GET(context) {
     const posts = await getCollection("blog");
+    const [postLang, ...slugParts] = post.id.split("/");
+    const slug = slugParts.join("/");
+
     return rss({
         title: 'Cloverta的博客',
         description: '在这里，发现更多（雾）欢迎来到三叶的博客🥳',
@@ -13,7 +16,7 @@ export async function GET(context) {
             title: post.data.title,
             pubDate: post.data.pubDate,
             description: post.data.description,
-            link: `/posts/${post.id}/`,
+            link: `/zh/posts/${slug}/`,
         })),
         customData: `<language>en-us</language>`,
     })
