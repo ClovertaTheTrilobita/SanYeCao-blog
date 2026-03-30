@@ -7,21 +7,21 @@ const t = getTranslations(lang);
 
 <nav class="site-nav" aria-label="Site navigation">
     <div class="site-nav-desktop">
-        <a href={`/${lang}`} data-astro-reload>{t.nav.home}</a>
-        <a href={`/${lang}/about`}>{t.nav.about}</a>
-        <a href={`/${lang}/tags`}>{t.nav.tags}</a>
-        <a href={`/${lang}/timeline`}>{t.nav.timeline}</a>
-        <a href={`/${lang}/friends`}>{t.nav.friends}</a>
+        <a href={`/${lang}/`} data-astro-reload>{t.nav.home}</a>
+        <a href={`/${lang}/about/`}>{t.nav.about}</a>
+        <a href={`/${lang}/tags/`}>{t.nav.tags}</a>
+        <a href={`/${lang}/timeline/`}>{t.nav.timeline}</a>
+        <a href={`/${lang}/friends/`}>{t.nav.friends}</a>
     </div>
 
     <details class="site-nav-mobile">
         <summary>☰ {lang === "zh" ? "导航栏" : "Menu"}</summary>
         <div class="dropdown-menu">
-            <a href={`/${lang}`} data-astro-reload>{t.nav.home}</a>
-            <a href={`/${lang}/about`}>{t.nav.about}</a>
-            <a href={`/${lang}/tags`}>{t.nav.tags}</a>
-            <a href={`/${lang}/timeline`}>{t.nav.timeline}</a>
-            <a href={`/${lang}/friends`}>{t.nav.friends}</a>
+            <a href={`/${lang}/`} data-astro-reload>{t.nav.home}</a>
+            <a href={`/${lang}/about/`}>{t.nav.about}</a>
+            <a href={`/${lang}/tags/`}>{t.nav.tags}</a>
+            <a href={`/${lang}/timeline/`}>{t.nav.timeline}</a>
+            <a href={`/${lang}/friends/`}>{t.nav.friends}</a>
         </div>
     </details>
 </nav>
