@@ -120,7 +120,7 @@ body::after {
   /* 按需调整大小 */
   height: 400px;
   /* 按需调整大小 */
-  background-image: url("https://files.seeusercontent.com/2026/03/28/Zd0m/bc7e804dc2c8ecaf407c9d665414ff72.jpg");
+  background-image: url("https://files.seeusercontent.com/2026/03/30/4Xfr/bc7e804dc2c8ecaf407c9d665414ff72.webp");
   background-repeat: no-repeat;
   background-position: right bottom;
   background-size: contain;
@@ -130,7 +130,7 @@ body::after {
 }
 
 html.dark body::after {
-  background-image: url("https://files.seeusercontent.com/2026/03/28/nd1W/pasted-image-1774730083896.webp");
+  background-image: url("https://files.seeusercontent.com/2026/03/30/vd8W/touhou___alice_margatroid_x_kiri.webp");
 }
 
 @media (max-width: 768px) {
