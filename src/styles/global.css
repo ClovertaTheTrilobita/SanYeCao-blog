@@ -2,30 +2,6 @@
 @import url("https://unpkg.com/@fontsource/maple-mono@5.2.6/400-italic.css");
 @import url("https://unpkg.com/@fontsource/maple-mono@5.2.6/700.css");
 
-/* @font-face {
-  font-family: "Maple Mono";
-  src: url("/fonts/MapleMono-Regular.ttf.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Maple Mono";
-  src: url("/fonts/MapleMono-Italic.ttf.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Maple Mono";
-  src: url("/fonts/MapleMono-Bold.ttf.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-} */
-
 @font-face {
   font-family: "Maple Mono CN";
   src: url("/fonts/subset/MapleMono-CN-Regular.woff2") format("woff2");
@@ -47,30 +23,6 @@
   src: url("/fonts/subset/MapleMono-CN-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Recursive Mono";
-  src: url("/fonts/RecursiveMonoCslSt-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Recursive Mono";
-  src: url("/fonts/RecursiveMonoCslSt-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Recursive Mono";
-  src: url("/fonts/RecursiveMonoCslSt-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
   font-display: swap;
 }
 
