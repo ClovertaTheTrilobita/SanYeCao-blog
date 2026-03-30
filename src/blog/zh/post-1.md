@@ -4,7 +4,7 @@ pubDate: 2025-04-14
 description: "使用Nonebot2和官方API,与群u一起搭了个qq机器人。"
 author: "三叶"
 image: 
-    url: "https://files.seeusercontent.com/2026/03/25/fiG2/pasted-image-1774456117575.webp"
+    url: "https://files.seeusercontent.com/2026/03/30/oGv3/de040e63935cfba0864716e0e3577515.webp"
     alt: "img"
 tags: ["Python", "Nonebot2", "QQ机器人", "教程"]
 ---

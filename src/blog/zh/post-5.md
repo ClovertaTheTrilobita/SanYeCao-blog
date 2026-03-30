@@ -4,7 +4,7 @@ pubDate: 2025-06-14
 description: '关于银行家算法的学习笔记'
 author: "三叶"
 image:
-    url: "https://files.seeusercontent.com/2026/03/25/wf4H/pasted-image-1774458677434.webp"
+    url: "https://files.seeusercontent.com/2026/03/30/Ni8j/6143de1ea4b0cc47fb117543e5baad09.webp"
     alt: "img"
 tags:  ["算法", "操作系统", "学习笔记"]
 

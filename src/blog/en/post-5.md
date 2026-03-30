@@ -4,7 +4,7 @@ pubDate: 2025-06-14
 description: "Study notes on the Banker's Algorithm"
 author: "Cloverta"
 image:
-    url: "https://files.seeusercontent.com/2026/03/25/wf4H/pasted-image-1774458677434.webp"
+    url: "https://files.seeusercontent.com/2026/03/30/Ni8j/6143de1ea4b0cc47fb117543e5baad09.webp"
     alt: "img"
 tags:  ["Algorithms", "Operating Systems", "Study Notes"]
 ---

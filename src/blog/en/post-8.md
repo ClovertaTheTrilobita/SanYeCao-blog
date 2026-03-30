@@ -4,7 +4,7 @@ pubDate: 2026-03-26
 description: "An end, and a beginning. Commemorating the blog's reopening."
 author: "Cloverta"
 image:
-    url: "https://files.seeusercontent.com/2026/03/25/0rSi/rikka-manga.jpeg"
+    url: "https://files.seeusercontent.com/2026/03/30/1xlG/rikka-manga.webp"
     alt: "rikka"
 tags:  ["Reflections"]
 ---

@@ -4,7 +4,7 @@ pubDate: 2025-04-21
 description: '在树莓派上安装sunshine'
 author: "三叶"
 image: 
-    url: "https://files.seeusercontent.com/2026/03/25/t2zJ/pasted-image-1774456500701.webp"
+    url: "https://files.seeusercontent.com/2026/03/30/og5M/pasted-image-1774456500701-1.webp"
     alt: "img"
 tags: ["树莓派", "Linux", "教程"]
 ---

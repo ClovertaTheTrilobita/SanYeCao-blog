@@ -4,7 +4,7 @@ pubDate: 2025-06-10
 description: "Study notes on Peterson's Algorithm"
 author: "Cloverta"
 image: 
-    url: "https://files.seeusercontent.com/2026/03/25/sTq9/pasted-image-1774456630694.webp"
+    url: "https://files.seeusercontent.com/2026/03/30/Mn9i/zako2.webp"
     alt: "zako2"
 tags: ["Peterson's algorithm", "Operating System"]
 ---

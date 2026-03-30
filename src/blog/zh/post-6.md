@@ -4,7 +4,7 @@ pubDate: 2025-06-16
 description: '关于分页储存管理的学习笔记和一些想法'
 author: "三叶"
 image: 
-    url: "https://files.seeusercontent.com/2026/03/25/n5uP/pasted-image-1774459065133.webp"
+    url: "https://files.seeusercontent.com/2026/03/30/4fEx/GX1QPs3b0AAwp49-scaled.webp"
     alt: "img"
 tags:  ["操作系统", "学习笔记"]
 ---

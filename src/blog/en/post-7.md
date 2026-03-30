@@ -4,7 +4,7 @@ pubDate: 2025-08-01
 description: 'A beginner-friendly (hopefully) NixOS dual-boot installation tutorial.'
 author: "Cloverta"
 image:
-    url: "https://files.seeusercontent.com/2026/03/25/zhK7/pasted-image-1774459137516.webp"
+    url: "https://files.seeusercontent.com/2026/03/30/Zhr8/Image_1752601062452.webp"
     alt: "baka"
 tags:  ["Operating Systems", "NixOS"]
 ---

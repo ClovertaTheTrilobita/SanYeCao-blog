@@ -4,7 +4,7 @@ pubDate: 2025-06-13
 description: 'Study notes on the Readers-Writers algorithm'
 author: "Cloverta"
 image:
-    url: "https://files.seeusercontent.com/2026/03/25/cd8O/pasted-image-1774458552123.webp"
+    url: "https://files.seeusercontent.com/2026/03/30/dV0l/107875694_p0-scaled.webp"
     alt: "img"
 tags:  ["Algorithms", "Operating Systems", "Study Notes"]
 ---

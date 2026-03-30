@@ -4,7 +4,7 @@ pubDate: 2025-04-14
 description: "Built a QQ bot with Nonebot2 and the official API, together with the group homies."
 author: "Cloverta"
 image:
-    url: "https://files.seeusercontent.com/2026/03/25/fiG2/pasted-image-1774456117575.webp"
+    url: "https://files.seeusercontent.com/2026/03/30/oGv3/de040e63935cfba0864716e0e3577515.webp"
     alt: "img"
 tags: ["Python", "Nonebot2", "QQ Bot", "Tutorial"]
 ---
