@@ -51,7 +51,7 @@ export default {
         description: "All tags that have appeared across the blog are collected here. Click a tag to jump to the corresponding list of posts."
     },
     footer: {
-        githubIntro: 'See more on <a href="https://www.github.com/ClovertaTheTrilobita">GitHub</a>!',
+        githubIntro: 'See more on <a href="https://repo.cloverta.top/cloverta">Forgejo</a>!',
         repoIntro: 'This blog is fully open source at <a href="https://repo.cloverta.top/cloverta/SanYeCao-blog">ClovertaTheTrilobita/SanYeCao-blog</a>'
     }
 };
