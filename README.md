@@ -15,9 +15,13 @@
 
 <br>
 
-<div style="text-align: center;">
-  <img width="700" alt="image" src="./docs/preview-zh.png" />
-</div>
+<p align="center">
+  <img
+    src="./docs/preview-zh.png"
+    alt="preview-zh"
+    style="max-width: 700px; width: 100%; height: auto;"
+  />
+</p>
 
 <br>
 
