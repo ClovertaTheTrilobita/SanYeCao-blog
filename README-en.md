@@ -14,8 +14,9 @@
 
 <br>
 
-<img width="1459" height="885" alt="image" src="./docs/preview-en.png" />
-
+<div style="text-align: center;">
+  <img width="700" alt="image" src="./docs/preview-en.png" />
+</div>
 <br>
 
 - Built with purely static pages, responsive, lightweight, and visually pleasing

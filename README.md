@@ -15,7 +15,9 @@
 
 <br>
 
-<img width="1530" height="887" alt="image" src="./docs/preview-zh.png" />
+<div style="text-align: center;">
+  <img width="700" alt="image" src="./docs/preview-zh.png" />
+</div>
 
 <br>
 
