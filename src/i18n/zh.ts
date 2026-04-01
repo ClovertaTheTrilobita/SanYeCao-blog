@@ -52,6 +52,6 @@ export default {
     },
     footer: {
         githubIntro: '在 <a href="https://www.github.com/ClovertaTheTrilobita">GitHub</a> 查看更多！',
-        repoIntro: '这个博客完全开源于 <a href="https://www.github.com/ClovertaTheTrilobita/SanYeCao-blog">ClovertaTheTrilobita/SanYeCao-blog</a>'
+        repoIntro: '这个博客完全开源于 <a href="https://repo.cloverta.top/cloverta/SanYeCao-blog">ClovertaTheTrilobita/SanYeCao-blog</a>'
     }
 };
