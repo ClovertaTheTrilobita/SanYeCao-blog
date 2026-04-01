@@ -15,7 +15,13 @@
 
 <br>
 
-<img width="1530" height="887" alt="image" src="https://github.com/user-attachments/assets/72a87aa0-a60c-41f6-b66d-ab3e66256fc5" />
+<p align="center">
+  <img
+    src="./docs/preview-zh.png"
+    alt="preview-zh"
+    style="max-width: 700px; width: 100%; height: auto;"
+  />
+</p>
 
 <br>
 

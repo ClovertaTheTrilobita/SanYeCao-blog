@@ -52,6 +52,6 @@ export default {
     },
     footer: {
         githubIntro: 'See more on <a href="https://www.github.com/ClovertaTheTrilobita">GitHub</a>!',
-        repoIntro: 'This blog is fully open source at <a href="https://www.github.com/ClovertaTheTrilobita/SanYeCao-blog">ClovertaTheTrilobita/SanYeCao-blog</a>'
+        repoIntro: 'This blog is fully open source at <a href="https://repo.cloverta.top/cloverta/SanYeCao-blog">ClovertaTheTrilobita/SanYeCao-blog</a>'
     }
 };
