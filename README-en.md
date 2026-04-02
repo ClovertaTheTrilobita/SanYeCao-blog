@@ -1,5 +1,5 @@
 # SanYeCao-Blog
-<p align="right">[<a href="README.md">中文</a> | <a href="README-en.md">English</a>]</p>
+<p align="right">[<a href="./README.md">中文</a> | <a href="./README-en.md">English</a>]</p>
 <p align="center"><br>
     ✨SanYeCao Blog✨<br>
     🌊Lightweight / Fast / Beautiful🌊<br><br>
