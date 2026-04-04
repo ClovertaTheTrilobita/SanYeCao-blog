@@ -172,6 +172,17 @@
         overflow-wrap: anywhere;
         word-break: break-word;
         font-style: italic;
+        font-family:
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            "PingFang SC",
+            "Hiragino Sans GB",
+            "Microsoft YaHei",
+            "Noto Sans CJK SC",
+            "Source Han Sans SC",
+            sans-serif;
     }
 
     .latest-comments :global(.comment__info)::before {
@@ -190,6 +201,17 @@
         overflow-wrap: anywhere;
         word-break: break-word;
         white-space: pre-wrap;
+        font-family:
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            "PingFang SC",
+            "Hiragino Sans GB",
+            "Microsoft YaHei",
+            "Noto Sans CJK SC",
+            "Source Han Sans SC",
+            sans-serif;
     }
 
     :global(.dark)
