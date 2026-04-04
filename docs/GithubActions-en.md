@@ -76,11 +76,8 @@ This variable is used to generate the `.env` file required for building.
 If you have already configured your `.env`, it should contain the following:
 
 ```env
-GITHUB_TOKEN=
-GISCUS_REPO_OWNER=
-GISCUS_REPO_NAME=
-GISCUS_CATEGORY_ID=
-GISCUS_DATA_REPO_ID=
+PUBLIC_REMARK42_HOST=
+PUBLIC_REMARK42_SITE_ID=
 ```
 
 If you have not configured these yet or do not know what they mean, please see: <b>[EnvVariables-en.md](EnvVariables-en.md)</b>
