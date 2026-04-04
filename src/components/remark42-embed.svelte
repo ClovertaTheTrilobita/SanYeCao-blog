@@ -6,13 +6,17 @@
   let pagePath = `/posts/${slug}/`;
 
   function getTheme() {
-    return localStorage.getItem("color-theme") === "dark" ? "dark" : "light";
+    return document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light";
   }
 
-  function syncRemark42Theme() {
-    if (window.REMARK42?.changeTheme) {
+  function applyRemark42Theme() {
+    if (window.REMARK42 && typeof window.REMARK42.changeTheme === "function") {
       window.REMARK42.changeTheme(getTheme());
+      return true;
     }
+    return false;
   }
 
   onMount(() => {
@@ -46,10 +50,14 @@
       document.body.appendChild(script);
     }
 
-    syncRemark42Theme();
+    const applyWhenReady = setInterval(() => {
+      if (applyRemark42Theme()) {
+        clearInterval(applyWhenReady);
+      }
+    }, 200);
 
     const observer = new MutationObserver(() => {
-      syncRemark42Theme();
+      applyRemark42Theme();
     });
 
     observer.observe(document.documentElement, {
@@ -57,11 +65,9 @@
       attributeFilter: ["class"],
     });
 
-    window.addEventListener("storage", syncRemark42Theme);
-
     return () => {
+      clearInterval(applyWhenReady);
       observer.disconnect();
-      window.removeEventListener("storage", syncRemark42Theme);
     };
   });
 </script>
