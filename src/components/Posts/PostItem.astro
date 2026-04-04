@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import Remark42Count from "@/components/remark42-counter.svelte";
 const data = Astro.props;
 ---
 
@@ -13,8 +14,9 @@ const data = Astro.props;
         <span class="post-date">{data.date}</span>
 
         <span class="post-stats">
-          <span class="post-stat">💬 {data.commentCount ?? 0}</span>
-          <span class="post-stat">❤ {data.reactionCount ?? 0}</span>
+          <span class="post-stat"
+            >💬 <Remark42Count url=`${data.postPath}` client:idle /></span
+          >
         </span>
       </div>
     </div>
