@@ -23,8 +23,8 @@
     const scriptId = "remark42-script";
 
     window.remark_config = {
-      host: "https://comments.cloverta.top",
-      site_id: "cloverta-blog",
+      host: import.meta.env.PUBLIC_REMARK42_HOST,
+      site_id: import.meta.env.PUBLIC_REMARK42_SITE_ID,
       components: ["embed"],
       show_rss_subscription: false,
       theme: getTheme(),
