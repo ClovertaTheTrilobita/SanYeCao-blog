@@ -69,6 +69,18 @@
 
 将生成的`dist/`目录上传至你的服务器，使用`NGINX`指向index.html。
 
+### 4. 评论区
+
+项目使用自托管 <b>[Remark42](https://remark42.com/)</b> 作为评论区系统。
+
+安装部署详情请查看官方文档：<b>[Installation | Remark42](https://remark42.com/docs/getting-started/installation/)</b>
+
+<br>
+
+### 5. 更新日志
+
+详情请看：<b>[ChangeLog.md](./docs/ChangeLog.md)</b>
+
 <hr>
 
 ## ⚖️ 许可

@@ -76,11 +76,8 @@ cat ~/.ssh/github_actions_deploy
 如果你已经设置好`.env`，它里面应该有如下内容
 
 ```env
-GITHUB_TOKEN=
-GISCUS_REPO_OWNER=
-GISCUS_REPO_NAME=
-GISCUS_CATEGORY_ID=
-GISCUS_DATA_REPO_ID=
+PUBLIC_REMARK42_HOST=
+PUBLIC_REMARK42_SITE_ID=
 ```
 
 如果你还没配置好或不知道这些是干什么的，请详见：<b>[EnvVariables.md](EnvVariables.md)</b>

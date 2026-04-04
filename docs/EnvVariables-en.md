@@ -4,42 +4,17 @@
 
 The following environment variables are listed in the project's `.env.example` file:
 
-| Variable Name         | Description |
-| --------------------- | ----------- |
-| `GITHUB_TOKEN`        | Enter your <b>[Personal access token](https://github.com/settings/personal-access-tokens)</b> |
-| `GISCUS_REPO_OWNER`   | Your GitHub username, for example `ClovertaTheTrilobita` |
-| `GISCUS_REPO_NAME`    | Your code repository name, for example `SanYeCao-blog` |
-| `GISCUS_CATEGORY_ID`  | The category ID of `GISCUS`, see the explanation below |
-| `GISCUS_DATA_REPO_ID` | The repository ID of `GISCUS`, see the explanation below |
+| Variable Name             | Description                              |
+| ------------------------- | ---------------------------------------- |
+| `PUBLIC_REMARK42_HOST`    | The domain of the server hosting `Remark42` |
+| `PUBLIC_REMARK42_SITE_ID` | Your custom `Remark42` site ID           |
 
-### 1. `GITHUB_TOKEN`
+### 1. `PUBLIC_REMARK42_HOST`
 
-It can greatly increase your GitHub API rate limit. Open this link: <b>[Personal access tokens](https://github.com/settings/personal-access-tokens)</b>
+For example, if you deployed the `Remark42` Docker container on a server at `192.168.1.1` and pointed your DNS record to it, then fill in the resolved domain name (such as `https://comments.example.com`) in this field.
 
-Choose <b>`Generate new token`</b>.
+Do not add a trailing slash `/` at the end of the URL.
 
-Then copy the generated token into the corresponding place in your `.env` file.
+### 2. `PUBLIC_REMARK42_SITE_ID`
 
-### 2. `GISCUS`
-
-This blog uses a comment section based on the `GISCUS API`, which can map part of the GitHub repository's Discussions section onto your webpage as a comment area.
-
-#### ① Enable Discussions in your repository
-
-Go to <b>`Settings > General > Features`</b> in your repository and check <b>`Discussions`</b> to enable it.
-
-Then go to the <b>`Discussions`</b> page, click the pencil icon next to <b>`Categories`</b> on the left side of the page, and then click <b>`New category`</b> to create a new category named <b>`Comments`</b>.
-
-#### ② Install the Giscus GitHub App
-
-Open this link: <b>[GitHub App - giscus](https://github.com/apps/giscus)</b>
-
-Install it into the blog code repository you forked.
-
-Then go to: <b>[giscus.app](https://giscus.app)</b>
-
-In the <b>`Repository`</b> field, enter your repository address, and in <b>`Page ↔️ Discussions Mapping`</b>, choose <b>`Discussion title contains a specific term`</b>.
-
-In <b>`Discussion Category`</b>, select the <b>`Comments`</b> category you just created.
-
-Finally, in the generated code below, find <b>`data-category-id`</b> and <b>`data-repo-id`</b>, and fill them into the environment variables.
+This is your custom site ID. For example, if you defined `SITE=sanyecao-blog` in your `Remark42` `docker-compose.yaml`, then you should also fill in `sanyecao-blog` in this field.

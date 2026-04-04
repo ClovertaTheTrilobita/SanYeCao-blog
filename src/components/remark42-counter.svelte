@@ -1,30 +1,38 @@
 <script>
-    export let url;
-</script>
+    import { onMount } from "svelte";
 
-<svelte:head>
-    <script async lang="javascript">
-        var remark_config = {
-            host: "https://comments.cloverta.top",
-            site_id: "cloverta-blog",
+    export let url;
+
+    const host = import.meta.env.PUBLIC_REMARK42_HOST;
+    const siteId = import.meta.env.PUBLIC_REMARK42_SITE_ID;
+
+    onMount(() => {
+        const remark_config = {
+            host,
+            site_id: siteId,
             components: ["counter"],
             show_rss_subscription: false,
             theme: localStorage.getItem("color-theme") ?? "light",
         };
-        !(function (e, n) {
-            for (var o = 0; o < e.length; o++) {
-                var r = n.createElement("script"),
-                    c = ".js",
-                    d = n.head || n.body;
-                "noModule" in r
-                    ? ((r.type = "module"), (c = ".mjs"))
-                    : (r.async = !0),
-                    (r.defer = !0),
-                    (r.src = remark_config.host + "/web/" + e[o] + c),
-                    d.appendChild(r);
+
+        window.remark_config = remark_config;
+
+        for (const name of remark_config.components || ["embed"]) {
+            const script = document.createElement("script");
+            let ext = ".js";
+
+            if ("noModule" in script) {
+                script.type = "module";
+                ext = ".mjs";
+            } else {
+                script.async = true;
             }
-        })(remark_config.components || ["embed"], document);
-    </script>
-</svelte:head>
+
+            script.defer = true;
+            script.src = `${remark_config.host}/web/${name}${ext}`;
+            document.head.appendChild(script);
+        }
+    });
+</script>
 
 <span class="remark42__counter" data-url={url}></span>

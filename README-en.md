@@ -68,6 +68,18 @@ For details, see: <b>[GithubActions-en.md](docs/GithubActions-en.md)</b>.
 
 Upload the generated `dist/` directory to your server, and configure `NGINX` to point to `index.html`.
 
+### 4. Comments
+
+This project uses self-hosted <b>[Remark42](https://remark42.com/)</b> as its comment system.
+
+For installation and deployment details, please refer to the official documentation: <b>[Installation | Remark42](https://remark42.com/docs/getting-started/installation/)</b>
+
+<br>
+
+### 5. Changelog
+
+For details, see: <b>[ChangeLog-en.md](./docs/ChangeLog-en.md)</b>
+
 <hr>
 
 ## ⚖️ License 

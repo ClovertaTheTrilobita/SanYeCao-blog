@@ -13,7 +13,6 @@
             const href = link.getAttribute("href");
             if (!href) return;
 
-            // 只改 /posts/... 这种相对路径
             if (href.startsWith("/posts/")) {
                 link.setAttribute("href", `/${lang}${href}`);
             }
@@ -22,8 +21,8 @@
 
     onMount(() => {
         window.remark_config = {
-            host: "https://comments.cloverta.top",
-            site_id: "cloverta-blog",
+            host: import.meta.env.PUBLIC_REMARK42_HOST,
+            site_id: import.meta.env.PUBLIC_REMARK42_SITE_ID,
             components: ["last-comments"],
             theme: localStorage.getItem("color-theme") ?? "light",
             max_last_comments: 10,
