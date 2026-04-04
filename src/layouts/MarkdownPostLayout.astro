@@ -1,10 +1,11 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import Giscus from "@/components/Giscus.astro";
+import Remark42Embed from "@/components/remark42-embed.svelte";
 import { getLangFromUrl, getTranslations } from "@/i18n";
 import "@/styles/global.css";
 
 const { frontmatter, lang, postId } = Astro.props;
+const comments = lang === "zh" ? "评论区" : "comments";
 const t = getTranslations(lang);
 ---
 
@@ -47,7 +48,8 @@ const t = getTranslations(lang);
       <slot />
     </div>
 
-    <Giscus term={postId} />
+    <h2>{comments}</h2>
+    <Remark42Embed slug={postId} client:load />
   </article>
 </BaseLayout>
 

@@ -85,7 +85,7 @@ html.dark body::after {
   background-image: url("https://files.seeusercontent.com/2026/03/30/vd8W/touhou___alice_margatroid_x_kiri.webp");
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   body::after {
     opacity: 0.06;
   }
