@@ -87,7 +87,7 @@ html.dark body::after {
 
 @media (max-width: 900px) {
   body::after {
-    opacity: 0.06;
+    opacity: 0;
   }
 }
 
