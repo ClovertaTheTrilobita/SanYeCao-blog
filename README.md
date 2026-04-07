@@ -1,6 +1,6 @@
 # SanYeCao-Blog
 
-<p align="right">[<a href="SanYeCao-blog/src/branch/master/README.md">中文</a> | <a href="SanYeCao-blog/src/branch/master/README-en.md">English</a>]</p>
+[中文](README.md) | [English](README-en.md)
 
 <p align="center"><br>
     ✨三叶草Blog✨<br>
