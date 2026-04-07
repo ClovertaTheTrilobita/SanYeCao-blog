@@ -87,9 +87,16 @@ html.dark body::after {
 
 @media (max-width: 900px) {
   body::after {
+    opacity: 0.1;
+  }
+}
+
+@media (max-width: 700px) {
+  body::after {
     opacity: 0;
   }
 }
+
 
 * {
   box-sizing: border-box;

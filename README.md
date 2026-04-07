@@ -47,6 +47,12 @@
 
 有关环境变量的说明详见：<b>[EnvVariables.md](docs/EnvVariables.md)</b>
 
+- 安装依赖
+
+  ```shell
+  npm install
+  ```
+
 - 本地调试
 
   ```shell
