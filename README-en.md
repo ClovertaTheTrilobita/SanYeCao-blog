@@ -46,6 +46,12 @@ Then clone it to your local machine.
 
 For details about environment variables, see: <b>[EnvVariables-en.md](docs/EnvVariables-en.md)</b>
 
+- Install dependencies
+
+  ```shell
+  npm install
+  ```
+
 - Local development
 
   ```shell
