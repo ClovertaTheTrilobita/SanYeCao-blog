@@ -51,7 +51,7 @@ export default {
         description: "在这里收集着整篇博客出现过的标签，点击标签跳转对应的文章列表。",
     },
     footer: {
-        githubIntro: '在 <a href="https://repo.cloverta.top/cloverta">Forgejo</a> 查看更多！',
-        repoIntro: '这个博客完全开源于 <a href="https://repo.cloverta.top/cloverta/SanYeCao-blog">ClovertaTheTrilobita/SanYeCao-blog</a>'
+        githubIntro: '在 <a href="https://github.com/ClovertaTheTrilobita">Github</a> 查看更多！',
+        repoIntro: '这个博客完全开源于 <a href="https://github.com/ClovertaTheTrilobita/SanYeCao-blog">ClovertaTheTrilobita/SanYeCao-blog</a>'
     }
 };
