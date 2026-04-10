@@ -14,6 +14,27 @@ const t = getTranslations(lang);
   description={frontmatter.description}
   image={frontmatter.image?.url}
 >
+  <a
+    href="/"
+    class="back-button"
+    id="back-button"
+    aria-label="Go back"
+    title="返回"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M15 18l-6-6 6-6"></path>
+    </svg>
+  </a>
   <article class="post-article">
     <div class="post-header">
       <div class="post-meta">
@@ -81,7 +102,97 @@ const t = getTranslations(lang);
   })}
 />
 
+<script>
+  const initFloatingActions = () => {
+    const backButton = document.getElementById("back-button");
+
+    if (backButton && backButton.dataset.bound !== "true") {
+      const toggleBackButton = () => {
+        if (window.scrollY > 300) {
+          backButton.classList.add("show");
+        } else {
+          backButton.classList.remove("show");
+        }
+      };
+
+      backButton.addEventListener("click", () => {
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = "/";
+        }
+      });
+
+      window.addEventListener("scroll", toggleBackButton, {
+        passive: true,
+      });
+      toggleBackButton();
+      backButton.dataset.bound = "true";
+    }
+  };
+  initFloatingActions();
+  document.addEventListener("astro:page-load", initFloatingActions);
+</script>
+
 <style>
+  .back-button {
+    position: fixed;
+    top: 1.25rem;
+    left: 1.25rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: #285ee9 2px solid;
+    background: rgba(255, 255, 255, 0.92);
+    color: #222;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+    backdrop-filter: blur(6px);
+    z-index: 1000;
+    visibility: hidden;
+    transform: translateY(10px);
+    opacity: 0;
+    transition:
+      opacity 0.2s ease,
+			transform 0.2s ease,
+			visibility 0.2s ease;
+      box-shadow 0.2s ease,
+      background 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .back-button.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .back-button.show:hover {
+    transform: translateY(-2px);
+  }
+
+  .back-button:hover {
+    transform: translateY(-2px);
+  }
+
+  :global(.dark) .back-button {
+    background: rgba(34, 34, 34, 0.92);
+    color: #f5f5f5;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.32);
+    border: #2f406d 2px solid;
+  }
+
+  @media (max-width: 640px) {
+    .back-button {
+      top: 1rem;
+      left: 1rem;
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
   .post-content {
     font-family:
       system-ui,
