@@ -93,6 +93,14 @@ html.dark body::after {
 }
 
 @media (max-width: 700px) {
+  code {
+    font-size: 0.92rem;
+  }
+
+  body {
+    font-size: 1rem;
+  }
+
   body::after {
     opacity: 0;
   }
