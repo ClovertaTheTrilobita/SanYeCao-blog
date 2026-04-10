@@ -44,9 +44,12 @@ const t = getTranslations(lang);
           .toISOString()
           .split("T")[0];
 
+        const [postLang, ...slugParts] = post.id.split("/");
+        const slug = slugParts.join("/");
+
         return (
           <PostItem
-            url={`/${lang}/posts/${post.id}/`}
+            url={`/${lang}/posts/${slug}/`}
             title={post.data.title}
             date={formattedDate}
             img={post.data.image.url}

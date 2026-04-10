@@ -12,11 +12,10 @@ const data = Astro.props;
 
       <div class="post-meta-row">
         <span class="post-date">{data.date}</span>
-
         <span class="post-stats">
-          <span class="post-stat"
-            >💬 <Remark42Count url=`${data.postPath}` client:idle /></span
-          >
+          <span class="post-stat">
+            💬 <Remark42Count url={data.postPath} client:idle />
+          </span>
         </span>
       </div>
     </div>
@@ -122,10 +121,38 @@ const data = Astro.props;
 
   @media (max-width: 640px) {
     .post-link {
-      gap: 0.75rem;
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      grid-template-areas:
+        "title title"
+        "desc image"
+        "meta image";
+      column-gap: 0.75rem;
+      row-gap: 0.2rem;
+      align-items: start;
+    }
+
+    .post-text {
+      display: contents;
+      min-height: auto;
+    }
+
+    .post-title {
+      grid-area: title;
+      -webkit-line-clamp: 2;
+    }
+
+    .post-description {
+      grid-area: desc;
+    }
+
+    .post-meta-row {
+      grid-area: meta;
+      gap: 0.7rem;
     }
 
     .post-image {
+      grid-area: image;
       width: 120px;
       height: calc(120px * 9 / 16);
     }

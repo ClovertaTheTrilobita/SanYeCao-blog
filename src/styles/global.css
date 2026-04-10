@@ -36,7 +36,7 @@ pre {
 
 code {
   font-family: "Maple Mono", monospace;
-  font-size: 0.92rem;
+  font-size: 0.96rem;
 }
 
 /* 行内代码 */
@@ -61,6 +61,7 @@ body {
   max-width: 90ch;
   padding: 1rem;
   line-height: 1.7;
+  font-size: 1.15rem;
 }
 
 body::after {
