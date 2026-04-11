@@ -14,6 +14,7 @@ const t = getTranslations(lang);
   description={frontmatter.description}
   image={frontmatter.image?.url}
 >
+<div id="reading-progress" aria-hidden="true"></div>
   <a
     href="/"
     class="back-button"
@@ -130,11 +131,39 @@ const t = getTranslations(lang);
       backButton.dataset.bound = "true";
     }
   };
+    const updateProgress = () => {
+    const doc = document.documentElement;
+    const scrollTop = window.scrollY || doc.scrollTop;
+    const scrollHeight = doc.scrollHeight - window.innerHeight;
+
+    const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+
+    const bar = document.getElementById("reading-progress");
+    if (bar) {
+      bar.style.width = `${Math.min(progress, 100)}%`;
+    }
+  };
+
+  updateProgress();
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  window.addEventListener("resize", updateProgress);
   initFloatingActions();
   document.addEventListener("astro:page-load", initFloatingActions);
 </script>
 
 <style>
+    #reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 0;
+    height: 3px;
+    background: #5a89ff;
+    transition: width 0.08s linear;
+    pointer-events: none;
+  }
+
   .back-button {
     position: fixed;
     top: 1.25rem;
@@ -146,18 +175,18 @@ const t = getTranslations(lang);
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    border: #285ee9 2px solid;
+    border: #285ee9 1.5px solid;
     background: rgba(255, 255, 255, 0.92);
     color: #222;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+    /* box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16); */
     backdrop-filter: blur(6px);
     z-index: 1000;
     visibility: hidden;
-    transform: translateY(10px);
-    opacity: 0;
+    transform: translateY(-80px);
+    /* opacity: 0; */
     transition:
       opacity 0.2s ease,
-			transform 0.2s ease,
+			transform 0.27s ease,
 			visibility 0.2s ease;
       box-shadow 0.2s ease,
       background 0.2s ease,
