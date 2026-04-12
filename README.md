@@ -1,6 +1,6 @@
 # SanYeCao-Blog
 
-[中文](README.md) | [English](README-en.md)
+<p align="right">[<a href="./README.md">中文</a> | <a href="./README-en.md">English</a>]</p>
 
 <p align="center"><br>
     ✨三叶草Blog✨<br>
@@ -87,6 +87,10 @@
 ### 5. 更新日志
 
 详情请看：<b>[ChangeLog.md](./docs/ChangeLog.md)</b>
+
+### 6. 旧版本
+
+支持GISCUS的旧版本在 <b>[deprecated/giscus](https://github.com/ClovertaTheTrilobita/SanYeCao-blog/tree/deprecated/giscus)</b> 分支上，但是它有些时候没更新了，可能会有诸多问题。
 
 <hr>
 
