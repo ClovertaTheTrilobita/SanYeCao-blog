@@ -6,7 +6,7 @@ author: "Cloverta"
 image: 
     url: "https://files.seeusercontent.com/2026/03/30/Mn9i/zako2.webp"
     alt: "zako2"
-tags: ["Peterson's algorithm", "Operating System"]
+tags: ["Peterson's algorithm", "Operating Systems"]
 ---
 
 <p style="font-size: 0.85rem;"><i><sub>Content translated by <a href="https://chatgpt.com/">ChatGPT</a>.</sub></i></p>
