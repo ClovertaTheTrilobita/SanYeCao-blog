@@ -4,15 +4,7 @@ on:
   push:
     branches:
       - blog-content
-    paths:
-      - 'src/blog/**'
-      - 'src/friends/**'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'astro.config.mjs'
-      - 'astro.config.ts'
-      - 'public/**'
-      - '.github/workflows/deploy-blog.yml'
+      
   workflow_dispatch:
 
   discussion:
