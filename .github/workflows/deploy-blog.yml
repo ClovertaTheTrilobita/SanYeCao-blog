@@ -1,9 +1,12 @@
 name: Deploy Astro Blog
 
 on:
-  push:
-    branches:
-      - blog-content
+  workflow_run:
+    workflows:
+      - Sync master into blog-content
+    types:
+      - completed
+
       
   workflow_dispatch:
 
@@ -20,16 +23,8 @@ concurrency:
 jobs:
   build-and-deploy:
     if: >
-      github.event_name == 'push' ||
-      github.event_name == 'workflow_dispatch' ||
-      (
-        github.event_name == 'discussion' &&
-        github.event.discussion.category.slug == 'comments'
-      ) ||
-      (
-        github.event_name == 'discussion_comment' &&
-        github.event.discussion.category.slug == 'comments'
-      )
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
 
     env:
