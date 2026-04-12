@@ -1,30 +1,106 @@
-name: Deploy Astro Blog
+name: Sync and Deploy Astro Blog
 
 on:
-  workflow_run:
-    workflows:
-      - Sync master into blog-content
-    types:
-      - completed
+  push:
+    branches:
+      - master
 
-      
   workflow_dispatch:
-
-  discussion:
-    types: [created, category_changed]
-
-  discussion_comment:
-    types: [created, edited, deleted]
 
 concurrency:
   group: deploy-blog
   cancel-in-progress: true
 
 jobs:
+  sync-blog-content:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Checkout blog-content branch
+        run: |
+          git checkout blog-content
+          git pull origin blog-content
+
+      - name: Merge master into blog-content
+        run: |
+          git merge origin/master --no-edit
+
+      - name: Push blog-content
+        run: |
+          git push origin blog-content
+
   build-and-deploy:
-    if: >
-      github.event_name != 'workflow_run' ||
-      github.event.workflow_run.conclusion == 'success'
+    needs: sync-blog-content
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    env:
+      DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+      DEPLOY_PORT: ${{ vars.DEPLOY_PORT }}
+      DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+      DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+
+    steps:
+      - name: Checkout blog-content branch
+        uses: actions/checkout@v4
+        with:
+          ref: blog-content
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create .env file
+        run: |
+          cat > .env <<'EOF'
+          ${{ secrets.ENV_FILE }}
+          EOF
+
+      - name: Build Astro site
+        run: npm run build
+
+      - name: Install rsync and ssh client
+        run: sudo apt-get update && sudo apt-get install -y rsync openssh-client
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Deploy to server
+        run: |
+          rsync -avz --delete \
+            --omit-dir-times \
+            --no-perms \
+            --no-owner \
+            --no-group \
+            -e "ssh -p ${DEPLOY_PORT}" \
+            dist/ \
+            ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/
+
+  manual-deploy:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     env:
