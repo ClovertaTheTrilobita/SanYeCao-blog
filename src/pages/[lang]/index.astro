@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostList from "@/components/Posts/PostList.astro";
 import Remark42LatestComments from "@/components/remark42-latest-comments.svelte";
+import LatestComments from "@/components/LatestComments.astro";
 import { getLangFromUrl, getTranslations } from "@/i18n";
 import "@/styles/global.css";
 
@@ -50,7 +51,8 @@ const pageTitle = t.home.title;
 
   <div class="section-divider"></div>
 
-  <Remark42LatestComments lang={lang} client:load />
+  <!-- <Remark42LatestComments lang={lang} client:load /> -->
+  <LatestComments />
 </BaseLayout>
 
 <style>

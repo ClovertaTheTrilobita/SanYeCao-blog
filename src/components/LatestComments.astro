@@ -1,0 +1,175 @@
+---
+const { lang = "zh" } = Astro.props;
+const host = import.meta.env.PUBLIC_REMARK42_HOST;
+const siteId = import.meta.env.PUBLIC_REMARK42_SITE_ID;
+const max = 10;
+const heading = lang === "zh" ? "最新评论" : "Latest comments";
+---
+
+<section
+    class="latest-comments"
+    data-lang={lang}
+    data-host={host}
+    data-site-id={siteId}
+    data-max={max}
+>
+    <h2>{heading}</h2>
+
+    <div class="comments-loading" aria-hidden="true">
+        <div class="loading-card"></div>
+        <div class="loading-card"></div>
+        <div class="loading-card"></div>
+    </div>
+
+    <div class="latest-comments-list" aria-live="polite"></div>
+</section>
+
+<script is:inline data-astro-rerun>
+    function escapeHtml(str) {
+        return String(str ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#39;");
+    }
+
+    function formatTime(input, lang) {
+        try {
+            const date = new Date(input);
+            return new Intl.DateTimeFormat(lang === "zh" ? "zh-CN" : "en", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            }).format(date);
+        } catch {
+            return "";
+        }
+    }
+
+    function rewritePostUrl(url, lang) {
+        if (!url) return "#";
+
+        if (url.startsWith("/posts/")) {
+            return `/${lang}${url}`;
+        }
+
+        try {
+            const u = new URL(url, window.location.origin);
+            if (u.pathname.startsWith("/posts/")) {
+                return `/${lang}${u.pathname}${u.search}${u.hash}`;
+            }
+            return u.pathname + u.search + u.hash;
+        } catch {
+            return url;
+        }
+    }
+
+    function getAvatar(item) {
+        return (
+            item?.user?.picture || item?.user?.photo || item?.user?.avatar || ""
+        );
+    }
+
+    function getUserName(item, lang) {
+        return item?.user?.name || (lang === "zh" ? "匿名用户" : "Anonymous");
+    }
+
+    function renderComments(root, comments, lang) {
+        const list = root.querySelector(".latest-comments-list");
+        const loading = root.querySelector(".comments-loading");
+        if (!list || !loading) return;
+
+        if (!Array.isArray(comments) || comments.length === 0) {
+            loading.style.display = "none";
+            list.innerHTML = `<p class="latest-comments-empty">${
+                lang === "zh" ? "还没有评论" : "No comments yet"
+            }</p>`;
+            return;
+        }
+
+        list.innerHTML = comments
+            .map((item) => {
+                const author = escapeHtml(getUserName(item, lang));
+                const avatar = getAvatar(item);
+                const safeAvatar = escapeHtml(avatar || "");
+                const title = escapeHtml(
+                    item?.title ||
+                        (lang === "zh" ? "未命名文章" : "Untitled post"),
+                );
+                const href = rewritePostUrl(item?.locator?.url || "", lang);
+                const html = item?.text || "";
+                const time = formatTime(item?.time, lang);
+
+                const avatarHtml = avatar
+                    ? `<img class="comment-avatar-img" src="${safeAvatar}" alt="${author}" loading="lazy" referrerpolicy="no-referrer" />`
+                    : `<div class="comment-avatar-fallback" aria-hidden="true">${author.slice(0, 1).toUpperCase()}</div>`;
+
+                return `
+          <article class="comment-card">
+            <div class="comment-card-body">
+              <div class="comment-card-info">
+                <div class="comment-avatar">
+                  ${avatarHtml}
+                </div>
+
+                <div class="comment-meta">
+                  <div class="comment-author-row">
+                    <span class="comment-author">@${author}</span>
+                    ${time ? `<span class="comment-time">${escapeHtml(time)}</span>` : ""}
+                  </div>
+                </div>
+              </div>
+
+              <div class="comment-card-title">
+                <a class="comment-title-link" href="${href}">${title}</a>
+              </div>
+
+              <div class="comment-card-text">${html}</div>
+            </div>
+          </article>
+        `;
+            })
+            .join("");
+
+        loading.style.display = "none";
+    }
+
+    async function loadLatestComments(section) {
+        if (!section) return;
+
+        const host = section.dataset.host;
+        const siteId = section.dataset.siteId;
+        const max = section.dataset.max || "10";
+        const lang = section.dataset.lang || "zh";
+
+        const list = section.querySelector(".latest-comments-list");
+        const loading = section.querySelector(".comments-loading");
+        if (!host || !siteId || !list || !loading) return;
+
+        loading.style.display = "";
+        list.innerHTML = "";
+
+        const url = `${host}/api/v1/last/${encodeURIComponent(max)}?site=${encodeURIComponent(siteId)}`;
+
+        try {
+            const res = await fetch(url, { credentials: "omit" });
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status}`);
+            }
+
+            const data = await res.json();
+            renderComments(section, data, lang);
+        } catch (err) {
+            loading.style.display = "none";
+            list.innerHTML = `<p class="latest-comments-empty">${
+                lang === "zh"
+                    ? "最新评论加载失败"
+                    : "Failed to load latest comments"
+            }</p>`;
+            console.error("latest comments load failed:", err);
+        }
+    }
+
+    document.querySelectorAll(".latest-comments").forEach(loadLatestComments);
+</script>

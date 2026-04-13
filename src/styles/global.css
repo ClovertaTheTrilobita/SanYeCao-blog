@@ -164,3 +164,250 @@ img {
   height: auto;
   display: block;
 }
+
+.latest-comments {
+  margin-top: 1.5rem;
+}
+
+.latest-comments h2 {
+  margin-bottom: 0.8rem;
+}
+
+.loading-card {
+  height: 92px;
+  margin: 0 0 14px 0;
+  padding: 0.9rem 1rem;
+  border: 1px dashed #aeb8c2;
+  background: linear-gradient(90deg,
+      rgba(160, 175, 190, 0.06) 25%,
+      rgba(160, 175, 190, 0.16) 50%,
+      rgba(160, 175, 190, 0.06) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite linear;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.latest-comments-list {
+  display: block;
+}
+
+.comment-card {
+  display: block;
+  margin: 0 0 14px 0;
+  padding: 0.6rem 1rem;
+  border: 1.5px dashed #aeb8c2;
+  background-color: #f3f5f7;
+}
+
+.comment-card:last-child {
+  margin-bottom: 0;
+}
+
+.comment-card-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-areas:
+    "info title"
+    "text title";
+  gap: 0.2rem 1rem;
+  align-items: start;
+}
+
+.comment-card-info {
+  grid-area: info;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.comment-avatar {
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+}
+
+.comment-avatar-img,
+.comment-avatar-fallback {
+  width: 35px;
+  height: 35px;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment-avatar-img {
+  border: 1px dashed #aeb8c2;
+  background: #f3f5f7;
+}
+
+.comment-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #aeb8c2;
+  background: rgba(160, 175, 190, 0.12);
+  color: #5e6b77;
+  font-weight: 700;
+  font-size: 1rem;
+  user-select: none;
+}
+
+.comment-meta {
+  min-width: 0;
+  flex: 1;
+}
+
+.comment-author-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6rem;
+  min-width: 0;
+  line-height: 1.3;
+  font-style: italic;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "Source Han Sans SC",
+    sans-serif;
+}
+
+.comment-author {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: gray;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.comment-time {
+  color: #7a7a7a;
+  font-size: 0.9rem;
+}
+
+.comment-card-title {
+  grid-area: title;
+  text-align: right;
+  min-width: 0;
+}
+
+.comment-title-link {
+  color: #6f8090;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.45;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.comment-title-link:hover {
+  text-decoration: underline;
+}
+
+.comment-card-text {
+  grid-area: text;
+  margin: 0;
+  color: #555;
+  line-height: 1.5;
+  font-size: 0.93rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "Source Han Sans SC",
+    sans-serif;
+}
+
+.comment-card-text :global(p),
+.comment-card-text p {
+  margin: 0;
+}
+
+.comment-card-text :global(img),
+.comment-card-text img {
+  max-width: 100%;
+  height: auto;
+}
+
+.latest-comments-empty {
+  color: #777;
+  font-style: italic;
+}
+
+html.dark .latest-comments .comment-card,
+.dark .latest-comments .comment-card {
+  border-color: #7f8c97;
+  background-color: #252525;
+}
+
+html.dark .comment-title-link {
+  color: #c8d2dc;
+}
+
+html.dark .comment-card-text {
+  color: #d3d7db;
+}
+
+html.dark .comment-time {
+  color: #a8b0b7;
+}
+
+html.dark .latest-comments .comment-avatar-fallback,
+.dark .latest-comments .comment-avatar-fallback {
+  border-color: #7f8c97;
+  background-color: #3a444d;
+  color: #dbe3ea;
+}
+
+:global(.dark) .comment-avatar-fallback {
+  background: rgba(180, 190, 200, 0.12);
+  color: #dbe3ea;
+}
+
+@media (max-width: 640px) {
+  .comment-card-body {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "info"
+      "title"
+      "text";
+  }
+
+  .comment-card-title {
+    text-align: left;
+  }
+
+  .comment-title-link {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

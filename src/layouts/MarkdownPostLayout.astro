@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import Remark42Embed from "@/components/remark42-embed.svelte";
+import Remark42Embed from "@/components/Remark42Embed.astro";
 import { getLangFromUrl, getTranslations } from "@/i18n";
 import "@/styles/global.css";
 
@@ -39,7 +39,7 @@ const t = getTranslations(lang);
   <article class="post-article">
     <div class="post-header">
       <div class="post-meta">
-        <h1 class="post-title">{frontmatter.title}</h1>
+        <h1 class="post-title" transition:name={`post-title-${postId}`} >{frontmatter.title}</h1>
         <p class="description"><em>{frontmatter.description}</em></p>
         <p class="meta-line">
           {t.post.publishedOn}: {frontmatter.pubDate.toLocaleDateString()}
@@ -71,7 +71,7 @@ const t = getTranslations(lang);
     </div>
 
     <h2>{comments}</h2>
-    <Remark42Embed slug={postId} client:load />
+    <Remark42Embed slug={postId} />
   </article>
 </BaseLayout>
 
