@@ -2,8 +2,10 @@
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import { ClientRouter } from "astro:transitions";
+import { slide, fade } from "astro:transitions";
 import SEO from "@/components/SEO.astro";
 import FloatingActions from "@/components/FloatingActions.astro";
+import Spinner from "@/components/Spinner.astro";
 
 const {
 	pageTitle,
@@ -25,9 +27,14 @@ const {
 		<title>{pageTitle}</title>
 	</head>
 	<FloatingActions />
+
 	<body>
 		<Header />
-		<main class="page-content">
+		<Spinner />
+		<main
+			class="page-content"
+			transition:animate={fade({ duration: "0.05s" })}
+		>
 			<slot />
 		</main>
 		<Footer />
