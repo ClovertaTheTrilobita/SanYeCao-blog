@@ -1,6 +1,6 @@
 ---
 import "@/styles/global.css";
-import Remark42Count from "@/components/remark42-counter.svelte";
+import Remark42Counter from "@/components/Remark42Counter.astro";
 import { getLangFromUrl } from "@/i18n";
 
 const lang = getLangFromUrl(Astro.url);
@@ -11,10 +11,11 @@ const tags = data.tags;
 <li class="post-card">
   <div class="post-link">
     <div class="post-text">
-      <a href={data.url} class="post-title">
-        {data.title}
+      <a href={data.url} class="post-title-link">
+        <h2 class="post-title" transition:name={`post-title-${data.slug}`}>
+          {data.title}
+        </h2>
       </a>
-
       <a href={data.url} class="post-description">
         {data.description}
       </a>
@@ -32,7 +33,7 @@ const tags = data.tags;
         <span class="post-date">{data.date}</span>
         <span class="post-stats">
           <span class="post-stat">
-            💬 <Remark42Count url={data.postPath} client:idle />
+            💬 <Remark42Counter url={data.postPath} />
           </span>
         </span>
       </div>
@@ -133,7 +134,13 @@ const tags = data.tags;
     min-height: calc(1.6em * 4);
   }
 
+  .post-title-link {
+    text-decoration: none;
+    display: block;
+  }
+
   .post-title {
+    margin: 0;
     font-family:
       system-ui,
       -apple-system,
@@ -231,8 +238,11 @@ const tags = data.tags;
       min-height: auto;
     }
 
-    .post-title {
+    .post-title-link {
       grid-area: title;
+    }
+
+    .post-title {
       -webkit-line-clamp: 2;
     }
 

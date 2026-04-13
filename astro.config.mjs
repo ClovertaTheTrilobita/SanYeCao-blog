@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
+import rehypeMermaid from "rehype-mermaid";
 // https://astro.build/config
 import { fileURLToPath } from 'node:url'
 
@@ -18,4 +19,7 @@ export default defineConfig({
     "/": "/zh",
   },
   integrations: [sitemap(), svelte()],
+  markdown: {
+    rehypePlugins: [rehypeMermaid],
+  },
 })

@@ -1,0 +1,299 @@
+---
+const { lang = "zh" } = Astro.props;
+const host = import.meta.env.PUBLIC_REMARK42_HOST;
+const siteId = import.meta.env.PUBLIC_REMARK42_SITE_ID;
+const max = 10;
+const heading = lang === "zh" ? "最新评论" : "Latest comments";
+---
+
+<section
+    class="latest-comments"
+    data-lang={lang}
+    data-host={host}
+    data-site-id={siteId}
+    data-max={max}
+>
+    <h2>{heading}</h2>
+
+    <div class="comments-loading" aria-hidden="true">
+        <div class="loading-card"></div>
+        <div class="loading-card"></div>
+        <div class="loading-card"></div>
+    </div>
+
+    <div class="latest-comments-list" aria-live="polite"></div>
+</section>
+
+<script is:inline data-astro-rerun>
+    function escapeHtml(str) {
+        return String(str ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#39;");
+    }
+
+    function formatTime(input, lang) {
+        try {
+            const date = new Date(input);
+            return new Intl.DateTimeFormat(lang === "zh" ? "zh-CN" : "en", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            }).format(date);
+        } catch {
+            return "";
+        }
+    }
+
+    function rewritePostUrl(url, lang) {
+        if (!url) return "#";
+
+        if (url.startsWith("/posts/")) {
+            return `/${lang}${url}`;
+        }
+
+        try {
+            const u = new URL(url, window.location.origin);
+            if (u.pathname.startsWith("/posts/")) {
+                return `/${lang}${u.pathname}${u.search}${u.hash}`;
+            }
+            return u.pathname + u.search + u.hash;
+        } catch {
+            return url;
+        }
+    }
+
+    function getAvatar(item) {
+        return (
+            item?.user?.picture || item?.user?.photo || item?.user?.avatar || ""
+        );
+    }
+
+    function getUserName(item, lang) {
+        return item?.user?.name || (lang === "zh" ? "匿名用户" : "Anonymous");
+    }
+
+    function normalizePath(url) {
+        if (!url) return "";
+
+        try {
+            const u = new URL(url, window.location.origin);
+            let path = u.pathname;
+
+            if (!path.startsWith("/")) path = "/" + path;
+            if (!path.endsWith("/")) path += "/";
+
+            return path;
+        } catch {
+            let path = String(url);
+
+            path = path.replace(/^https?:\/\/[^/]+/i, "");
+            if (!path.startsWith("/")) path = "/" + path;
+            if (!path.endsWith("/")) path += "/";
+
+            return path;
+        }
+    }
+
+    function buildUrlCandidates(rawUrl) {
+        const path = normalizePath(rawUrl);
+        if (!path) return [];
+
+        const noSlash = path.endsWith("/") ? path.slice(0, -1) : path;
+
+        const candidates = [
+            path,
+            noSlash,
+            `/zh${path}`,
+            `/zh${noSlash}`,
+            `/en${path}`,
+            `/en${noSlash}`,
+            `${window.location.origin}${path}`,
+            `${window.location.origin}${noSlash}`,
+        ];
+
+        return [...new Set(candidates.filter(Boolean))];
+    }
+
+    async function fetchPostComments(host, siteId, rawUrl) {
+        const candidates = buildUrlCandidates(rawUrl);
+
+        for (const candidate of candidates) {
+            try {
+                const res = await fetch(
+                    `${host}/api/v1/find?site=${encodeURIComponent(siteId)}&url=${encodeURIComponent(candidate)}&format=plain`,
+                    { credentials: "omit" },
+                );
+
+                if (!res.ok) continue;
+
+                const data = await res.json();
+
+                const comments = Array.isArray(data)
+                    ? data
+                    : Array.isArray(data?.comments)
+                      ? data.comments
+                      : [];
+
+                if (comments.length > 0) {
+                    return comments;
+                }
+            } catch {}
+        }
+
+        return [];
+    }
+
+    async function enrichReplyTargets(host, siteId, comments) {
+        const urls = [
+            ...new Set(
+                comments.map((item) => item?.locator?.url).filter(Boolean),
+            ),
+        ];
+
+        const postMap = new Map();
+
+        await Promise.all(
+            urls.map(async (url) => {
+                const postComments = await fetchPostComments(host, siteId, url);
+                postMap.set(url, postComments);
+            }),
+        );
+
+        return comments.map((item) => {
+            if (!item?.pid) {
+                return { ...item, replyToName: "" };
+            }
+
+            const postComments = postMap.get(item?.locator?.url) || [];
+            const parent = postComments.find(
+                (c) => String(c?.id) === String(item?.pid),
+            );
+
+            return {
+                ...item,
+                replyToName: parent?.user?.name || "",
+            };
+        });
+    }
+
+    function renderComments(root, comments, lang) {
+        const list = root.querySelector(".latest-comments-list");
+        const loading = root.querySelector(".comments-loading");
+        if (!list || !loading) return;
+
+        if (!Array.isArray(comments) || comments.length === 0) {
+            loading.style.display = "none";
+            list.innerHTML = `<p class="latest-comments-empty">${
+                lang === "zh" ? "还没有评论" : "No comments yet"
+            }</p>`;
+            return;
+        }
+
+        list.innerHTML = comments
+            .map((item) => {
+                const rawAuthor = getUserName(item, lang);
+                const author = escapeHtml(rawAuthor);
+                const fallbackInitial = escapeHtml(
+                    rawAuthor.slice(0, 1).toUpperCase(),
+                );
+
+                const avatar = getAvatar(item);
+                const safeAvatar = escapeHtml(avatar || "");
+
+                const title = escapeHtml(
+                    item?.title ||
+                        (lang === "zh" ? "未命名文章" : "Untitled post"),
+                );
+                const href = rewritePostUrl(item?.locator?.url || "", lang);
+
+                // Remark42 返回的 text 是处理后的 HTML，适合直接渲染
+                const html = item?.text || "";
+                const time = formatTime(item?.time, lang);
+
+                const replyTo = escapeHtml(item?.replyToName || "");
+                const authorLine = replyTo
+                    ? `<span class="comment-author">@${author}</span><span class="comment-reply-sep">${
+                          lang === "zh" ? "回复" : "replied to"
+                      }</span><span class="comment-reply-to">@${replyTo}</span>`
+                    : `<span class="comment-author">@${author}</span>`;
+
+                const avatarHtml = avatar
+                    ? `<img class="comment-avatar-img" src="${safeAvatar}" alt="${author}" loading="lazy" referrerpolicy="no-referrer" />`
+                    : `<div class="comment-avatar-fallback" aria-hidden="true">${fallbackInitial}</div>`;
+
+                return `
+          <article class="comment-card">
+            <div class="comment-card-body">
+              <div class="comment-card-info">
+                <div class="comment-avatar">
+                  ${avatarHtml}
+                </div>
+
+                <div class="comment-meta">
+                  <div class="comment-author-row">
+                    ${authorLine}
+                    ${time ? `<span class="comment-time">${escapeHtml(time)}</span>` : ""}
+                  </div>
+                </div>
+              </div>
+
+              <div class="comment-card-title">
+                <a class="comment-title-link" href="${href}">${title}</a>
+              </div>
+
+              <div class="comment-card-text">${html}</div>
+            </div>
+          </article>
+        `;
+            })
+            .join("");
+
+        loading.style.display = "none";
+    }
+
+    async function loadLatestComments(section) {
+        if (!section) return;
+
+        const host = section.dataset.host;
+        const siteId = section.dataset.siteId;
+        const max = section.dataset.max || "10";
+        const lang = section.dataset.lang || "zh";
+
+        const list = section.querySelector(".latest-comments-list");
+        const loading = section.querySelector(".comments-loading");
+        if (!host || !siteId || !list || !loading) return;
+
+        loading.style.display = "";
+        list.innerHTML = "";
+
+        const url = `${host}/api/v1/last/${encodeURIComponent(max)}?site=${encodeURIComponent(siteId)}`;
+
+        try {
+            const res = await fetch(url, { credentials: "omit" });
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status}`);
+            }
+
+            const data = await res.json();
+            const enriched = await enrichReplyTargets(
+                host,
+                siteId,
+                Array.isArray(data) ? data : [],
+            );
+            renderComments(section, enriched, lang);
+        } catch (err) {
+            loading.style.display = "none";
+            list.innerHTML = `<p class="latest-comments-empty">${
+                lang === "zh"
+                    ? "最新评论加载失败"
+                    : "Failed to load latest comments"
+            }</p>`;
+            console.error("latest comments load failed:", err);
+        }
+    }
+
+    document.querySelectorAll(".latest-comments").forEach(loadLatestComments);
+</script>

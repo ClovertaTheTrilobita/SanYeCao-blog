@@ -1,0 +1,82 @@
+---
+const { slug } = Astro.props;
+const pagePath = `/posts/${slug}/`;
+const host = import.meta.env.PUBLIC_REMARK42_HOST;
+const siteId = import.meta.env.PUBLIC_REMARK42_SITE_ID;
+---
+
+<div id="remark42"></div>
+
+<script define:vars={{ pagePath, host, siteId }} is:inline data-astro-rerun>
+    function getTheme() {
+        return document.documentElement.classList.contains("dark")
+            ? "dark"
+            : "light";
+    }
+
+    function setRemarkConfig() {
+        window.remark_config = {
+            host,
+            site_id: siteId,
+            url: pagePath,
+            page_id: pagePath,
+            theme: getTheme(),
+            components: ["embed"],
+            show_rss_subscription: false,
+        };
+    }
+
+    function ensureScript() {
+        return new Promise((resolve, reject) => {
+            const existing = document.getElementById("remark42-loader");
+
+            if (existing) {
+                if (window.REMARK42) {
+                    resolve(true);
+                    return;
+                }
+                existing.addEventListener("load", () => resolve(true), {
+                    once: true,
+                });
+                existing.addEventListener("error", reject, { once: true });
+                return;
+            }
+
+            const script = document.createElement("script");
+            script.id = "remark42-loader";
+            script.defer = true;
+
+            if ("noModule" in script) {
+                script.type = "module";
+                script.src = `${host}/web/embed.mjs`;
+            } else {
+                script.async = true;
+                script.src = `${host}/web/embed.js`;
+            }
+
+            script.onload = () => resolve(true);
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
+    async function mountRemark42() {
+        const node = document.getElementById("remark42");
+        if (!node) return;
+
+        setRemarkConfig();
+        await ensureScript();
+
+        if (window.REMARK42) {
+            if (typeof window.REMARK42.destroy === "function") {
+                window.REMARK42.destroy();
+            }
+            if (typeof window.REMARK42.createInstance === "function") {
+                node.innerHTML = "";
+                window.REMARK42.createInstance(window.remark_config);
+            }
+        }
+    }
+
+    mountRemark42();
+</script>
