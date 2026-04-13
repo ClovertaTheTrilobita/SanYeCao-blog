@@ -361,6 +361,20 @@ img {
   font-style: italic;
 }
 
+.comment-reply-sep {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.latest-comments .comment-reply-to {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: gray;
+  opacity: 0.9;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 html.dark .latest-comments .comment-card,
 .dark .latest-comments .comment-card {
   border-color: #7f8c97;
