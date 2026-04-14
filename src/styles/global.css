@@ -49,6 +49,13 @@ td code {
   background: rgba(127, 127, 127, 0.12);
 }
 
+article svg.flowchart,
+article svg[class*="flowchart"],
+article svg[id^="mermaid-"] {
+  display: block;
+  margin: 1.5rem auto;
+}
+
 html {
   font-family: "Maple Mono", "Maple Mono CN", monospace;
   background-color: #ffffff;

@@ -20,6 +20,10 @@ export default defineConfig({
   },
   integrations: [sitemap(), svelte()],
   markdown: {
+    syntaxHighlight: {
+      type: 'shiki',
+      excludeLangs: ['mermaid', 'math'],
+    },
     rehypePlugins: [rehypeMermaid],
   },
 })
