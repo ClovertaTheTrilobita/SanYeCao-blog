@@ -4,36 +4,26 @@
 
 <script is:inline>
     (() => {
-        const KEY = "__page_loading_indicator_bound__";
-        if (window[KEY]) return;
-        window[KEY] = true;
-
         let timer;
-
-        const getEl = () => document.getElementById("page-loading-indicator");
 
         const show = () => {
             clearTimeout(timer);
             timer = setTimeout(() => {
-                const el = getEl();
+                const el = document.getElementById("page-loading-indicator");
                 if (el) el.classList.add("is-active");
             }, 120);
         };
 
         const hide = () => {
             clearTimeout(timer);
-            const el = getEl();
-            if (!el) return;
-
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    el.classList.remove("is-active");
-                });
-            });
+            const el = document.getElementById("page-loading-indicator");
+            if (el) el.classList.remove("is-active");
         };
 
         document.addEventListener("astro:before-preparation", show);
         document.addEventListener("astro:page-load", hide);
+
+        hide();
     })();
 </script>
 
@@ -50,11 +40,10 @@
         pointer-events: none;
         transition: transform 160ms linear;
         z-index: 9999;
-        will-change: transform;
     }
 
     #page-loading-indicator.is-active {
-        transform: scale(1) translateY(0);
+        transform: scale(1) translateY(0px);
     }
 
     .page-loading-spinner {
@@ -79,12 +68,12 @@
         }
 
         52% {
-            transform: rotate(720deg);
+            transform: rotate(720deg); /* 前两圈，稍微慢一点 */
             animation-timing-function: cubic-bezier(0.55, 0.08, 0.78, 0.22);
         }
 
         100% {
-            transform: rotate(1080deg);
+            transform: rotate(1080deg); /* 最后一圈更慢 */
         }
     }
 
@@ -92,5 +81,11 @@
     html.dark .page-loading-spinner {
         border-color: #d8c7a1;
         border-top-color: transparent;
+    }
+
+    @keyframes page-loading-spin {
+        to {
+            transform: rotate(360deg);
+        }
     }
 </style>
