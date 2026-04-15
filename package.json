@@ -9,8 +9,7 @@
     "dev": "astro dev",
     "preview": "astro preview",
     "astro": "astro",
-    "subset-font": "node build/fontmin.js",
-    "build": "npm run subset-font && astro build"
+    "build": "astro build"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.17",
