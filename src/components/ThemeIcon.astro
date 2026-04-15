@@ -70,15 +70,15 @@ const switchHref = "/" + segments.join("/");
     }
 
     .lang-switch {
-        color: black; !important
-        font-weight: 700; !important
-        font-size: 0.95rem; !important
-        text-decoration: none; !important
-        line-height: 1; !important
+        color: black;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        line-height: 1;
     }
 
     .lang-switch:hover {
-        text-decoration: underline; !important
+        text-decoration: underline;
     }
 
     .sun {
@@ -104,37 +104,37 @@ const switchHref = "/" + segments.join("/");
 
 <script is:inline>
     function applyTheme() {
-    const localStorageTheme = localStorage?.getItem("theme") ?? "";
-    let theme = "light";
+        const localStorageTheme = localStorage?.getItem("theme") ?? "";
+        let theme = "light";
 
-    if (["dark", "light"].includes(localStorageTheme)) {
-      theme = localStorageTheme;
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      theme = "dark";
+        if (["dark", "light"].includes(localStorageTheme)) {
+            theme = localStorageTheme;
+        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            theme = "dark";
+        }
+
+        document.documentElement.classList.toggle("dark", theme === "dark");
+        window.localStorage.setItem("theme", theme);
     }
 
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    window.localStorage.setItem("theme", theme);
-  }
+    function bindThemeToggle() {
+        const button = document.getElementById("themeToggle");
+        if (!button) return;
 
-  function bindThemeToggle() {
-    const button = document.getElementById("themeToggle");
-    if (!button) return;
+        button.onclick = () => {
+            const element = document.documentElement;
+            element.classList.toggle("dark");
 
-    button.onclick = () => {
-      const element = document.documentElement;
-      element.classList.toggle("dark");
+            const isDark = element.classList.contains("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+        };
+    }
 
-      const isDark = element.classList.contains("dark");
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    };
-  }
-
-  applyTheme();
-  bindThemeToggle();
-
-  document.addEventListener("astro:after-swap", () => {
     applyTheme();
     bindThemeToggle();
-  });
+
+    document.addEventListener("astro:after-swap", () => {
+        applyTheme();
+        bindThemeToggle();
+    });
 </script>
