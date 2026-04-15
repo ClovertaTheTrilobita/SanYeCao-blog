@@ -54,7 +54,7 @@ const groupedPosts = filteredPosts.reduce((acc: any[], post: any) => {
                                 >
                                     <h2
                                         class="post-title"
-                                        transition:name={`post-title-${slug}`}
+                                        transition:name={`post-title-${post.id}`}
                                     >
                                         {post.data.title}
                                     </h2>
@@ -147,7 +147,8 @@ const groupedPosts = filteredPosts.reduce((acc: any[], post: any) => {
         margin: 0;
         font-size: 0.88rem;
         color: #555;
-        font-style: italic;
+        font-weight: 400;
+        /* font-style: italic; */
         line-height: 1.5;
         overflow-wrap: anywhere;
         word-break: break-word;
