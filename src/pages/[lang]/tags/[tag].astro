@@ -34,7 +34,7 @@ const t = getTranslations(lang);
 <BaseLayout pageTitle={String(tag)}>
   <p class="tag-heading">
     {lang === "zh" ? "带有标签" : "Posts tagged with"}{" "}
-    <span class="tag-chip">{tag}</span>
+    <span class="tag-chip" transition:name={`post-tags-${tag}`}>{tag}</span>
     {lang === "zh" ? "的文章" : ""}
   </p>
   <ul>
@@ -54,6 +54,7 @@ const t = getTranslations(lang);
             date={formattedDate}
             img={post.data.image.url}
             tags={post.data.tags}
+            postId={post.id}
           />
         );
       })

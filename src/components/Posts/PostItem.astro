@@ -12,14 +12,14 @@ const tags = data.tags;
   <div class="post-link">
     <div class="post-text">
       <a href={data.url} class="post-title-link">
-        <h2 class="post-title" transition:name={`post-title-${data.slug}`}>
+        <h2 class="post-title" transition:name={`post-title-${data.postId}`}>
           {data.title}
         </h2>
       </a>
       <a href={data.url} class="post-description">
         {data.description}
       </a>
-      <div class="tags">
+      <div class="tags" transition:name={`post-tags-${data.postId}`}>
         {
           tags.map((tag: string) => (
             <p class="tag">
@@ -40,7 +40,13 @@ const tags = data.tags;
     </div>
 
     <a href={data.url} class="post-image-link">
-      <img src={data.img} alt={data.title} class="post-image" loading="lazy" />
+      <img
+        src={data.img}
+        alt={data.title}
+        class="post-image"
+        loading="lazy"
+        transition:name={`post-image-${data.postId}`}
+      />
     </a>
   </div>
 </li>
@@ -167,7 +173,7 @@ const tags = data.tags;
     text-decoration: none;
     font-weight: 400;
     font-size: 0.92rem;
-    font-style: italic;
+    /* font-style: italic; */
   }
 
   .post-meta-row {
@@ -206,7 +212,7 @@ const tags = data.tags;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: center;
-    border: 2px #94a0ab dashed;
+    border: 1.5px #94a0ab dashed;
     flex-shrink: 0;
     display: block;
   }
@@ -256,7 +262,7 @@ const tags = data.tags;
     }
 
     .post-image {
-      border: none;
+      /* border: none; */
       grid-area: image;
       width: 100%;
       height: calc(145px * 10 / 16);

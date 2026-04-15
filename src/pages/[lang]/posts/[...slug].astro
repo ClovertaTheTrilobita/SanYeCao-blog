@@ -28,6 +28,11 @@ const [postLang, ...slugParts] = post.id.split("/");
 const slug = slugParts.join("/");
 ---
 
-<MarkdownPostLayout frontmatter={post.data} lang={lang} postId={slug}>
+<MarkdownPostLayout
+    frontmatter={post.data}
+    lang={lang}
+    slug={slug}
+    postId={post.id}
+>
     <Content />
 </MarkdownPostLayout>
