@@ -21,7 +21,6 @@
     "url": "^0.11.4"
   },
   "devDependencies": {
-    "@types/node": "^25.5.0",
-    "fontmin": "^1.1.1"
+    "@types/node": "^25.5.0"
   }
 }
