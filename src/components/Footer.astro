@@ -1,6 +1,7 @@
 ---
 import { getLangFromUrl, getTranslations, type Lang } from "@/i18n";
-
+import BuildHashBlocks from "@/components/BuildHashBlocks.astro";
+const commit = import.meta.env.PUBLIC_GIT_COMMIT || "unknown";
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 ---
@@ -8,6 +9,8 @@ const t = getTranslations(lang);
 <footer class="footer">
   <p set:html={t.footer.githubIntro} />
   <p set:html={t.footer.repoIntro} />
+  <BuildHashBlocks />
+  <code class="build-commit">{commit.slice(0, 7)}</code>
 </footer>
 
 <style>
