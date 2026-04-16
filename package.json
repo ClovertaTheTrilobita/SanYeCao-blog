@@ -6,10 +6,10 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
+    "dev": "PUBLIC_GIT_COMMIT=$(git rev-parse HEAD) astro dev",
     "preview": "astro preview",
     "astro": "astro",
-    "build": "astro build"
+    "build": "PUBLIC_GIT_COMMIT=$(git rev-parse HEAD) astro build"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.17",

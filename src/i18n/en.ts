@@ -43,7 +43,7 @@ export default {
             '· <a href="https://blog.cloudti.de/">Parsifal\'s Blog</a>',
             "· And some other websites whose names I have unfortunately forgotten",
             "Thank you for your ideas and passion!",
-            "In addition, this blog is fully open source. You can find its source code through the link in the footer.",
+            "In addition, this blog is open source under MIT License. You can find its source code through the link in the footer.",
         ]
     },
     tags: {
