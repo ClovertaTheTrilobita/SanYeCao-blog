@@ -20,6 +20,7 @@ const blocks: string[] = Array.from({ length: blockCount }, (_, i) => {
     title={`Build ${safeHash}`}
     aria-label={`Build ${safeHash}`}
 >
+    <div class="build-hint">Astro Build</div>
     {
         blocks.map((color: string) => (
             <span class="build-block" style={`background:${color}`} />
@@ -28,15 +29,19 @@ const blocks: string[] = Array.from({ length: blockCount }, (_, i) => {
 </div>
 
 <style>
+    .build-hint {
+        margin-right: 5px;
+        font-size: 0.8rem;
+    }
     .build-hash {
         display: inline-flex;
         align-items: center;
-        vertical-align: middle;
+        /* vertical-align: middle; */
     }
 
     .build-block {
-        width: 0.7rem;
-        height: 0.7rem;
+        width: 1rem;
+        height: 1rem;
         display: inline-block;
     }
 </style>

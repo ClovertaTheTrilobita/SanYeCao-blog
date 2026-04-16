@@ -7,19 +7,79 @@ const t = getTranslations(lang);
 ---
 
 <footer class="footer">
-  <p set:html={t.footer.githubIntro} />
-  <p set:html={t.footer.repoIntro} />
+  <a
+    href="https://github.com/ClovertaTheTrilobita/SanYeCao-blog"
+    class="github"
+    aria-label="GitHub repository"></a>
+  <a href="mailto:cloverta@petalmail.com" class="email" aria-label="Email"></a>
+  <p class="footer-content-pc">
+    © 2026 ClovertaTheTrilobita · <a
+      href="https://github.com/ClovertaTheTrilobita/SanYeCao-blog"
+      >Source code</a
+    > licensed under MIT. Content rights reserved.
+    <!-- <code class="build-commit">{commit.slice(0, 7)}</code> -->
+  </p>
+
+  <div class="footer-content-mobile">
+    <p>© 2026 ClovertaTheTrilobita</p>
+    <p>Content rights reserved.</p>
+  </div>
+
   <BuildHashBlocks />
-  <code class="build-commit">{commit.slice(0, 7)}</code>
 </footer>
 
 <style>
+  .github {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #1f2328;
+    -webkit-mask: url("/images/github-outline-7.svg") no-repeat center / contain;
+    mask: url("/images/github-outline-7.svg") no-repeat center / contain;
+    vertical-align: middle;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+    transition:
+      transform 0.18s ease,
+      opacity 0.18s ease;
+  }
+
+  .email {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #1f2328;
+    -webkit-mask: url("/images/email.svg") no-repeat center / contain;
+    mask: url("/images/email.svg") no-repeat center / contain;
+    vertical-align: middle;
+    margin-bottom: 0.5rem;
+    transition:
+      transform 0.18s ease,
+      opacity 0.18s ease;
+  }
+
+  .github:hover {
+    transform: translateY(-2px);
+  }
+  .email:hover {
+    transform: translateY(-2px);
+  }
+
+  :global(html.dark .github) {
+    background-color: #e6e6e6;
+  }
+
+  :global(html.dark .email) {
+    background-color: #e6e6e6;
+  }
+
   .footer {
     margin-top: 1rem;
     padding: 1.5rem 0 0;
     font-size: 0.95rem;
     opacity: 0.9;
     position: relative;
+    text-align: center;
   }
 
   .footer::before {
@@ -38,14 +98,14 @@ const t = getTranslations(lang);
     pointer-events: none;
   }
 
-  .footer p {
-    margin: 0.4rem 0;
+  .footer-content-mobile {
+    display: none;
   }
 
-  .footer a {
-    color: #7fb3ff;
-    font-weight: 700;
-    text-decoration: underline;
+  .footer p {
+    margin: 0.4rem 0;
+    font-size: 0.8rem;
+    /* display: inline-flex; */
   }
 
   :global(.dark) .footer::before {
@@ -56,5 +116,15 @@ const t = getTranslations(lang);
       #9ecbff 28px 42px,
       transparent 42px 56px
     );
+  }
+
+  @media (max-width: 700px) {
+    .footer-content-pc {
+      display: none;
+    }
+
+    .footer-content-mobile {
+      display: block;
+    }
   }
 </style>
