@@ -20,7 +20,7 @@ const blocks: string[] = Array.from({ length: blockCount }, (_, i) => {
     title={`Build ${safeHash}`}
     aria-label={`Build ${safeHash}`}
 >
-    <div class="build-hint">Astro Build</div>
+    <div class="build-hint">$build.onCommit.hash =</div>
     {
         blocks.map((color: string) => (
             <span class="build-block" style={`background:${color}`} />
