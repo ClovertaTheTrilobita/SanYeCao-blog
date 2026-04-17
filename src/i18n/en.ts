@@ -25,7 +25,8 @@ export default {
         content: [
             "These few lines speak what the heart would say; Ink and paper end, but thoughts still stay",
             "Welcome to Cloverta's blog.",
-        ]
+        ],
+        latestTitle: "Latest Posts"
     },
     about: {
         title: "About Me, and This Blog",
