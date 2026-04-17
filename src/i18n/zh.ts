@@ -42,6 +42,7 @@ export default {
             "这个博客在设计理念上参考了：",
             '· <a href="https://ex-tasty.com/">極限風味</a>',
             '· <a href="https://blog.cloudti.de/">Parsifal\'s Blog</a>',
+            '· <a href="https://www.kokosa.icu/">Kokosa\'s Notebook</a>',
             "· 还有一些已经忘记名字的网站",
             "谢谢你们的想法和热情！",
             "此外，这个博客的源码使用 MIT 协议开源，你可以从页脚的链接处获取它的源代码。",
