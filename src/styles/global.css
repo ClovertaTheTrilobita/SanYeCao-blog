@@ -34,7 +34,13 @@ article svg[id^="mermaid-"] {
 
 html {
   /* font-family: "Maple Mono", "Maple Mono CN", monospace; */
-  font-family: 'Noto Serif SC', serif;
+  font-family:
+    "Noto Serif SC",
+    "Source Han Serif SC",
+    "Songti SC",
+    "STSong",
+    "SimSun",
+    serif;
   font-weight: 500;
   /* background-color: #ffffff; */
   background-color: #F9F2ED;
