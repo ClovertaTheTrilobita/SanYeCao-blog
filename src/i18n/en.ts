@@ -42,6 +42,7 @@ export default {
             "The design of this blog was inspired by:",
             '· <a href="https://ex-tasty.com/">極限風味</a>',
             '· <a href="https://blog.cloudti.de/">Parsifal\'s Blog</a>',
+            '· <a href="https://www.kokosa.icu/">Kokosa\'s Notebook</a>',
             "· And some other websites whose names I have unfortunately forgotten",
             "Thank you for your ideas and passion!",
             "In addition, this blog is open source under MIT License. You can find its source code through the link in the footer.",
