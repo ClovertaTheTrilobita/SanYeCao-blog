@@ -54,5 +54,15 @@ export default {
     footer: {
         githubIntro: 'See more on <a href="https://github.com/ClovertaTheTrilobita">Github</a>!',
         repoIntro: 'This blog is fully open source at <a href="https://github.com/ClovertaTheTrilobita/SanYeCao-blog">ClovertaTheTrilobita/SanYeCao-blog</a>'
+    },
+    friends: {
+        title: "Friends",
+        content: [
+            "Thank you for making it this far.",
+            "These are my friends, and you're very welcome to exchange links with me too!",
+            'You can send your link information to <a href="mailto:cloverta@petalmail.com">my email</a>.',
+            "The format is as follows:"
+        ],
+        imgDesc: "Our everyday lives may, in fact, be a series of miracles."
     }
 };
