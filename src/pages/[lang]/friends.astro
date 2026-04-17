@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import FriendlyLinkList from "@/components/FriendlyLinks/FriendlyLinkList.astro";
+import FriendsDescription from "@/components/FriendlyLinks/FriendsDescription.astro";
 import { getLangFromUrl, getTranslations } from "@/i18n";
 import "@/styles/global.css";
 
@@ -14,5 +15,16 @@ const headerTitle = lang === "zh" ? "友情链接" : "Friends";
 ---
 
 <BaseLayout pageTitle=`${headerTitle} - ${t.banner.title}`>
+    <FriendsDescription />
+    <div class="section-divider"></div>
     <FriendlyLinkList />
 </BaseLayout>
+
+<style>
+    .section-divider {
+        height: 1px;
+        background: #cdd2d8;
+        margin: 1.5rem 0;
+        opacity: 0.8;
+    }
+</style>
