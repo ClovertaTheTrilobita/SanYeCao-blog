@@ -1,0 +1,108 @@
+---
+import { getLangFromUrl, getTranslations } from "@/i18n";
+import "@/styles/global.css";
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+---
+
+<div class="description">
+    <div class="image-wrap">
+        <img
+            src="https://files.seeusercontent.com/2026/04/17/nOg4/7tx5GS3nAtOXM577XE9VOe0LUU8.webp"
+            alt="nichijo.webp"
+        />
+        <p class="caption">{t.friends.imgDesc}</p>
+    </div>
+
+    <h1>{t.friends.title}</h1>
+    <div class="content">
+        {t.friends.content.map((line: string) => <p set:html={line} />)}
+    </div>
+    <div class="friend-code-block">
+        <pre><code>---
+name: 'CLoverta的博客'
+description: "欢迎光临，请进门左转"
+url: "https://blog.cloverta.top"
+avatar: 'https://s2.loli.net/2025/11/22/tiDKuzdqycx1v9B.png' 
+---</code></pre>
+    </div>
+    <!-- <div class="player">
+        <iframe
+            data-testid="embed-iframe"
+            style="border-radius:2px"
+            src="https://open.spotify.com/embed/track/2vuSiplO7RnGkoyw2gH96M?utm_source=generator"
+            width="450px"
+            height="80"
+            frameborder="0"
+            allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
+    </div> -->
+</div>
+<style>
+    .player {
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .content p {
+        line-height: 1.8;
+        margin: 1rem 0;
+    }
+
+    .description {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .friend-code-block {
+        background: #fbf5f2;
+        border: 1px solid #8fa1ad;
+        border-radius: 3px;
+        padding: 0rem;
+        overflow-x: auto;
+    }
+
+    .friend-code-block pre {
+        margin: 0;
+    }
+
+    .friend-code-block code {
+        font-family: monospace;
+        white-space: pre;
+    }
+
+    .image-wrap {
+        width: fit-content;
+        margin: 0 auto;
+    }
+
+    .image-wrap img {
+        width: calc((3.8em * 4) * 16 / 5);
+        height: calc(3.4em * 4);
+        aspect-ratio: 16 / 5;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+        margin: 0 auto;
+        border: 2px dashed gray;
+        filter: sepia(0.3) saturate(1.08) hue-rotate(-12deg) brightness(0.97);
+    }
+
+    .image-wrap .caption {
+        margin-top: 0.3rem;
+        text-align: right;
+        color: #888;
+        font-style: italic;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+        .description img {
+            height: calc(2.6em * 4);
+        }
+    }
+</style>

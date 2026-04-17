@@ -54,5 +54,15 @@ export default {
     footer: {
         githubIntro: '在 <a href="https://github.com/ClovertaTheTrilobita">Github</a> 查看更多！',
         repoIntro: '这个博客完全开源于 <a href="https://github.com/ClovertaTheTrilobita/SanYeCao-blog">ClovertaTheTrilobita/SanYeCao-blog</a>'
+    },
+    friends: {
+        title: "友链",
+        content: [
+            "感谢你能看到这里。",
+            "这里是我的朋友们，也非常欢迎你来一起交换友链！",
+            '你可以把友链信息发送到<a href="mailto:cloverta@petalmail.com">我的邮箱</a>。',
+            "友链的格式如下："
+        ],
+        imgDesc: "——我们日复一日度过的日常，也许就是接连发生的奇迹"
     }
 };
