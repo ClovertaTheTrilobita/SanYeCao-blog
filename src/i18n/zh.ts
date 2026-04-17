@@ -25,7 +25,8 @@ export default {
         content: [
             "见字如晤，展信舒颜。楮墨有限，不尽欲言。",
             "欢迎来到三叶的博客。",
-        ]
+        ],
+        latestTitle: "最新文章"
     },
     about: {
         title: "关于我，和这个博客",
