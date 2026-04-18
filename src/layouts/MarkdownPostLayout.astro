@@ -2,11 +2,12 @@
 import BaseLayout from "./BaseLayout.astro";
 import Remark42Embed from "@/components/Remark42Embed.astro";
 import PostNav from "@/components/Posts/PostNav.astro";
+import PostMenu from "@/components/Posts/PostMenu.astro";
 import { fade } from "astro:transitions";
 import { getTranslations } from "@/i18n";
 import "@/styles/global.css";
 
-const { post, frontmatter, lang, slug, postId } = Astro.props;
+const { post, frontmatter, lang, slug, postId, headings } = Astro.props;
 const comments = lang === "zh" ? "评论区" : "comments";
 const t = getTranslations(lang);
 ---
@@ -38,6 +39,9 @@ const t = getTranslations(lang);
       <path d="M15 18l-6-6 6-6"></path>
     </svg>
   </a>
+
+  <PostMenu headings={headings} />
+
   <article class="post-article">
     <div class="post-header">
       <div class="post-meta">
