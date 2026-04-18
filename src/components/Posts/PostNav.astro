@@ -89,6 +89,14 @@ const nextSlug = nextPost ? getSlugFromId(nextPost.id) : null;
     .post-nav-next {
         text-align: right;
     }
+    .post-nav-title {
+        display: inline-block;
+        transition: transform 0.18s ease;
+    }
+
+    .post-nav a:hover .post-nav-title {
+        transform: scale(1.04);
+    }
 
     .post-nav a {
         display: block;
