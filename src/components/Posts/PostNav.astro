@@ -1,0 +1,130 @@
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import type { Lang } from "@/i18n";
+
+interface Props {
+    post: CollectionEntry<"blog">;
+    lang: Lang;
+}
+
+const { post, lang } = Astro.props;
+
+const allPosts = await getCollection("blog");
+
+// 只保留当前语言
+const sameLangPosts = allPosts.filter((p) => {
+    const [postLang] = p.id.split("/");
+    return postLang === lang;
+});
+
+// 按日期倒序：越新越靠前
+const sortedPosts = [...sameLangPosts].sort(
+    (a, b) =>
+        new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
+);
+
+// 找当前文章位置
+const currentIndex = sortedPosts.findIndex((p) => p.id === post.id);
+
+// 更旧的一篇
+const prevPost =
+    currentIndex < sortedPosts.length - 1
+        ? sortedPosts[currentIndex + 1]
+        : null;
+
+// 更新的一篇
+const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+
+const getSlugFromId = (id: string) => id.split("/").slice(1).join("/");
+
+const prevSlug = prevPost ? getSlugFromId(prevPost.id) : null;
+const nextSlug = nextPost ? getSlugFromId(nextPost.id) : null;
+---
+
+<nav class="post-nav" aria-label="Post navigation">
+    <div class="post-nav-item post-nav-prev">
+        {
+            nextPost && nextSlug && (
+                <a href={`/${lang}/posts/${nextSlug}/`}>
+                    <span class="post-nav-label">
+                        {lang === "zh" ? "上一篇" : "Previous"}
+                    </span>
+                    <span class="post-nav-title">{nextPost.data.title}</span>
+                </a>
+            )
+        }
+    </div>
+
+    <div class="post-nav-item post-nav-next">
+        {
+            prevPost && prevSlug && (
+                <a href={`/${lang}/posts/${prevSlug}/`}>
+                    <span class="post-nav-label">
+                        {lang === "zh" ? "下一篇" : "Next"}
+                    </span>
+                    <span class="post-nav-title">{prevPost.data.title}</span>
+                </a>
+            )
+        }
+    </div>
+</nav>
+
+<style>
+    .post-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-top: 1px dashed rgba(128, 128, 128, 0.5);
+        border-bottom: 1px dashed rgba(128, 128, 128, 0.5);
+    }
+
+    .post-nav-item {
+        min-width: 0;
+    }
+
+    .post-nav-next {
+        text-align: right;
+    }
+    .post-nav-title {
+        display: inline-block;
+        transition: transform 0.18s ease;
+    }
+
+    .post-nav a:hover .post-nav-title {
+        transform: scale(1.04);
+    }
+
+    .post-nav a {
+        display: block;
+        text-decoration: none;
+        /* color: inherit; */
+    }
+
+    .post-nav-label {
+        display: block;
+        font-size: 0.9rem;
+        opacity: 0.65;
+        margin-bottom: 0.35rem;
+        color: black;
+    }
+
+    .post-nav-title {
+        display: block;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+        .post-nav {
+            grid-template-columns: 1fr;
+        }
+
+        .post-nav-next {
+            text-align: right;
+        }
+    }
+</style>
