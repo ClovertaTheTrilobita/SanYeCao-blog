@@ -10,12 +10,7 @@ interface Props {
 }
 
 const { headings = [] } = Astro.props;
-
-// 只取 h2 / h3，博客目录最常见
 const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
-
-// 手机端按钮里显示的“目录: 第一节、xxxxx”
-const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
 ---
 
 {
@@ -79,24 +74,16 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
     )
 }
 
-<script is:inline>
-    (() => {
-        const btn = document.querySelector(".post-menu-mobile-toggle");
-        const panel = document.querySelector("#post-menu-panel");
-
-        if (!btn || !panel) return;
-
-        btn.addEventListener("click", () => {
-            const expanded = btn.getAttribute("aria-expanded") === "true";
-            btn.setAttribute("aria-expanded", String(!expanded));
-            panel.classList.toggle("is-open", !expanded);
-        });
-    })();
-</script>
+<style is:global>
+    :where(h1, h2, h3, h4, h5, h6) {
+        scroll-margin-top: 4rem;
+    }
+</style>
 
 <style>
     .post-menu {
         box-sizing: border-box;
+        border: 1px solid gray;
     }
 
     .post-menu-title {
@@ -109,6 +96,7 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
         list-style: none;
         margin: 0;
         padding: 0;
+        font-size: 0.9rem;
     }
 
     .post-menu-item {
@@ -135,7 +123,7 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
         display: none;
     }
 
-    @media (min-width: 1200px) {
+    @media (min-width: 1300px) {
         .post-menu {
             --menu-width: 180px;
             position: fixed;
@@ -149,7 +137,7 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
         }
     }
 
-    @media (max-width: 1199px) {
+    @media (max-width: 1299px) {
         .post-menu-mobile-toggle {
             display: inline-flex;
             align-items: center;
@@ -159,15 +147,14 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
             right: 0.8rem;
             z-index: 30;
             max-width: min(78vw, 22rem);
-            padding: 0.45rem 0.75rem;
+            padding: 0.6rem 0.75rem;
             border: 1.5px solid rgba(123, 169, 255, 0.55);
             border-radius: 999px;
             background: rgba(249, 242, 237, 0.92);
             backdrop-filter: blur(6px);
             color: inherit;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             cursor: pointer;
-
             opacity: 0;
             transform: translateY(calc(-100% - 0.6rem));
             pointer-events: none;
@@ -191,10 +178,13 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
         }
 
         .post-menu-mobile-preview {
+            display: inline-block;
+            width: 10rem;
+            /* height: 1rem; */
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            max-width: 14rem;
+            text-align: left;
         }
 
         .post-menu {
@@ -208,7 +198,6 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
             overflow: auto;
             padding: 0.9rem 1rem;
             border: 1.5px solid rgba(128, 128, 128, 0.55);
-            /* border-radius: 1rem; */
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(8px);
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
@@ -231,6 +220,8 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
             );
 
             if (!btn || !panel || !preview || headingLinks.length === 0) return;
+            if (btn.dataset.bound === "true") return;
+            btn.dataset.bound = "true";
 
             const defaultText =
                 preview.getAttribute("data-default-text") || "本文目录";
@@ -260,16 +251,27 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
             const closeMenu = () => {
                 panel.classList.remove("is-open");
                 btn.setAttribute("aria-expanded", "false");
+                document.addEventListener("click", (e) => {
+                    const target = e.target;
+                    if (!(target instanceof Node)) return;
+
+                    const clickedInsidePanel = panel.contains(target);
+                    const clickedButton = btn.contains(target);
+
+                    if (!clickedInsidePanel && !clickedButton) {
+                        closeMenu();
+                    }
+                });
             };
 
             const updateVisibility = () => {
-                if (window.innerWidth > 1199) {
+                if (window.innerWidth >= 1200) {
                     btn.classList.remove("is-visible");
                     closeMenu();
                     return;
                 }
 
-                const shouldShow = window.scrollY > 300;
+                const shouldShow = window.scrollY > 80;
                 btn.classList.toggle("is-visible", shouldShow);
 
                 if (!shouldShow) {
@@ -278,7 +280,7 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
             };
 
             const updateCurrentHeading = () => {
-                if (window.innerWidth > 1099) return;
+                if (window.innerWidth >= 1200) return;
 
                 headingItems = getHeadingElements();
 
@@ -312,9 +314,26 @@ const mobilePreview = tocHeadings[0]?.text ?? "本文目录";
 
             panel.addEventListener("click", (e) => {
                 const target = e.target;
-                if (target instanceof Element && target.closest("a")) {
-                    closeMenu();
-                }
+                if (!(target instanceof Element)) return;
+
+                const link = target.closest("a[data-heading-link]");
+                if (!link) return;
+
+                const href = link.getAttribute("href");
+                if (!href || !href.startsWith("#")) return;
+
+                const el = document.getElementById(href.slice(1));
+                if (!el) return;
+
+                e.preventDefault();
+
+                el.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+
+                history.replaceState(null, "", href);
+                closeMenu();
             });
 
             const onScroll = () => {
