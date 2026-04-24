@@ -83,31 +83,56 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 <style>
     .post-menu {
         box-sizing: border-box;
-        border: 1px solid gray;
     }
 
     .post-menu-title {
-        margin: 0 0 0.8rem;
-        font-size: 0.95rem;
-        opacity: 0.7;
+        margin: 0 0 0.7rem;
+        padding-top: 0.65rem;
+
+        background-image: linear-gradient(
+            to right,
+            rgba(65, 65, 65, 0.8) 0,
+            rgba(65, 65, 65, 0.8) 8px,
+            transparent 8px,
+            transparent 14px
+        );
+        background-repeat: repeat-x;
+        background-size: 14px 2px;
+        background-position: top left;
+
+        font-size: 1.1rem;
+        font-weight: 600;
+        opacity: 0.72;
     }
 
     .post-menu-list {
+        position: relative;
         list-style: none;
         margin: 0;
-        padding: 0;
-        font-size: 0.9rem;
+        padding: 0 0 0 0.9rem;
+        font-size: 1rem;
+    }
+
+    .post-menu-list::before {
+        content: "";
+        position: absolute;
+        left: 0.15rem;
+        top: 0.25rem;
+        bottom: 0.25rem;
+        width: 1px;
+        background: rgba(128, 128, 128, 0.55);
     }
 
     .post-menu-item {
-        margin: 0.45rem 0;
-        line-height: 1.5;
+        position: relative;
+        margin: 0.42rem 0;
+        line-height: 1.45;
     }
 
     .post-menu-item.depth-3 {
-        padding-left: 1rem;
+        padding-left: 0.85rem;
         opacity: 0.82;
-        font-size: 0.95em;
+        font-size: 0.94em;
     }
 
     .post-menu a {
@@ -125,11 +150,19 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
     @media (min-width: 1300px) {
         .post-menu {
+            --content-width: 90ch;
             --menu-width: 180px;
+            --menu-gap: 2.2rem;
+
             position: fixed;
             top: 8.5rem;
             width: var(--menu-width);
-            left: max(1rem, calc((100vw - 760px) / 4 - var(--menu-width) / 2));
+
+            left: calc(
+                50vw - var(--content-width) / 2 - var(--menu-gap) -
+                    var(--menu-width)
+            );
+
             max-height: calc(100vh - 10rem);
             overflow: auto;
             padding: 0.2rem 0.2rem 0.2rem 0;
@@ -148,9 +181,9 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             z-index: 30;
             max-width: min(78vw, 22rem);
             padding: 0.6rem 0.75rem;
-            border: 1.5px solid rgba(123, 169, 255, 0.55);
+            border: 1.5px solid #536493;
             border-radius: 999px;
-            background: rgba(249, 242, 237, 0.92);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(6px);
             color: inherit;
             font-size: 0.85rem;
@@ -203,6 +236,11 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
         }
 
+        .post-menu-title {
+            padding-top: 0;
+            background-image: none;
+        }
+
         .post-menu.is-open {
             display: block;
         }
@@ -251,21 +289,22 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             const closeMenu = () => {
                 panel.classList.remove("is-open");
                 btn.setAttribute("aria-expanded", "false");
-                document.addEventListener("click", (e) => {
-                    const target = e.target;
-                    if (!(target instanceof Node)) return;
-
-                    const clickedInsidePanel = panel.contains(target);
-                    const clickedButton = btn.contains(target);
-
-                    if (!clickedInsidePanel && !clickedButton) {
-                        closeMenu();
-                    }
-                });
             };
 
+            document.addEventListener("click", (e) => {
+                const target = e.target;
+                if (!(target instanceof Node)) return;
+
+                const clickedInsidePanel = panel.contains(target);
+                const clickedButton = btn.contains(target);
+
+                if (!clickedInsidePanel && !clickedButton) {
+                    closeMenu();
+                }
+            });
+
             const updateVisibility = () => {
-                if (window.innerWidth >= 1200) {
+                if (window.innerWidth >= 1300) {
                     btn.classList.remove("is-visible");
                     closeMenu();
                     return;
@@ -280,7 +319,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             };
 
             const updateCurrentHeading = () => {
-                if (window.innerWidth >= 1200) return;
+                if (window.innerWidth >= 1300) return;
 
                 headingItems = getHeadingElements();
 
