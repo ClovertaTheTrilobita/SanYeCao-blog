@@ -1,0 +1,403 @@
+---
+interface Heading {
+    depth: number;
+    slug: string;
+    text: string;
+}
+
+interface Props {
+    headings: Heading[];
+}
+
+const { headings = [] } = Astro.props;
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+    tocHeadings.length > 0 && (
+        <>
+            <button
+                class="post-menu-mobile-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="post-menu-panel"
+                aria-label="目录"
+            >
+                <span
+                    class="post-menu-mobile-preview"
+                    data-post-menu-preview
+                    data-default-text={tocHeadings[0]?.text ?? "本文目录"}
+                >
+                    {tocHeadings[0]?.text ?? "本文目录"}
+                </span>
+
+                <span class="post-menu-mobile-icon" aria-hidden="true">
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M5 6.5H19M5 12H19M5 17.5H19"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                        />
+                        <circle cx="3.5" cy="6.5" r="1" fill="currentColor" />
+                        <circle cx="3.5" cy="12" r="1" fill="currentColor" />
+                        <circle cx="3.5" cy="17.5" r="1" fill="currentColor" />
+                    </svg>
+                </span>
+            </button>
+
+            <aside class="post-menu" id="post-menu-panel">
+                <nav aria-label="Table of contents">
+                    <p class="post-menu-title">目录</p>
+                    <ul class="post-menu-list">
+                        {tocHeadings.map((heading) => (
+                            <li class={`post-menu-item depth-${heading.depth}`}>
+                                <a
+                                    href={`#${heading.slug}`}
+                                    data-heading-link
+                                    data-heading-text={heading.text}
+                                >
+                                    {heading.text}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            </aside>
+        </>
+    )
+}
+
+<style is:global>
+    :where(h1, h2, h3, h4, h5, h6) {
+        scroll-margin-top: 4rem;
+    }
+</style>
+
+<style>
+    .post-menu {
+        box-sizing: border-box;
+    }
+
+    .post-menu-title {
+        margin: 0 0 0.7rem;
+        padding-top: 0.65rem;
+
+        background-image: linear-gradient(
+            to right,
+            rgba(65, 65, 65, 0.8) 0,
+            rgba(65, 65, 65, 0.8) 8px,
+            transparent 8px,
+            transparent 14px
+        );
+        background-repeat: repeat-x;
+        background-size: 14px 2px;
+        background-position: top left;
+
+        font-size: 1.1rem;
+        font-weight: 600;
+        opacity: 0.72;
+    }
+
+    .post-menu-list {
+        position: relative;
+        list-style: none;
+        margin: 0;
+        padding: 0 0 0 0.9rem;
+        font-size: 1rem;
+    }
+
+    .post-menu-list::before {
+        content: "";
+        position: absolute;
+        left: 0.15rem;
+        top: 0.25rem;
+        bottom: 0.25rem;
+        width: 1px;
+        background: rgba(128, 128, 128, 0.55);
+    }
+
+    .post-menu-item {
+        position: relative;
+        margin: 0.42rem 0;
+        line-height: 1.45;
+    }
+
+    .post-menu-item.depth-3 {
+        padding-left: 0.85rem;
+        opacity: 0.82;
+        font-size: 0.94em;
+    }
+
+    .post-menu a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .post-menu a:hover {
+        text-decoration: underline;
+    }
+
+    .post-menu-mobile-toggle {
+        display: none;
+    }
+
+    @media (min-width: 1200px) {
+        .post-menu {
+            --content-width: 90ch;
+            --menu-width: clamp(
+                140px,
+                calc((100vw - 1200px) * 0.42 + 140px),
+                260px
+            );
+            --menu-gap: 0rem;
+
+            position: fixed;
+            top: 8.5rem;
+            width: var(--menu-width);
+
+            left: calc(
+                50vw - var(--content-width) / 2 - var(--menu-gap) -
+                    var(--menu-width)
+            );
+
+            max-height: calc(100vh - 10rem);
+            overflow: auto;
+            padding: 0.2rem 0.2rem 0.2rem 0;
+            opacity: 0.9;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .post-menu-mobile-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            position: fixed;
+            top: 0.75rem;
+            right: 0.8rem;
+            z-index: 30;
+            max-width: min(78vw, 22rem);
+            padding: 0.6rem 0.75rem;
+            border: 1.5px solid var(--deep-blue);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(6px);
+            color: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(calc(-100% - 0.6rem));
+            pointer-events: none;
+            transition:
+                transform 0.28s ease,
+                opacity 0.22s ease;
+        }
+
+        .post-menu-mobile-toggle.is-visible {
+            opacity: 1;
+            transform: translateY(calc(env(safe-area-inset-top) + 0.4rem));
+            pointer-events: auto;
+        }
+
+        .post-menu-mobile-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            opacity: 0.78;
+        }
+
+        .post-menu-mobile-preview {
+            display: inline-block;
+            width: 10rem;
+            /* height: 1rem; */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: left;
+        }
+
+        .post-menu {
+            display: none;
+            position: fixed;
+            top: calc(env(safe-area-inset-top) + 4.2rem);
+            right: 0.8rem;
+            z-index: 29;
+            width: min(88vw, 24rem);
+            max-height: min(65vh, 32rem);
+            overflow: auto;
+            padding: 0.9rem 1rem;
+            border: 1.5px solid var(--deep-blue);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .post-menu-title {
+            padding-top: 0;
+            background-image: none;
+        }
+
+        .post-menu.is-open {
+            display: block;
+        }
+
+        :global(html.dark) .post-menu-mobile-toggle,
+        :global(html.dark) .post-menu {
+            background: var(--background-color-dark);
+            color: var(--text-color-dark);
+        }
+    }
+</style>
+
+<script is:inline>
+    (() => {
+        const setupPostMenu = () => {
+            const btn = document.querySelector(".post-menu-mobile-toggle");
+            const panel = document.querySelector("#post-menu-panel");
+            const preview = document.querySelector("[data-post-menu-preview]");
+            const headingLinks = Array.from(
+                document.querySelectorAll("[data-heading-link]"),
+            );
+
+            if (!btn || !panel || !preview || headingLinks.length === 0) return;
+            if (btn.dataset.bound === "true") return;
+            btn.dataset.bound = "true";
+
+            const defaultText =
+                preview.getAttribute("data-default-text") || "本文目录";
+
+            const getHeadingElements = () =>
+                headingLinks
+                    .map((link) => {
+                        const href = link.getAttribute("href");
+                        if (!href || !href.startsWith("#")) return null;
+
+                        const el = document.getElementById(href.slice(1));
+                        if (!el) return null;
+
+                        return {
+                            link,
+                            el,
+                            text:
+                                link.getAttribute("data-heading-text") ||
+                                el.textContent ||
+                                defaultText,
+                        };
+                    })
+                    .filter(Boolean);
+
+            let headingItems = getHeadingElements();
+
+            const closeMenu = () => {
+                panel.classList.remove("is-open");
+                btn.setAttribute("aria-expanded", "false");
+            };
+
+            document.addEventListener("click", (e) => {
+                const target = e.target;
+                if (!(target instanceof Node)) return;
+
+                const clickedInsidePanel = panel.contains(target);
+                const clickedButton = btn.contains(target);
+
+                if (!clickedInsidePanel && !clickedButton) {
+                    closeMenu();
+                }
+            });
+
+            const updateVisibility = () => {
+                if (window.innerWidth >= 1200) {
+                    btn.classList.remove("is-visible");
+                    closeMenu();
+                    return;
+                }
+
+                const shouldShow = window.scrollY > 80;
+                btn.classList.toggle("is-visible", shouldShow);
+
+                if (!shouldShow) {
+                    closeMenu();
+                }
+            };
+
+            const updateCurrentHeading = () => {
+                if (window.innerWidth >= 1200) return;
+
+                headingItems = getHeadingElements();
+
+                let current = null;
+                const triggerLine = 140;
+
+                for (const item of headingItems) {
+                    const rect = item.el.getBoundingClientRect();
+                    if (rect.top <= triggerLine) {
+                        current = item;
+                    } else {
+                        break;
+                    }
+                }
+
+                preview.textContent = current ? current.text : defaultText;
+
+                headingLinks.forEach((link) =>
+                    link.classList.remove("is-current"),
+                );
+                if (current) current.link.classList.add("is-current");
+            };
+
+            const toggleMenu = () => {
+                const expanded = btn.getAttribute("aria-expanded") === "true";
+                btn.setAttribute("aria-expanded", String(!expanded));
+                panel.classList.toggle("is-open", !expanded);
+            };
+
+            btn.addEventListener("click", toggleMenu);
+
+            panel.addEventListener("click", (e) => {
+                const target = e.target;
+                if (!(target instanceof Element)) return;
+
+                const link = target.closest("a[data-heading-link]");
+                if (!link) return;
+
+                const href = link.getAttribute("href");
+                if (!href || !href.startsWith("#")) return;
+
+                const el = document.getElementById(href.slice(1));
+                if (!el) return;
+
+                e.preventDefault();
+
+                el.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+
+                history.replaceState(null, "", href);
+                closeMenu();
+            });
+
+            const onScroll = () => {
+                updateVisibility();
+                updateCurrentHeading();
+            };
+
+            window.addEventListener("scroll", onScroll, { passive: true });
+            window.addEventListener("resize", onScroll);
+
+            updateVisibility();
+            updateCurrentHeading();
+        };
+
+        setupPostMenu();
+        document.addEventListener("astro:page-load", setupPostMenu);
+    })();
+</script>

@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 }
 
 const { post, lang } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 const [postLang, ...slugParts] = post.id.split("/");
 const slug = slugParts.join("/");
@@ -34,6 +34,7 @@ const slug = slugParts.join("/");
     lang={lang}
     slug={slug}
     postId={post.id}
+    headings={headings}
 >
     <Content />
 </MarkdownPostLayout>
