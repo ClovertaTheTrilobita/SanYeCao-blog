@@ -3,6 +3,7 @@ import BaseLayout from "./BaseLayout.astro";
 import Remark42Embed from "@/components/Remark42Embed.astro";
 import PostNav from "@/components/Posts/PostNav.astro";
 import PostMenu from "@/components/Posts/PostMenu.astro";
+import Dialog from "@/components/Posts/Dialog.astro";
 import { fade } from "astro:transitions";
 import { getTranslations } from "@/i18n";
 import "@/styles/global.css";
@@ -81,10 +82,7 @@ const t = getTranslations(lang);
       <slot />
     </div>
 
-    <dialog id="image-preview-dialog" class="image-preview-dialog">
-      <button class="image-preview-close" aria-label="关闭图片预览">×</button>
-      <img id="image-preview-img" alt="" />
-    </dialog>
+    <Dialog />
 
     <PostNav post={post} lang={lang} />
 
@@ -120,42 +118,6 @@ const t = getTranslations(lang);
     },
   })}
 />
-
-<script is:inline>
-  function initImagePreview() {
-    const dialog = document.getElementById("image-preview-dialog");
-    const previewImg = document.getElementById("image-preview-img");
-    const closeBtn = dialog?.querySelector(".image-preview-close");
-
-    if (!dialog || !previewImg || !closeBtn) return;
-
-    document.querySelectorAll("article img").forEach((img) => {
-      if (img.dataset.previewBound === "true") return;
-      img.dataset.previewBound = "true";
-
-      img.addEventListener("click", () => {
-        previewImg.src = img.currentSrc || img.src;
-        previewImg.alt = img.alt || "";
-        dialog.showModal();
-      });
-    });
-
-    closeBtn.addEventListener("click", () => {
-      dialog.close();
-      previewImg.removeAttribute("src");
-    });
-
-    dialog.addEventListener("click", (event) => {
-      if (event.target === dialog) {
-        dialog.close();
-        previewImg.removeAttribute("src");
-      }
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", initImagePreview);
-  document.addEventListener("astro:page-load", initImagePreview);
-</script>
 
 <script>
   const initFloatingActions = () => {
