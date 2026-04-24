@@ -55,3 +55,42 @@
 article img {
     cursor: zoom-in;
 }
+
+.image-preview-download {
+    position: fixed;
+    left: 50%;
+    bottom: max(1.5rem, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    background: transparent;
+    border: none;
+    padding: 0.4rem;
+    cursor: pointer;
+    text-decoration: none;
+    opacity: 0.88;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.image-preview-download:hover {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-2px);
+}
+
+.image-preview-download:focus {
+    outline: none;
+}
+
+.image-preview-download:focus-visible {
+    outline: 2px solid rgba(125, 162, 255, 0.9);
+    outline-offset: 4px;
+    border-radius: 8px;
+}
