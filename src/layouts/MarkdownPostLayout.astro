@@ -3,6 +3,7 @@ import BaseLayout from "./BaseLayout.astro";
 import Remark42Embed from "@/components/Remark42Embed.astro";
 import PostNav from "@/components/Posts/PostNav.astro";
 import PostMenu from "@/components/Posts/PostMenu.astro";
+import Dialog from "@/components/Posts/Dialog.astro";
 import { fade } from "astro:transitions";
 import { getTranslations } from "@/i18n";
 import "@/styles/global.css";
@@ -80,6 +81,8 @@ const t = getTranslations(lang);
     <div class="post-content" transition:animate={fade({ duration: "0.2s" })}>
       <slot />
     </div>
+
+    <Dialog />
 
     <PostNav post={post} lang={lang} />
 

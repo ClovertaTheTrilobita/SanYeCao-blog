@@ -1,0 +1,118 @@
+<dialog id="image-preview-dialog" class="image-preview-dialog">
+    <button class="image-preview-close" aria-label="关闭图片预览">×</button>
+
+    <img id="image-preview-img" alt="" />
+
+    <a
+        id="image-preview-download"
+        class="image-preview-download"
+        href="#"
+        aria-label="下载图片"
+        title="下载图片"
+    >
+        <svg
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+        >
+            <path
+                d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+        </svg>
+    </a>
+</dialog>
+<script is:inline>
+    function initImagePreview() {
+        const dialog = document.getElementById("image-preview-dialog");
+        const previewImg = document.getElementById("image-preview-img");
+        const closeBtn = dialog?.querySelector(".image-preview-close");
+        const downloadBtn = document.getElementById("image-preview-download");
+
+        if (!dialog || !previewImg || !closeBtn || !downloadBtn) return;
+
+        let currentImageUrl = "";
+
+        function getFileNameFromUrl(url) {
+            try {
+                const pathname = new URL(url, window.location.href).pathname;
+                return pathname.split("/").pop() || "image";
+            } catch {
+                return "image";
+            }
+        }
+
+        async function downloadImage(url) {
+            const response = await fetch(url, {
+                mode: "cors",
+                credentials: "omit",
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch image");
+            }
+
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+            a.href = blobUrl;
+            a.download = getFileNameFromUrl(url);
+            document.body.appendChild(a);
+            a.click();
+
+            a.remove();
+            URL.revokeObjectURL(blobUrl);
+        }
+
+        document.querySelectorAll("article img").forEach((img) => {
+            if (img.dataset.previewBound === "true") return;
+            img.dataset.previewBound = "true";
+
+            img.addEventListener("click", () => {
+                const imageUrl = img.currentSrc || img.src;
+
+                currentImageUrl = imageUrl;
+                previewImg.src = imageUrl;
+                previewImg.alt = img.alt || "";
+
+                dialog.showModal();
+            });
+        });
+
+        downloadBtn.addEventListener("click", async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!currentImageUrl) return;
+
+            try {
+                await downloadImage(currentImageUrl);
+            } catch (error) {
+                // 如果 fetch 因为跨域失败，就退回到直接打开图片
+                window.open(currentImageUrl, "_blank", "noopener,noreferrer");
+            }
+        });
+
+        function closePreview() {
+            dialog.close();
+            previewImg.removeAttribute("src");
+            currentImageUrl = "";
+        }
+
+        closeBtn.addEventListener("click", closePreview);
+
+        dialog.addEventListener("click", (event) => {
+            if (event.target === dialog) {
+                closePreview();
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", initImagePreview);
+    document.addEventListener("astro:page-load", initImagePreview);
+</script>
