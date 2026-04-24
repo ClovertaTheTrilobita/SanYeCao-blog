@@ -248,6 +248,12 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
         .post-menu.is-open {
             display: block;
         }
+
+        :global(html.dark) .post-menu-mobile-toggle,
+        :global(html.dark) .post-menu {
+            background: var(--background-color-dark);
+            color: var(--text-color-dark);
+        }
     }
 </style>
 
