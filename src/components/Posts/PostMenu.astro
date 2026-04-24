@@ -148,11 +148,15 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
         display: none;
     }
 
-    @media (min-width: 1300px) {
+    @media (min-width: 1200px) {
         .post-menu {
             --content-width: 90ch;
-            --menu-width: 180px;
-            --menu-gap: 2.2rem;
+            --menu-width: clamp(
+                140px,
+                calc((100vw - 1200px) * 0.42 + 140px),
+                260px
+            );
+            --menu-gap: 0rem;
 
             position: fixed;
             top: 8.5rem;
@@ -170,7 +174,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
         }
     }
 
-    @media (max-width: 1299px) {
+    @media (max-width: 1200px) {
         .post-menu-mobile-toggle {
             display: inline-flex;
             align-items: center;
@@ -304,7 +308,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             });
 
             const updateVisibility = () => {
-                if (window.innerWidth >= 1300) {
+                if (window.innerWidth >= 1200) {
                     btn.classList.remove("is-visible");
                     closeMenu();
                     return;
@@ -319,7 +323,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             };
 
             const updateCurrentHeading = () => {
-                if (window.innerWidth >= 1300) return;
+                if (window.innerWidth >= 1200) return;
 
                 headingItems = getHeadingElements();
 
