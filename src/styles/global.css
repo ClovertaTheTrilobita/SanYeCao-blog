@@ -3,6 +3,7 @@
 @import url("https://unpkg.com/@fontsource/maple-mono@5.2.6/700.css");
 @import "./latest-comments.css";
 @import "./variables.css";
+@import "./dialog.css";
 
 pre {
   padding: 1rem;
