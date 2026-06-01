@@ -4,6 +4,7 @@ import Header from "@/components/Header.astro";
 import { ClientRouter } from "astro:transitions";
 import { fade } from "astro:transitions";
 import { getLangFromUrl } from "@/i18n";
+import "katex/dist/katex.min.css";
 
 const lang = getLangFromUrl(Astro.url);
 const htmlLang = lang === "zh" ? "zh-CN" : "en-US";
