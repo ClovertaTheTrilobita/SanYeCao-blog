@@ -87,6 +87,7 @@ const t = getTranslations(lang);
     <PostNav post={post} lang={lang} />
 
     <h2>{comments}</h2>
+    {t.post.commentsDesc.map((line: string) => <p set:html={line} />)}
     <Remark42Embed slug={slug} />
   </article>
 </BaseLayout>
