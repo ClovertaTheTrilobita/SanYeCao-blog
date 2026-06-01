@@ -15,6 +15,10 @@ export default {
         writtenBy: "Written by",
         comments: "Comments",
         publishedOn: "Published on",
+        commentsDesc: [
+            "Feel free to leave your thoughts here. 💭💡",
+            "After signing in, you can click the “Subscribe by Email” button at the bottom right of the text box to receive notifications of new interactions via email."
+        ]
     },
     theme: {
         toggle: "Toggle theme",
