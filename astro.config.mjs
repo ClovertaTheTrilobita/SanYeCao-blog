@@ -3,6 +3,8 @@ import { defineConfig } from 'astro/config';
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import rehypeMermaid from "rehype-mermaid";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 // https://astro.build/config
 import { fileURLToPath } from 'node:url'
 
@@ -24,6 +26,10 @@ export default defineConfig({
       type: 'shiki',
       excludeLangs: ['mermaid', 'math'],
     },
-    rehypePlugins: [rehypeMermaid],
+    rehypePlugins: [
+      rehypeMermaid,
+      rehypeKatex,
+    ],
+    remarkPlugins: [remarkMath],
   },
 })
