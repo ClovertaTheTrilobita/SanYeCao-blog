@@ -368,4 +368,88 @@ const t = getTranslations(lang);
       aspect-ratio: 16 / 9;
     }
   }
+
+
+details {
+  margin: 1.5rem 0;
+  overflow: hidden;
+  border-top: 2px solid #1e3a5f;
+  border-radius: 0 0 0.5rem 0.5rem;
+  background: rgba(128, 128, 128, 0.14);
+}
+
+details summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+  user-select: none;
+  list-style: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary::before {
+  content: "›";
+  display: inline-block;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* 展开内容 */
+details > :not(summary) {
+  box-sizing: border-box;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-right: 1rem;
+}
+
+/* 为列表序号预留空间 */
+details > ol,
+details > ul {
+  padding: 0.6rem 1rem 1rem 3rem;
+}
+
+details li {
+  margin: 0.8rem 0;
+}
+
+blockquote {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--deep-red);
+  background: rgba(128, 128, 128, 0.1);
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+blockquote p + p {
+  margin-top: 0.75rem;
+}
+
+/* 块级公式：超出屏幕时只滚动公式，不撑宽整篇文章 */
+.katex-display {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.25rem 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 避免 KaTeX 内部元素强行把父容器撑宽 */
+.katex-display > .katex {
+    min-width: max-content;
+}
 </style>
