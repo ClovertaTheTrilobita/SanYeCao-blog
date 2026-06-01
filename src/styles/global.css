@@ -162,3 +162,111 @@ img {
   height: auto;
   display: block;
 }
+
+/* 避免 Markdown 内容撑宽正文 */
+.post-article,
+.post-content {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* 块级公式过长时独立横向滚动 */
+.post-content .katex-display {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  padding: 0.25rem 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.post-content .katex-display > .katex {
+  display: inline-block;
+  min-width: max-content;
+  white-space: nowrap;
+}
+
+/* =========================
+   Markdown details 下拉栏
+   ========================= */
+
+.post-content details {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 1.5rem 0;
+  overflow: hidden;
+
+  border-top: 2px solid #1e3a5f;
+  border-radius: 0 0 0.5rem 0.5rem;
+  background: rgba(128, 128, 128, 0.14);
+}
+
+.post-content details summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem 0.9rem;
+
+  cursor: pointer;
+  font-weight: 600;
+  user-select: none;
+  list-style: none;
+}
+
+.post-content details summary::-webkit-details-marker {
+  display: none;
+}
+
+.post-content details summary::before {
+  content: "›";
+  display: inline-block;
+  flex: 0 0 auto;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.post-content details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.post-content details > :not(summary) {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-right: 1rem;
+}
+
+.post-content details > ol,
+.post-content details > ul {
+  padding: 0.6rem 1rem 1rem 3rem;
+}
+
+.post-content details li {
+  margin: 0.8rem 0;
+}
+
+blockquote {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--deep-red);
+  background: rgba(128, 128, 128, 0.1);
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+blockquote p + p {
+  margin-top: 0.75rem;
+}
