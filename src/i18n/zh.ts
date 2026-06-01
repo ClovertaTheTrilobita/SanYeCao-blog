@@ -15,6 +15,10 @@ export default {
         writtenBy: "作者",
         comments: "评论",
         publishedOn: "发布于",
+        commentsDesc: [
+            "欢迎在这里留下你的想法。💭💡",
+            "你可以在登录评论区后，点击文本框右下角的「Subscribe by Email」以通过邮件接收最新的互动通知。"
+        ]
     },
     theme: {
         toggle: "切换主题",
