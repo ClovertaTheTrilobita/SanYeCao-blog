@@ -4,8 +4,8 @@ import { getCollection } from 'astro:content';
 export async function GET(context) {
     const posts = await getCollection('blog');
 
-    const zhPosts = posts
-        .filter((post) => post.id.startsWith('zh/'))
+    const enPosts = posts
+        .filter((post) => post.id.startsWith('en/'))
         .sort(
             (a, b) =>
                 new Date(b.data.pubDate).getTime() -
@@ -13,11 +13,12 @@ export async function GET(context) {
         );
 
     return rss({
-        title: 'Cloverta的博客',
-        description: '在这里，发现更多（雾）欢迎来到三叶的博客🥳',
+        title: "Cloverta's Blog",
+        description:
+            "Discover more here. Welcome to Cloverta's blog 🥳",
         site: context.site,
 
-        items: zhPosts.map((post) => {
+        items: enPosts.map((post) => {
             const [, ...slugParts] = post.id.split('/');
             const slug = slugParts.join('/');
 
@@ -25,10 +26,10 @@ export async function GET(context) {
                 title: post.data.title,
                 pubDate: post.data.pubDate,
                 description: post.data.description,
-                link: `/zh/posts/${slug}/`,
+                link: `/en/posts/${slug}/`,
             };
         }),
 
-        customData: '<language>zh-CN</language>',
+        customData: '<language>en-US</language>',
     });
 }
