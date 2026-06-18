@@ -1,8 +1,11 @@
+/* 默认配色 */
 :root {
     --deep-blue: #536493;
     --deep-red: #ef5a6f;
     --background-color: #f9f2ed;
-    --text-color: #0E2F56;
+    --text-color: #0e2f56;
+    --url-color: #3D74B6;
+    --comment-background: #fbf5f2;
 
     --background-color-dark: #1e1e1e;
     --text-color-dark: #e6e6e6;
