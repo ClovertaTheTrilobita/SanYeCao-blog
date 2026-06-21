@@ -1,0 +1,99 @@
+<div
+    id="beian-wrap"
+    style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.7rem;
+    padding-bottom: 12px;
+    width: 100%;
+    overflow: hidden;
+  "
+>
+    <div
+        id="beian-inner"
+        class="beian"
+        style="
+      display: flex;
+      width: max-content;
+      gap: 4px;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+      transform-origin: center center;
+    "
+    >
+        <a
+            href="https://beian.miit.gov.cn"
+            target="_blank"
+            style="color: gray; flex-shrink: 0;"
+        >
+            赣ICP备2025059789号
+        </a>
+
+        <span style="flex-shrink: 0;">|</span>
+
+        <a
+            href="https://beian.mps.gov.cn/#/query/webSearch?code=36020002000597"
+            target="_blank"
+            style="
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        color: gray;
+        white-space: nowrap;
+        flex-shrink: 0;
+      "
+        >
+            <img src="/images/beian.png" alt="" style="height: 1em;" />
+            <span>赣公网安备36020002000597号</span>
+        </a>
+
+        <span style="flex-shrink: 0;">|</span>
+
+        <a
+            href="https://icp.gov.moe/?keyword=20265215"
+            target="_blank"
+            style="
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: gray;
+    flex-shrink: 0;
+  "
+        >
+            <svg
+                width="12"
+                height="12"
+                viewBox="0 0 8 8"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                style="image-rendering: pixelated;"
+            >
+                <path
+                    fill="#ff6b81"
+                    d="
+        M1 1h2v1h2V1h2v1h1v3H7v1H6v1H5v1H3V7H2V6H1V5H0V2h1z
+      "
+                ></path>
+            </svg>
+
+            <span>萌ICP备20265215号</span>
+        </a>
+    </div>
+</div>
+
+<script>
+    function fitBeian() {
+        const wrap = document.getElementById("beian-wrap");
+        const inner = document.getElementById("beian-inner");
+        if (!wrap || !inner) return;
+
+        inner.style.transform = "scale(1)";
+        const scale = Math.min(1, wrap.clientWidth / inner.scrollWidth);
+        inner.style.transform = `scale(${scale})`;
+    }
+
+    window.addEventListener("load", fitBeian);
+    window.addEventListener("resize", fitBeian);
+</script>
