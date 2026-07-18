@@ -24,10 +24,18 @@ const { name, description, avatar, url } = Astro.props;
         align-items: center;
         gap: 1rem;
         padding: 0.1rem 0.5rem;
-        background: #fffcf1;
-        border: 2px solid #ede3d0;
+        background: #fff5ea;
+        border-top: 1px dotted var(--deep-blue); /* 上下点线 */
+        border-left: 1px dotted var(--deep-blue);
+        border-bottom: 2px solid var(--deep-blue);
+        border-right: 2px solid var(--deep-blue);
         text-decoration: none;
         color: inherit;
+
+        transition:
+            transform 0.2s ease,
+            background-color 0.2s ease,
+            box-shadow 0.2s ease;
     }
 
     .friendly-link-text {
@@ -63,12 +71,14 @@ const { name, description, avatar, url } = Astro.props;
     }
 
     .friendly-link-card:hover {
-        background: #efe2be;
+        /* background: #efe2be; */
+        transform: translate(-3px, -3px);
+        box-shadow: 5px 6px 12px rgb(0 0 0 / 18%);
     }
 
     :global(.dark) .friendly-link-card {
-        background: #3a352b;
-        border-color: #8f8268;
+        background: rgba(127, 127, 127, 0.12);
+        border-color: #9ecbff;
     }
 
     :global(.dark) .friendly-link-title {
