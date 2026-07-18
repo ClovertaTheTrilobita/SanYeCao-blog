@@ -17,11 +17,12 @@
 <br>
 
 <p align="center">
-  <img
-    src="./docs/preview-zh.png"
-    alt="preview-zh"
-    style="max-width: 700px; width: 100%; height: auto;"
-  />
+
+    <img width="868" height="503" alt="image" src="https://github.com/user-attachments/assets/f9551692-1720-42c2-a75d-576e2b8dc571" 
+        alt="preview-zh" 
+        style="max-width: 700px; width: 100%; height: auto;"
+    />
+
 </p>
 
 <br>
