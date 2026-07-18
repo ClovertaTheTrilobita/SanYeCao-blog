@@ -42,6 +42,65 @@ const {
 		<title>{pageTitle}</title>
 	</head>
 	<FloatingActions />
+	<script is:inline>
+		function addCodeCopyButtons() {
+			document.querySelectorAll("pre").forEach((pre) => {
+				if (pre.querySelector(":scope > .code-copy-button")) return;
+
+				const code = pre.querySelector("code");
+				if (!code) return;
+
+				const button = document.createElement("button");
+				button.className = "code-copy-button";
+				button.type = "button";
+				button.setAttribute("aria-label", "复制代码");
+				button.title = "复制代码";
+
+				const icon = document.createElement("img");
+				icon.className = "code-copy-icon";
+				icon.src = "/images/copy-svgrepo-com.svg";
+				icon.alt = "";
+				icon.setAttribute("aria-hidden", "true");
+
+				button.appendChild(icon);
+
+				button.addEventListener("click", async () => {
+					const text = code.textContent ?? "";
+
+					try {
+						await navigator.clipboard.writeText(text);
+					} catch {
+						const textarea = document.createElement("textarea");
+						textarea.value = text;
+						textarea.style.position = "fixed";
+						textarea.style.opacity = "0";
+
+						document.body.appendChild(textarea);
+						textarea.select();
+						document.execCommand("copy");
+						textarea.remove();
+					}
+
+					icon.src = "/images/correct-signal-svgrepo-com.svg";
+					button.setAttribute("aria-label", "已复制");
+					button.title = "已复制";
+					button.classList.add("copied");
+
+					window.setTimeout(() => {
+						icon.src = "/images/copy-svgrepo-com.svg";
+						button.setAttribute("aria-label", "复制代码");
+						button.title = "复制代码";
+						button.classList.remove("copied");
+					}, 1500);
+				});
+
+				pre.appendChild(button);
+			});
+		}
+
+		addCodeCopyButtons();
+		document.addEventListener("astro:page-load", addCodeCopyButtons);
+	</script>
 
 	<body>
 		<Header />

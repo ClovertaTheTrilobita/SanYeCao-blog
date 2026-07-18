@@ -5,29 +5,8 @@
 @import "./variables.css";
 @import "./dialog.css";
 @import "./posts.css";
+@import "./code.css";
 
-pre {
-  padding: 1rem;
-  border-radius: 0.5rem;
-  overflow-x: auto;
-  line-height: 1.6;
-  margin: 1rem 0;
-}
-
-code {
-  font-family: "Maple Mono", monospace;
-  font-size: 0.96rem;
-}
-
-/* 行内代码 */
-p code,
-li code,
-blockquote code,
-td code {
-  padding: 0.15em 0.4em;
-  border-radius: 0.25rem;
-  background: rgba(127, 127, 127, 0.12);
-}
 
 article svg.flowchart,
 article svg[class*="flowchart"],
