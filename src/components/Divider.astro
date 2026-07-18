@@ -1,0 +1,40 @@
+<div class="divider" aria-hidden="true"></div>
+
+<style>
+    .divider {
+        --divider-red: var(--deep-red);
+        --divider-blue: var(--deep-blue);
+
+        --px: 4px; /* 单个像素点大小 */
+        --stripe: 16px; /* 每段斜纹横向长度 */
+        --period: 64px; /* 一个完整重复周期 */
+        --row-pattern: linear-gradient(
+            90deg,
+            var(--divider-red) 0 var(--stripe),
+            transparent var(--stripe) calc(var(--stripe) * 2),
+            var(--divider-blue) calc(var(--stripe) * 2) calc(var(--stripe) * 3),
+            transparent calc(var(--stripe) * 3) calc(var(--stripe) * 4)
+        );
+
+        width: 100%;
+        height: calc(var(--px) * 3);
+        margin-bottom: 1rem;
+
+        background:
+            var(--row-pattern) 0 0 / var(--period) var(--px) repeat-x,
+            var(--row-pattern) calc(-1 * var(--px)) calc(1 * var(--px)) /
+                var(--period) var(--px) repeat-x,
+            var(--row-pattern) calc(-2 * var(--px)) calc(2 * var(--px)) /
+                var(--period) var(--px) repeat-x,
+            var(--row-pattern) calc(-3 * var(--px)) calc(3 * var(--px)) /
+                var(--period) var(--px) repeat-x;
+
+        pointer-events: none;
+    }
+
+    :global(html.dark) .divider,
+    :global(.dark) .divider {
+        --divider-red: #ff8a8a;
+        --divider-blue: #9ecbff;
+    }
+</style>

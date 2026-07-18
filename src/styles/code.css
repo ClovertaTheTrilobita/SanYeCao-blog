@@ -1,0 +1,86 @@
+pre {
+    padding: 1rem;
+    border-radius: 3px;
+    overflow-x: auto;
+    line-height: 1.6;
+    margin: 1rem 0;
+    position: relative;
+
+}
+
+/* pre:has(> .code-copy-button) {
+    padding-top: 2.75rem;
+} */
+
+code {
+    font-family: "Maple Mono", monospace;
+    font-size: 0.96rem;
+}
+
+/* 行内代码 */
+p code,
+li code,
+blockquote code,
+td code {
+    padding: 0.15em 0.4em;
+    border-radius: 0.25rem;
+    background: rgba(127, 127, 127, 0.12);
+}
+
+.code-copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
+
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0.35rem;
+
+    border-top: 1px dotted var(--deep-blue);
+    border-left: 1px dotted var(--deep-blue);
+    border-right: 2px solid var(--deep-blue);
+    border-bottom: 2px solid var(--deep-blue);
+    border-radius: 3px;
+
+    background: rgba(250, 250, 250, 0.7);
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.code-copy-icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.code-copy-button:hover {
+    background: rgb(250, 250, 250, 0.9);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 4px 8px rgb(0 0 0 / 18%);
+}
+
+.code-copy-button:active {
+    transform: translate(0, 0);
+    box-shadow: none;
+}
+
+.code-copy-button.copied {
+    background: #dcebd5;
+}
+
+/* .dark .code-copy-button {
+    border-color: #9ecbff;
+}
+
+.dark .code-copy-button:hover {
+    box-shadow: 3px 4px 8px rgb(0 0 0 / 35%);
+} */

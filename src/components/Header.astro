@@ -2,6 +2,7 @@
 import Navigation from "./Navigation.astro";
 import ThemeIcon from "./ThemeIcon.astro";
 import { getLangFromUrl, getTranslations } from "@/i18n";
+import Divider from "@/components/Divider.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
@@ -25,6 +26,9 @@ const t = getTranslations(lang);
         </div>
         <Navigation />
     </nav>
+    <div class="divider">
+        <Divider />
+    </div>
 </header>
 
 <style>
@@ -79,6 +83,11 @@ const t = getTranslations(lang);
 
         /* 桌面正常，手机自动缩小 */
         font-size: clamp(1.6rem, 6vw, 2.5rem);
+    }
+
+    .divider {
+        margin-top: 0.2rem;
+        margin-bottom: 2rem;
     }
 
     @media (max-width: 768px) {
