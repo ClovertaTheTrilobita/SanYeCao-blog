@@ -56,7 +56,11 @@
     #back-to-top {
         width: 3rem;
         height: 3rem;
-        border: #a7a7a7 1.5px solid;
+        /* border: #a7a7a7 1.5px solid; */
+        border-top: var(--deep-blue) 1.5px dotted;
+        border-left: var(--deep-blue) 1.5px dotted;
+        border-right: var(--deep-blue) 2.5px solid;
+        border-bottom: var(--deep-blue) 2.5px solid;
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.92);
         color: #222;
@@ -118,7 +122,8 @@
         transition:
             opacity 0.2s ease,
             transform 0.27s ease,
-            visibility 0.2s ease;
+            visibility 0.2s ease,
+            box-shadow 0.2s ease;
     }
 
     #theme-toggle-fab.show,
@@ -130,7 +135,8 @@
 
     #theme-toggle-fab.show:hover,
     #back-to-top.show:hover {
-        transform: translateY(-2px);
+        transform: translateY(-2.5px);
+        box-shadow: 2px 3px 0px var(--deep-blue);
     }
 
     :global(.dark) #theme-toggle-fab,
