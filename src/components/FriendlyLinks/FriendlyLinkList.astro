@@ -5,18 +5,19 @@ import { getLangFromUrl } from "@/i18n";
 
 const lang = getLangFromUrl(Astro.url);
 const links = await getCollection("friends");
-// const { links = [] } = Astro.props;
 ---
 
 <div class="friendly-link-list">
     {
         links.map((link: any) => (
-            <FriendlyLinkItem
-                name={link.data.name}
-                description={link.data.description}
-                avatar={link.data.avatar}
-                url={link.data.url}
-            />
+            <div class="friendly-link-wrapper">
+                <FriendlyLinkItem
+                    name={link.data.name}
+                    description={link.data.description}
+                    avatar={link.data.avatar}
+                    url={link.data.url}
+                />
+            </div>
         ))
     }
 </div>
@@ -25,15 +26,75 @@ const links = await getCollection("friends");
     .friendly-link-list {
         max-width: 770px;
         margin: 0 auto;
+
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(24, minmax(0, 1fr));
         gap: 1rem;
         align-items: start;
+    }
+
+    .friendly-link-wrapper {
+        min-width: 0;
+    }
+
+    .friendly-link-wrapper :global(.friendly-link-card) {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    @media (min-width: 721px) {
+        /*
+     * 连续波浪：
+     * 第 1 行：5.5 : 6.5
+     * 第 2 行：6   : 6
+     * 第 3 行：6.5 : 5.5
+     * 第 4 行：6   : 6
+     * 然后重复
+     */
+
+        /* 5.5，即 11 / 24 */
+        .friendly-link-wrapper:nth-child(8n + 1),
+        .friendly-link-wrapper:nth-child(8n + 6) {
+            grid-column: span 11;
+        }
+
+        /* 6，即 12 / 24 */
+        .friendly-link-wrapper:nth-child(8n + 3),
+        .friendly-link-wrapper:nth-child(8n + 4),
+        .friendly-link-wrapper:nth-child(8n + 7),
+        .friendly-link-wrapper:nth-child(8n + 8) {
+            grid-column: span 12;
+        }
+
+        /* 6.5，即 13 / 24 */
+        .friendly-link-wrapper:nth-child(8n + 2),
+        .friendly-link-wrapper:nth-child(8n + 5) {
+            grid-column: span 13;
+        }
     }
 
     @media (max-width: 720px) {
         .friendly-link-list {
             grid-template-columns: 1fr;
+        }
+
+        .friendly-link-wrapper {
+            justify-self: left;
+        }
+
+        .friendly-link-wrapper:nth-child(4n + 1) {
+            width: 84%;
+        }
+
+        /* 第 2、4、6、8……张 */
+        .friendly-link-wrapper:nth-child(4n + 2),
+        .friendly-link-wrapper:nth-child(4n) {
+            width: 92%;
+        }
+
+        /* 第 3、7、11……张 */
+        .friendly-link-wrapper:nth-child(4n + 3) {
+            width: 100%;
         }
     }
 </style>
