@@ -6,11 +6,12 @@
     ✨三叶草Blog✨<br>
     🌊轻度/快速/美观🌊<br><br>
     Built With<br>
-    <img alt="Static Badge" src="https://img.shields.io/badge/Astro-6.0-purple">
-    <img alt="Static Badge" src="https://img.shields.io/badge/Nodejs-24-green">
-    <img alt="Static Badge" src="https://img.shields.io/badge/Heart-♥️-pink">
+    <img alt="Static Badge" src="https://img.shields.io/badge/Astro-6.0-purple?style=for-the-badge">
+    <img alt="Static Badge" src="https://img.shields.io/badge/Nodejs-24-green?style=for-the-badge">
+    <img alt="Static Badge" src="https://img.shields.io/badge/Heart-♥️-pink?style=for-the-badge">
     <br>
 </p>
+
 
 ## 😋 特性
 
