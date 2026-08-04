@@ -9,6 +9,8 @@ image:
 tags: ["Study Notes", "Algorithms"]
 ---
 
+<p style="font-size: 0.85rem;"><i><sub>Content translated by <a href="https://chatgpt.com/">ChatGPT</a>.</sub></i></p>
+
 ## Preface
 
 A mysterious alumnus who had already graduated shoved a hard drive into your hands. Stored inside were nearly ten years’ worth of original final exam papers! Unfortunately, however, the files were encrypted, and the study materials could only be viewed by entering the correct password.
