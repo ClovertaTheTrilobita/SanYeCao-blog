@@ -318,7 +318,7 @@ $$
 
 ```c
 ThreadNode *FirstNode(ThreadNode *p) {  // 这是第二步，第一步是下面那个函数
-	while(p->ltag==0) p = p->lchild; // 不断向左子树深入，直到找到最左的节点，换言之不存在左孩子的节点
+  while(p->ltag==0) p = p->lchild; // 不断向左子树深入，直到找到最左的节点，换言之不存在左孩子的节点
   return p; // 这个节点就是我们要找的后继
 }
 
@@ -344,7 +344,7 @@ $$
 
 ```c
 ThreadNode *LastNode(ThreadNode *p){ // 这是第二步，第一步是下面那个函数
-	while(p->rtag==0) p = p->rchild; // 不断向右子树深入，直到找到最靠右的节点，即不存在右孩子的节点
+  while(p->rtag==0) p = p->rchild; // 不断向右子树深入，直到找到最靠右的节点，即不存在右孩子的节点
   return p;
 }
 
