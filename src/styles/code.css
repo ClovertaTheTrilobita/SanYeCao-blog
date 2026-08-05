@@ -1,4 +1,8 @@
-pre {
+.code-block-wrapper {
+    position: relative;
+}
+
+.code-block-wrapper pre {
     padding: 1rem;
     border-radius: 3px;
     overflow-x: auto;
