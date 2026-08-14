@@ -26,7 +26,7 @@ Putting facts aside, suppose there happens to be a binary tree right in front of
 
 From a computer's perspective, however, for a binary tree defined like this:
 
-```
+```c
 #define ElemType int
 typedef struct BiTNode{
   ElemType data;
@@ -46,7 +46,7 @@ Imagine that we first obtain node $A$. There are three things we can do: **read 
 
 For preorder traversal, we first read the value and then explore the left and right children.
 
-```
+```c
 void PreOrder(BiTree T) {
   if (T!=NULL) { // When the passed-in node T is not empty
     visit(T); // Visit this node
@@ -68,7 +68,7 @@ It is definitely not because I am lazy. Nope.
 
 Similarly, inorder traversal simply places `visit()` in the middle.
 
-```
+```c
 void PreOrder(BiTree T) {
   if (T!=NULL) { // When the passed-in node T is not empty
     PreOrder(T->lchild); // Enter the left child
@@ -80,7 +80,7 @@ void PreOrder(BiTree T) {
 
 There is no need for me to elaborate on postorder traversal either.
 
-```
+```c
 void PreOrder(BiTree T) {
   if (T!=NULL) { // When the passed-in node T is not empty
     PreOrder(T->lchild); // Enter the left child
@@ -126,7 +126,7 @@ Pretty simple, right? Let us consider how to implement it in code.
 
 We need to maintain two additional variables in the binary tree structure.
 
-```
+```c
 typedef struct ThreadNode {
   ElemType data;
   struct ThreadNode *lchild, *rchild;
@@ -140,13 +140,13 @@ Suppose we have now reached node $D$. From the program's perspective, how can we
 
 For the predecessor node, we need to define an additional global pointer variable. This way, when we move to the next node, we know who its predecessor is.
 
-```
+```c
 ThreadNode *pre = NULL;
 ```
 
 Then it is very simple. The predecessor of this node is obviously `pre`.
 
-```
+```c
 void visit(ThreadNode p){
   if (p->lchild == NULL) { // If the left child of this node is empty
     p->lchild = pre; // Point the left pointer to pre, indicating that the predecessor of p is the node pointed to by pre
@@ -160,7 +160,7 @@ How do we find the successor?
 
 It is very simple. Since the predecessor of `p` is `pre`, then the successor of `pre` must be `p`. Therefore:
 
-```
+```c
 void visit(ThreadNode p){
   if (p->lchild == NULL) { 
     p->lchild = pre; 
@@ -180,7 +180,7 @@ Obviously, both `pre` and `p` now point to $C$. We can directly set the `rtag` o
 
 The recursive code is very similar to ordinary preorder traversal, but there is one point that requires attention. When we visit the left child of a node, we need to check whether that left child is already a defined thread pointer.
 
-```
+```c
 void PreThread(ThreadTree T) {
   if (T != NULL) {
     visit(T); // Visit T. If the left child of T is NULL, point it to its predecessor. If the right child of T's predecessor is NULL, point the right pointer of pre to T.
@@ -192,7 +192,7 @@ void PreThread(ThreadTree T) {
 
 Putting the code together gives us:
 
-```
+```c
 typedef struct ThreadNode {
   ElemType data;
   struct ThreadNode *lchild, *rchild;
@@ -240,7 +240,7 @@ The underlying idea is actually very similar. Only the visiting order differs, w
 
 **Inorder threading**:
 
-```
+```c
 void InThread(ThreadTree T){
 	if (T!=NULL){
     InThread(T->lchild);
@@ -252,7 +252,7 @@ void InThread(ThreadTree T){
 
 **Postorder threading**:
 
-```
+```c
 void PostThread(ThreadTree T) {
   if (T!=NULL) {
     PostThread(T->lchild);
@@ -308,7 +308,7 @@ What? You are asking about the right node? If the root node does not exist, how 
 
 Thus:
 
-```
+```c
 ThreadNode *FirstNode(ThreadNode *p) {  // This is the second step; the first step is the function below
 	while(p->ltag==0) p = p->lchild; // Keep going deeper into the left subtree until the leftmost node is found—in other words, a node without a left child
   return p; // This node is the successor we are looking for
@@ -338,7 +338,7 @@ $$
 
 Similarly, our approach is to find the rightmost node in the left subtree:
 
-```
+```c
 ThreadNode *LastNode(ThreadNode *p){ // This is the second step; the first step is the function below
 	while(p->rtag==0) p = p->rchild; // Keep going deeper into the right subtree until the rightmost node is found—in other words, a node without a right child
   return p;
