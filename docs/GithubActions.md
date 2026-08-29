@@ -88,10 +88,29 @@ PUBLIC_REMARK42_SITE_ID=
 
 同样，在<b>`Settings > Secrets and variables > Actions`</b>中，添加四个`Repository variables`，分别为：
 
-| 密钥名        | 内容                                                     |
-| ------------- | -------------------------------------------------------- |
-| `DEPLOY_HOST` | 服务器IP地址，如`192.168.1.1`                            |
-| `DEPLOY_PATH` | 在服务器上的部署路径，如`/www/wwwroot/blog.cloverta.top` |
-| `DEPLOY_PORT` | 服务器SSH端口，一般是`22`                                |
-| `DEPLOY_USER` | 登录用户，例如`root`                                     |
+| 密钥名         | 内容                                                         |
+| -------------- | ------------------------------------------------------------ |
+| `DEPLOY_HOST`  | 服务器IP地址，如`192.168.1.1`                                |
+| `DEPLOY_PATH`  | 在服务器上的部署路径，如`/www/wwwroot/blog.cloverta.top`     |
+| `DEPLOY_PORT`  | 服务器SSH端口，一般是`22`                                    |
+| `DEPLOY_USER`  | 登录用户，例如`root`                                         |
+| `INDEXNOW_KEY` | 提交至IndexNow的一串ID字符，可以直接填``888c64d8d7d9a2b605bcd5277021a414`` |
+| `SITE_URL`     | 你的域名，例如`https://blog.cloverta.top/`，注意结尾要带反斜杠 |
 
+#### 关于`INDEXNOW_KEY`
+
+仓库的`Actions`会自动向 [Index Now](https://www.indexnow.org/) 推送更新，你需要在`public`目录下生成一个随机的key向Index Now证明这个网站是你的。
+
+如果懒得配可以直接用这个仓库中的`Key`
+
+```txt
+888c64d8d7d9a2b605bcd5277021a414
+```
+
+如果你想生成一个自己的，你可以使用
+
+```bash
+openssl rand -hex 16
+```
+
+生成一串随机字符，假设输出内容为`abcdefg123`，你需要将其保存到`public/abcdefg123.txt`，并且内容也为`abcdefg123`。

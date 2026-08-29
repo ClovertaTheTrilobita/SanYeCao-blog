@@ -108,7 +108,7 @@ jobs:
       - name: Submit to IndexNow
         uses: bojieyang/indexnow-action@v3
         with:
-          sitemap-location: '${{ env.SITE_URL }}sitemap-index.xml'
+          sitemap-location: '${{ vars.SITE_URL }}sitemap-index.xml'
           key: ${{ vars.INDEXNOW_KEY }}
           lastmod-required: false
           endpoint: api.indexnow.org
@@ -179,7 +179,7 @@ jobs:
       - name: Submit to IndexNow
         uses: bojieyang/indexnow-action@v3
         with:
-          sitemap-location: '${{ env.SITE_URL }}sitemap.xml'
+          sitemap-location: '${{ vars.SITE_URL }}sitemap.xml'
           key: ${{ vars.INDEXNOW_KEY }}
           lastmod-required: false
           endpoint: api.indexnow.org

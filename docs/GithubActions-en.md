@@ -88,10 +88,29 @@ Simply copy all contents of your `.env` file into the variable value.
 
 Also in <b>`Settings > Secrets and variables > Actions`</b>, add four `Repository variables`:
 
-| Variable Name | Value Example                                                               |
-| ------------- | --------------------------------------------------------------------------- |
-| `DEPLOY_HOST` | Server IP address, for example `192.168.1.1`                                |
-| `DEPLOY_PATH` | Deployment path on the server, for example `/www/wwwroot/blog.cloverta.top` |
-| `DEPLOY_PORT` | SSH port of the server, usually `22`                                        |
-| `DEPLOY_USER` | Login username, for example `root`                                          |
+| **Variable Name** | **Value**                                                    |
+| ----------------- | ------------------------------------------------------------ |
+| `DEPLOY_HOST`     | The IP address of your server, e.g. `192.168.1.1`            |
+| `DEPLOY_PATH`     | The deployment path on the server, e.g. `/www/wwwroot/blog.cloverta.top` |
+| `DEPLOY_PORT`     | The SSH port of your server, usually `22`                    |
+| `DEPLOY_USER`     | The login user, e.g. `root`                                  |
+| `INDEXNOW_KEY`    | A string used as the key submitted to IndexNow. You can directly use `888c64d8d7d9a2b605bcd5277021a414` |
+| `SITE_URL`        | Your domain name, e.g. `https://blog.cloverta.top/`. Make sure to include the trailing slash |
 
+#### About `INDEXNOW_KEY`
+
+The repository's `Actions` workflow will automatically submit updates to [IndexNow](https://www.indexnow.org/). You need to generate a random key in the `public` directory so that IndexNow can verify that you own the website.
+
+If you do not want to configure your own key, you can simply use the `Key` included in this repository:
+
+```txt
+888c64d8d7d9a2b605bcd5277021a414
+```
+
+If you want to generate your own key, you can use:
+
+```bash
+openssl rand -hex 16
+```
+
+This will generate a random string. For example, if the output is `abcdefg123`, you need to save it as `public/abcdefg123.txt`, with the contents of the file also set to `abcdefg123`.
