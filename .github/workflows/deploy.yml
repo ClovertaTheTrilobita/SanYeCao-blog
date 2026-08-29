@@ -166,3 +166,12 @@ jobs:
             -e "ssh -p ${DEPLOY_PORT}" \
             dist/ \
             ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/
+      
+      - name: Submit to IndexNow
+        uses: bojieyang/indexnow-action@v3
+        with:
+          sitemap-location: '${{ env.SITE_URL }}sitemap.xml'
+          key: ${{ vars.INDEXNOW_KEY }}
+          lastmod-required: false
+          endpoint: api.indexnow.org
+          limit: 1000
