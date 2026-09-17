@@ -67,26 +67,18 @@ body::after {
   background-repeat: no-repeat;
   background-position: right bottom;
   background-size: contain;
-  opacity: 0;
-  -webkit-mask-image: radial-gradient(
-    ellipse at right bottom,
-    #000 0%,
-    #000 38%,
-    transparent 78%
-  );
-  mask-image: radial-gradient(
-    ellipse at right bottom,
-    #000 0%,
-    #000 38%,
-    transparent 78%
-  );
+  opacity: 0.3;
+  -webkit-mask-image: radial-gradient(ellipse at right bottom,
+      #000 0%,
+      #000 38%,
+      transparent 78%);
+  mask-image: radial-gradient(ellipse at right bottom,
+      #000 0%,
+      #000 38%,
+      transparent 78%);
   pointer-events: none;
   z-index: -1;
   transition: opacity 0.25s ease;
-}
-
-body.is-home::after {
-  opacity: 0.16;
 }
 
 html.dark body::after {
@@ -94,7 +86,7 @@ html.dark body::after {
 }
 
 @media (max-width: 900px) {
-  body.is-home::after {
+  body::after {
     opacity: 0;
   }
 }
