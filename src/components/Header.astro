@@ -10,23 +10,25 @@ const t = getTranslations(lang);
 
 <div class="header-slot">
 <header class="site-header">
-    <div class="theme-icon-wrap">
-        <ThemeIcon />
-    </div>
-
-    <nav class="header-nav">
-        <div class="banner">
-            <a
-                href={`/${lang}/`}
-                data-astro-reload
-                class="banner-link"
-                aria-label="banner"
-            >
-                <span class="banner-logo"></span>
-            </a>
+    <div class="header-content">
+        <div class="theme-icon-wrap">
+            <ThemeIcon />
         </div>
-        <Navigation />
-    </nav>
+
+        <nav class="header-nav">
+            <div class="banner">
+                <a
+                    href={`/${lang}/`}
+                    data-astro-reload
+                    class="banner-link"
+                    aria-label="banner"
+                >
+                    <span class="banner-logo"></span>
+                </a>
+            </div>
+            <Navigation />
+        </nav>
+    </div>
     <div class="divider">
         <Divider />
     </div>
@@ -38,6 +40,10 @@ const t = getTranslations(lang);
         position: relative;
         z-index: 30;
         padding-top: 0.5rem;
+    }
+
+    .header-content {
+        position: relative;
     }
 
     .banner-link {
@@ -103,19 +109,21 @@ const t = getTranslations(lang);
 
         .site-header {
             pointer-events: auto;
-            width: var(--header-width, 100%);
-            max-width: none;
-            margin-left: var(--header-offset, 0);
-            margin-right: var(--header-offset, 0);
-            padding: 0.5rem var(--header-inline-padding, 0) 0;
+            width: 100%;
+            max-width: 90ch;
+            margin-inline: auto;
+            padding: 0.5rem 0 0;
             background-color: color-mix(
                 in srgb,
                 var(--background-color) var(--header-surface-weight, 0%),
                 transparent
             );
-            backdrop-filter: blur(var(--header-blur, 0));
             transform: translateY(0);
             transition: transform 0.3s ease;
+        }
+
+        .header-content {
+            width: 100%;
         }
 
         .header-slot.is-scroll-hidden .site-header,
@@ -133,7 +141,7 @@ const t = getTranslations(lang);
 
         .theme-icon-wrap {
             top: var(--theme-top, 0);
-            right: var(--theme-right, 0);
+            right: 0;
         }
 
         .header-nav {
@@ -168,13 +176,11 @@ const t = getTranslations(lang);
         }
 
         .site-header :global(.site-nav a) {
-            font-size: var(--site-nav-font-size, 1.2rem);
+            font-size: var(--site-nav-font-size, 1.05rem);
         }
 
         .site-header > .divider {
-            width: var(--divider-width, 100%);
-            margin-left: var(--divider-offset, 0);
-            margin-right: var(--divider-offset, 0);
+            width: 100%;
             margin-top: var(--divider-margin-top, 0.2rem);
             margin-bottom: var(--divider-margin-bottom, 2rem);
             transform: translateY(var(--divider-y, 0));
@@ -209,13 +215,8 @@ const t = getTranslations(lang);
     const HEADER_SCROLL_DISTANCE = 120;
     const DIRECTION_TRIGGER_DISTANCE = 6;
     const headerStyleProperties = [
-        "--header-width",
-        "--header-offset",
-        "--header-inline-padding",
         "--header-surface-weight",
-        "--header-blur",
         "--theme-top",
-        "--theme-right",
         "--header-gap",
         "--header-nav-height",
         "--header-nav-y",
@@ -231,8 +232,6 @@ const t = getTranslations(lang);
         "--divider-margin-top",
         "--divider-margin-bottom",
         "--divider-inner-margin-bottom",
-        "--divider-width",
-        "--divider-offset",
         "--divider-y",
     ];
 
@@ -248,6 +247,7 @@ const t = getTranslations(lang);
     let headerFrame = 0;
     let headerMetrics: HeaderMetrics | null = null;
     let footerDividerObserver: IntersectionObserver | null = null;
+    let isFooterDividerVisible = false;
     let lastScrollY = window.scrollY;
     let scrollDirection = 0;
     let directionDistance = 0;
@@ -297,6 +297,7 @@ const t = getTranslations(lang);
         if (!header) return;
 
         updateScrollVisibility(header.parentElement, window.scrollY);
+        updateFooterVisibility(header.parentElement, window.scrollY);
 
         if (!desktopHeaderQuery.matches) {
             clearHeaderStyles(header);
@@ -328,12 +329,8 @@ const t = getTranslations(lang);
             Math.max(9 * rootFontSize, viewportWidth * 0.22),
             12 * rootFontSize,
         );
-        const headerWidth = lerp(expandedWidth, viewportWidth, progress);
-        const headerOffset = -(headerWidth - expandedWidth) / 2;
-        const inlinePadding = lerp(0, rootFontSize, progress);
         const compactSiteNavWidth = Math.max(
-            viewportWidth -
-                2 * rootFontSize -
+            expandedWidth -
                 compactLogoWidth -
                 7.5 * rootFontSize,
             0,
@@ -344,13 +341,8 @@ const t = getTranslations(lang);
         );
 
         const values: Record<string, string> = {
-            "--header-width": `${headerWidth}px`,
-            "--header-offset": `${headerOffset}px`,
-            "--header-inline-padding": `${inlinePadding}px`,
-            "--header-surface-weight": `${lerp(0, 94, progress)}%`,
-            "--header-blur": `${lerp(0, 10, progress)}px`,
+            "--header-surface-weight": `${lerp(0, 98, progress)}%`,
             "--theme-top": `${lerp(0, 0.85 * rootFontSize, progress)}px`,
-            "--theme-right": `${inlinePadding}px`,
             "--header-gap": `${lerp(rootFontSize, 0, progress)}px`,
             "--header-nav-height": `${lerp(expandedNavHeight, 3 * rootFontSize, progress)}px`,
             "--header-nav-y": `${lerp(0, 0.5 * rootFontSize, progress)}px`,
@@ -362,12 +354,10 @@ const t = getTranslations(lang);
             "--site-nav-x": `${lerp(0, compactLogoWidth + 1.5 * rootFontSize, progress)}px`,
             "--site-nav-y": `${lerp(0, -36, progress)}px`,
             "--site-nav-gap": `${lerp(1.5 * rootFontSize, compactNavGap, progress)}px`,
-            "--site-nav-font-size": `${lerp(1.2 * rootFontSize, 1.05 * rootFontSize, progress)}px`,
+            "--site-nav-font-size": `${lerp(1.05 * rootFontSize, 0.95 * rootFontSize, progress)}px`,
             "--divider-margin-top": `${lerp(0.2 * rootFontSize, 0.45 * rootFontSize, progress)}px`,
             "--divider-margin-bottom": `${lerp(2 * rootFontSize, 0, progress)}px`,
             "--divider-inner-margin-bottom": `${lerp(rootFontSize, 0, progress)}px`,
-            "--divider-width": `${headerWidth}px`,
-            "--divider-offset": `${-inlinePadding}px`,
             "--divider-y": `${lerp(0, -0.1 * rootFontSize, progress)}px`,
         };
 
@@ -410,6 +400,23 @@ const t = getTranslations(lang);
         directionDistance = 0;
     }
 
+    function updateFooterVisibility(
+        slot: HTMLElement | null,
+        currentScrollY: number,
+    ) {
+        if (!slot) return;
+
+        const headerIsFullyExpanded =
+            currentScrollY >= HEADER_SCROLL_DISTANCE;
+
+        slot.classList.toggle(
+            "is-footer-hidden",
+            desktopHeaderQuery.matches &&
+                headerIsFullyExpanded &&
+                isFooterDividerVisible,
+        );
+    }
+
     function requestHeaderUpdate() {
         if (headerFrame) return;
 
@@ -422,6 +429,7 @@ const t = getTranslations(lang);
     function bindFooterDividerObserver() {
         footerDividerObserver?.disconnect();
         footerDividerObserver = null;
+        isFooterDividerVisible = false;
 
         const slot = document.querySelector<HTMLElement>(".header-slot");
         const footerDivider = document.querySelector<HTMLElement>(
@@ -435,7 +443,8 @@ const t = getTranslations(lang);
         if (!desktopHeaderQuery.matches || !footerDivider) return;
 
         footerDividerObserver = new IntersectionObserver(([entry]) => {
-            slot.classList.toggle("is-footer-hidden", entry.isIntersecting);
+            isFooterDividerVisible = entry.isIntersecting;
+            updateFooterVisibility(slot, window.scrollY);
         });
         footerDividerObserver.observe(footerDivider);
     }
@@ -454,6 +463,7 @@ const t = getTranslations(lang);
         lastScrollY = window.scrollY;
         scrollDirection = 0;
         directionDistance = 0;
+        isFooterDividerVisible = false;
         document
             .querySelector<HTMLElement>(".header-slot")
             ?.classList.remove("is-scroll-hidden");

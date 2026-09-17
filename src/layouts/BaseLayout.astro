@@ -8,6 +8,7 @@ import "katex/dist/katex.min.css";
 
 const lang = getLangFromUrl(Astro.url);
 const htmlLang = lang === "zh" ? "zh-CN" : "en-US";
+const isHomePage = new RegExp(`^/${lang}/?$`).test(Astro.url.pathname);
 import SEO from "@/components/SEO.astro";
 import FloatingActions from "@/components/FloatingActions.astro";
 import Spinner from "@/components/Spinner.astro";
@@ -115,7 +116,7 @@ const {
 		document.addEventListener("astro:page-load", addCodeCopyButtons);
 	</script>
 
-	<body>
+	<body class:list={{ "is-home": isHomePage }}>
 		<Header />
 		<Spinner />
 		<main
