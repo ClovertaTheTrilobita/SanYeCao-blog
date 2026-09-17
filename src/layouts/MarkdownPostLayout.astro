@@ -12,6 +12,14 @@ import "@/styles/global.css";
 const { post, frontmatter, lang, slug, postId, headings } = Astro.props;
 const comments = lang === "zh" ? "评论区" : "comments";
 const t = getTranslations(lang);
+const publishedDate = new Intl.DateTimeFormat(
+  lang === "zh" ? "zh-CN" : "en-US",
+  {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  },
+).format(frontmatter.pubDate);
 ---
 
 <BaseLayout
@@ -54,10 +62,13 @@ const t = getTranslations(lang);
           <p class="description">
             <em>{frontmatter.description}</em>
           </p>
-          <p class="meta-line">
-            {t.post.publishedOn}: {frontmatter.pubDate.toLocaleDateString()}
+          <p class="post-byline">
+            <span>{t.post.writtenBy} {frontmatter.author}</span>
+            <span class="byline-separator" aria-hidden="true">·</span>
+            <time datetime={frontmatter.pubDate.toISOString()}>
+              {t.post.publishedOn} {publishedDate}
+            </time>
           </p>
-          <p class="meta-line">{t.post.writtenBy}: {frontmatter.author}</p>
 
           <div class="tags" transition:name={`post-tags-${postId}`}>
             {
@@ -303,11 +314,27 @@ const t = getTranslations(lang);
     word-break: break-word;
   }
 
-  .meta-line {
+  .post-byline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.3rem 0.55rem;
     margin: 0.3rem 0;
-    line-height: 1.6;
+    color: #66717c;
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.5;
     overflow-wrap: anywhere;
     word-break: break-word;
+  }
+
+  .byline-separator {
+    opacity: 0.65;
+  }
+
+  :global(html.dark) .post-byline {
+    color: #aab7c4;
   }
 
   .post-cover {

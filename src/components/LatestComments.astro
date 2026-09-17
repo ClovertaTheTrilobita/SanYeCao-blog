@@ -2,7 +2,7 @@
 const { lang = "zh" } = Astro.props;
 const host = import.meta.env.PUBLIC_REMARK42_HOST;
 const siteId = import.meta.env.PUBLIC_REMARK42_SITE_ID;
-const max = 10;
+const max = 5;
 const heading = lang === "zh" ? "最新评论" : "Latest comments";
 ---
 
@@ -73,6 +73,22 @@ const heading = lang === "zh" ? "最新评论" : "Latest comments";
 
     function getUserName(item, lang) {
         return item?.user?.name || (lang === "zh" ? "匿名用户" : "Anonymous");
+    }
+
+    function getCommentPreview(html, lang) {
+        const template = document.createElement("template");
+        template.innerHTML = String(html || "");
+
+        const text = (template.content.textContent || "")
+            .replace(/\s+/g, " ")
+            .trim();
+
+        if (text) return escapeHtml(text);
+        if (template.content.querySelector("img")) {
+            return lang === "zh" ? "[图片]" : "[Image]";
+        }
+
+        return lang === "zh" ? "[无文字内容]" : "[No text content]";
     }
 
     function normalizePath(url) {
@@ -207,10 +223,11 @@ const heading = lang === "zh" ? "最新评论" : "Latest comments";
                     item?.title ||
                         (lang === "zh" ? "未命名文章" : "Untitled post"),
                 );
-                const href = rewritePostUrl(item?.locator?.url || "", lang);
+                const href = escapeHtml(
+                    rewritePostUrl(item?.locator?.url || "", lang),
+                );
 
-                // Remark42 返回的 text 是处理后的 HTML，适合直接渲染
-                const html = item?.text || "";
+                const preview = getCommentPreview(item?.text, lang);
                 const time = formatTime(item?.time, lang);
 
                 const replyTo = escapeHtml(item?.replyToName || "");
@@ -227,7 +244,7 @@ const heading = lang === "zh" ? "最新评论" : "Latest comments";
                 return `
           <article class="comment-card">
             <div class="comment-card-body">
-              <div class="comment-card-info">
+              <header class="comment-card-info">
                 <div class="comment-avatar">
                   ${avatarHtml}
                 </div>
@@ -238,13 +255,14 @@ const heading = lang === "zh" ? "最新评论" : "Latest comments";
                     ${time ? `<span class="comment-time">${escapeHtml(time)}</span>` : ""}
                   </div>
                 </div>
-              </div>
+              </header>
 
-              <div class="comment-card-title">
+              <div class="comment-card-text">${preview}</div>
+
+              <footer class="comment-source">
+                <span>${lang === "zh" ? "评论于" : "On"}</span>
                 <a class="comment-title-link" href="${href}">${title}</a>
-              </div>
-
-              <div class="comment-card-text">${html}</div>
+              </footer>
             </div>
           </article>
         `;
@@ -259,7 +277,7 @@ const heading = lang === "zh" ? "最新评论" : "Latest comments";
 
         const host = section.dataset.host;
         const siteId = section.dataset.siteId;
-        const max = section.dataset.max || "10";
+        const max = section.dataset.max || "5";
         const lang = section.dataset.lang || "zh";
 
         const list = section.querySelector(".latest-comments-list");
