@@ -16,21 +16,27 @@ const pageTitle = lang === "zh" ? "标签索引" : "Tag Index";
 ---
 
 <BaseLayout pageTitle=`${pageTitle} - ${t.banner.title}`>
-    <h1>{t.tags.title}</h1>
-    <p>{t.tags.description}</p>
+    <main class="tags-layout">
+        <h1>{t.tags.title}</h1>
+        <p>{t.tags.description}</p>
 
-    <div class="tags">
-        {
-            tags.map((tag) => (
-                <p class="tag" transition:name={`post-tags-${tag}`}>
-                    <a href={`/${lang}/tags/${tag}`}>{tag}</a>
-                </p>
-            ))
-        }
-    </div>
+        <div class="tags">
+            {
+                tags.map((tag) => (
+                    <p class="tag" transition:name={`post-tags-${tag}`}>
+                        <a href={`/${lang}/tags/${tag}`}>{tag}</a>
+                    </p>
+                ))
+            }
+        </div>
+    </main>
 </BaseLayout>
 
 <style>
+    .tags-layout {
+        max-width: 850px;
+        margin: 0 auto;
+    }
     .tags {
         display: flex;
         flex-wrap: wrap;

@@ -9,30 +9,30 @@ const t = getTranslations(lang);
 ---
 
 <div class="header-slot">
-<header class="site-header">
-    <div class="header-content">
-        <div class="theme-icon-wrap">
-            <ThemeIcon />
-        </div>
-
-        <nav class="header-nav">
-            <div class="banner">
-                <a
-                    href={`/${lang}/`}
-                    data-astro-reload
-                    class="banner-link"
-                    aria-label="banner"
-                >
-                    <span class="banner-logo"></span>
-                </a>
+    <header class="site-header">
+        <div class="header-content">
+            <div class="theme-icon-wrap">
+                <ThemeIcon />
             </div>
-            <Navigation />
-        </nav>
-    </div>
-    <div class="divider">
-        <Divider />
-    </div>
-</header>
+
+            <nav class="header-nav">
+                <div class="banner">
+                    <a
+                        href={`/${lang}/`}
+                        data-astro-reload
+                        class="banner-link"
+                        aria-label="banner"
+                    >
+                        <span class="banner-logo"></span>
+                    </a>
+                </div>
+                <Navigation />
+            </nav>
+        </div>
+        <div class="divider">
+            <Divider />
+        </div>
+    </header>
 </div>
 
 <style>
@@ -165,10 +165,7 @@ const t = getTranslations(lang);
             width: var(--site-nav-width, auto);
             margin: var(--site-nav-margin, 1rem) 0;
             padding-bottom: var(--site-nav-padding, 1rem);
-            transform: translate(
-                var(--site-nav-x, 0),
-                var(--site-nav-y, 0)
-            );
+            transform: translate(var(--site-nav-x, 0), var(--site-nav-y, 0));
         }
 
         .site-header :global(.site-nav-desktop) {
@@ -207,7 +204,6 @@ const t = getTranslations(lang);
             font-size: clamp(1.25rem, 7vw, 2rem);
         }
     }
-
 </style>
 
 <script>
@@ -330,9 +326,7 @@ const t = getTranslations(lang);
             12 * rootFontSize,
         );
         const compactSiteNavWidth = Math.max(
-            expandedWidth -
-                compactLogoWidth -
-                7.5 * rootFontSize,
+            expandedWidth - compactLogoWidth - 7.5 * rootFontSize,
             0,
         );
         const compactNavGap = Math.min(
@@ -406,8 +400,7 @@ const t = getTranslations(lang);
     ) {
         if (!slot) return;
 
-        const headerIsFullyExpanded =
-            currentScrollY >= HEADER_SCROLL_DISTANCE;
+        const headerIsFullyExpanded = currentScrollY >= HEADER_SCROLL_DISTANCE;
 
         slot.classList.toggle(
             "is-footer-hidden",

@@ -18,78 +18,80 @@ const t = getTranslations(lang);
   description={frontmatter.description}
   image={frontmatter.image?.url}
 >
-  <div id="reading-progress" aria-hidden="true"></div>
-  <a
-    href="/"
-    class="back-button"
-    id="back-button"
-    aria-label="Go back"
-    title="返回"
-  >
-    <svg
-      viewBox="0 0 24 24"
-      width="20"
-      height="20"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2.2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
+  <main class="post-layout">
+    <div id="reading-progress" aria-hidden="true"></div>
+    <a
+      href="/"
+      class="back-button"
+      id="back-button"
+      aria-label="Go back"
+      title="返回"
     >
-      <path d="M15 18l-6-6 6-6"></path>
-    </svg>
-  </a>
+      <svg
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </a>
 
-  <PostMenu headings={headings} />
+    <PostMenu headings={headings} />
 
-  <article class="post-article">
-    <div class="post-header">
-      <div class="post-meta">
-        <h1 class="post-title" transition:name={`post-title-${postId}`}>
-          {frontmatter.title}
-        </h1>
-        <p class="description">
-          <em>{frontmatter.description}</em>
-        </p>
-        <p class="meta-line">
-          {t.post.publishedOn}: {frontmatter.pubDate.toLocaleDateString()}
-        </p>
-        <p class="meta-line">{t.post.writtenBy}: {frontmatter.author}</p>
+    <article class="post-article">
+      <div class="post-header">
+        <div class="post-meta">
+          <h1 class="post-title" transition:name={`post-title-${postId}`}>
+            {frontmatter.title}
+          </h1>
+          <p class="description">
+            <em>{frontmatter.description}</em>
+          </p>
+          <p class="meta-line">
+            {t.post.publishedOn}: {frontmatter.pubDate.toLocaleDateString()}
+          </p>
+          <p class="meta-line">{t.post.writtenBy}: {frontmatter.author}</p>
 
-        <div class="tags" transition:name={`post-tags-${postId}`}>
-          {
-            frontmatter.tags.map((tag: string) => (
-              <p class="tag">
-                <a href={`/${lang}/tags/${tag}`}>{tag}</a>
-              </p>
-            ))
-          }
+          <div class="tags" transition:name={`post-tags-${postId}`}>
+            {
+              frontmatter.tags.map((tag: string) => (
+                <p class="tag">
+                  <a href={`/${lang}/tags/${tag}`}>{tag}</a>
+                </p>
+              ))
+            }
+          </div>
         </div>
+
+        <img
+          src={frontmatter.image.url}
+          alt={frontmatter.image.alt}
+          class="post-cover"
+          transition:name={`post-image-${postId}`}
+        />
       </div>
 
-      <img
-        src={frontmatter.image.url}
-        alt={frontmatter.image.alt}
-        class="post-cover"
-        transition:name={`post-image-${postId}`}
-      />
-    </div>
+      <div class="post-divider"></div>
 
-    <div class="post-divider"></div>
+      <div class="post-content" transition:animate={fade({ duration: "0.2s" })}>
+        <slot />
+      </div>
 
-    <div class="post-content" transition:animate={fade({ duration: "0.2s" })}>
-      <slot />
-    </div>
+      <Dialog />
 
-    <Dialog />
+      <PostNav post={post} lang={lang} />
 
-    <PostNav post={post} lang={lang} />
-
-    <h2>{comments}</h2>
-    {t.post.commentsDesc.map((line: string) => <p set:html={line} />)}
-    <Remark42Embed slug={slug} />
-  </article>
+      <h2>{comments}</h2>
+      {t.post.commentsDesc.map((line: string) => <p set:html={line} />)}
+      <Remark42Embed slug={slug} />
+    </article>
+  </main>
 </BaseLayout>
 
 <script
@@ -169,6 +171,11 @@ const t = getTranslations(lang);
 </script>
 
 <style>
+  .post-layout {
+    max-width: 850px;
+    margin: 0 auto;
+  }
+
   #reading-progress {
     position: fixed;
     top: 0;
