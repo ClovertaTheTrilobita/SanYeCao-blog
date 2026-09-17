@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import TagLink from "@/components/TagLink.astro";
 import { getCollection } from "astro:content";
 import { getTranslations, type Lang } from "@/i18n";
 import "@/styles/global.css";
@@ -24,7 +25,7 @@ const pageTitle = lang === "zh" ? "标签索引" : "Tag Index";
             {
                 tags.map((tag) => (
                     <p class="tag" transition:name={`post-tags-${tag}`}>
-                        <a href={`/${lang}/tags/${tag}`}>{tag}</a>
+                        <TagLink tag={String(tag)} lang={lang} />
                     </p>
                 ))
             }
@@ -40,49 +41,13 @@ const pageTitle = lang === "zh" ? "标签索引" : "Tag Index";
     .tags {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.4rem;
+        gap: 0.4rem 1.25rem;
         margin-top: 0.8rem;
     }
 
     .tag {
-        font-family:
-            "Noto Sans SC",
-            system-ui,
-            -apple-system,
-            BlinkMacSystemFont,
-            "Segoe UI",
-            Roboto,
-            Oxygen,
-            Ubuntu,
-            Cantarell,
-            "Open Sans",
-            "Helvetica Neue",
-            sans-serif;
-
         margin: 0;
-        padding: 0.22em 0.65em;
         font-size: 1rem;
-        line-height: 1.2;
-        border: 1px dashed #8b6b4a;
-        border-radius: 0;
-        background-color: transparent;
-    }
-
-    .tag a {
-        color: #6f4e37;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .tag a:hover {
-        text-decoration: underline;
-    }
-
-    :global(.dark) .tag {
-        border-color: #d8c7a1;
-    }
-
-    :global(.dark) .tag a {
-        color: #e6d8b8;
+        max-width: 100%;
     }
 </style>

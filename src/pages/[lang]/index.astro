@@ -49,7 +49,7 @@ const rssLink = lang === "zh" ? "/rss.xml" : "/en/rss.xml";
 
     <div class="section-divider"></div>
 
-    <h2>{t.home.latestTitle}</h2>
+    <h2 class="section-title">{t.home.latestTitle}</h2>
 
     <PostList />
 
@@ -79,5 +79,20 @@ const rssLink = lang === "zh" ? "/rss.xml" : "/en/rss.xml";
 
   .page-title {
     font-weight: 700;
+  }
+
+  .section-title,
+  .index :global(.latest-comments > h2) {
+    margin: 0 0 1.25rem;
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #66717c;
+  }
+
+  :global(html.dark) .section-title,
+  :global(html.dark) .index :global(.latest-comments > h2) {
+    color: #aab7c4;
   }
 </style>
