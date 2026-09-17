@@ -15,9 +15,11 @@ const headerTitle = lang === "zh" ? "友情链接" : "Friends";
 ---
 
 <BaseLayout pageTitle=`${headerTitle} - ${t.banner.title}`>
-    <FriendsDescription />
-    <div class="section-divider"></div>
-    <FriendlyLinkList />
+    <div class="page-shell">
+        <FriendsDescription />
+        <div class="section-divider"></div>
+        <FriendlyLinkList />
+    </div>
 </BaseLayout>
 
 <style>

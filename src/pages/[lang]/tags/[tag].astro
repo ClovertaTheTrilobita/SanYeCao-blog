@@ -32,34 +32,36 @@ const t = getTranslations(lang);
 ---
 
 <BaseLayout pageTitle={String(tag)}>
-  <p class="tag-heading">
-    {lang === "zh" ? "带有标签" : "Posts tagged with"}{" "}
-    <span class="tag-chip" transition:name={`post-tags-${tag}`}>{tag}</span>
-    {lang === "zh" ? "的文章" : ""}
-  </p>
-  <ul>
-    {
-      posts.map((post: any) => {
-        const formattedDate = new Date(post.data.pubDate)
-          .toISOString()
-          .split("T")[0];
+  <div class="page-shell">
+    <p class="tag-heading">
+      {lang === "zh" ? "带有标签" : "Posts tagged with"}{" "}
+      <span class="tag-chip" transition:name={`post-tags-${tag}`}>{tag}</span>
+      {lang === "zh" ? "的文章" : ""}
+    </p>
+    <ul>
+      {
+        posts.map((post: any) => {
+          const formattedDate = new Date(post.data.pubDate)
+            .toISOString()
+            .split("T")[0];
 
-        const [postLang, ...slugParts] = post.id.split("/");
-        const slug = slugParts.join("/");
+          const [postLang, ...slugParts] = post.id.split("/");
+          const slug = slugParts.join("/");
 
-        return (
-          <PostItem
-            url={`/${lang}/posts/${slug}/`}
-            title={post.data.title}
-            date={formattedDate}
-            img={post.data.image.url}
-            tags={post.data.tags}
-            postId={post.id}
-          />
-        );
-      })
-    }
-  </ul>
+          return (
+            <PostItem
+              url={`/${lang}/posts/${slug}/`}
+              title={post.data.title}
+              date={formattedDate}
+              img={post.data.image.url}
+              tags={post.data.tags}
+              postId={post.id}
+            />
+          );
+        })
+      }
+    </ul>
+  </div>
 </BaseLayout>
 
 <style>

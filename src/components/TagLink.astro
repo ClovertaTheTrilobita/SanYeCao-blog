@@ -1,0 +1,48 @@
+---
+interface Props {
+  tag: string;
+  lang: string;
+}
+
+const { tag, lang } = Astro.props;
+---
+
+<a class="tag-link" href={`/${lang}/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>
+
+<style>
+  .tag-link {
+    display: inline-block;
+    max-width: 100%;
+    padding-block: 0.2rem;
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-size: inherit;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #536493;
+    overflow-wrap: anywhere;
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+  }
+
+  .tag-link:hover,
+  .tag-link:focus-visible {
+    color: var(--text-color);
+    text-decoration: underline dashed 1px;
+  }
+
+  .tag-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  :global(html.dark) .tag-link {
+    color: #aabbd8;
+  }
+
+  :global(html.dark) .tag-link:hover,
+  :global(html.dark) .tag-link:focus-visible {
+    color: #d9e5f6;
+  }
+</style>

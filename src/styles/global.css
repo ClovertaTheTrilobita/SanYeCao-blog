@@ -45,23 +45,40 @@ body {
   font-size: 1.15rem;
 }
 
+.page-content,
+.page-shell {
+  width: 100%;
+  min-width: 0;
+}
+
+.page-shell {
+  max-width: var(--page-content-width);
+  margin-inline: auto;
+}
+
 body::after {
   content: "";
   position: fixed;
   right: 0;
   bottom: 0;
-  width: 400px;
-  /* 按需调整大小 */
-  height: 400px;
-  /* 按需调整大小 */
+  width: clamp(300px, 31vw, 400px);
+  height: clamp(300px, 31vw, 400px);
   background-image: url("https://files.seeusercontent.com/2026/04/16/1sXb/touhou___kirisame_marisa__2__by_.webp");
   background-repeat: no-repeat;
   background-position: right bottom;
   background-size: contain;
-  opacity: 0.35;
+  opacity: 0.3;
+  -webkit-mask-image: radial-gradient(ellipse at right bottom,
+      #000 0%,
+      #000 38%,
+      transparent 78%);
+  mask-image: radial-gradient(ellipse at right bottom,
+      #000 0%,
+      #000 38%,
+      transparent 78%);
   pointer-events: none;
   z-index: -1;
-
+  transition: opacity 0.25s ease;
 }
 
 html.dark body::after {
@@ -98,7 +115,7 @@ h1 {
 
 a {
   color: var(--url-color);
-  font-weight: 700;
+  font-weight: inherit;
   text-decoration: none;
 }
 
@@ -119,7 +136,6 @@ html.dark {
 
 .dark .nav-links a {
   color: #9ecbff;
-  font-weight: 700;
 }
 
 .dark .nav-links a:hover,
@@ -129,7 +145,6 @@ html.dark {
 
 .dark a {
   color: #9ecbff;
-  font-weight: 700;
 }
 
 .dark a:hover,
