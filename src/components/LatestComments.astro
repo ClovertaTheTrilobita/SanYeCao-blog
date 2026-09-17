@@ -65,6 +65,13 @@ const heading = lang === "zh" ? "最新评论" : "Latest comments";
         }
     }
 
+    function getDiscussionUrl(url, lang) {
+        const localizedUrl = rewritePostUrl(url, lang);
+        if (!localizedUrl || localizedUrl === "#") return "#";
+
+        return `${localizedUrl.split("#")[0]}#comments`;
+    }
+
     function getAvatar(item) {
         return (
             item?.user?.picture || item?.user?.photo || item?.user?.avatar || ""
@@ -226,6 +233,9 @@ const heading = lang === "zh" ? "最新评论" : "Latest comments";
                 const href = escapeHtml(
                     rewritePostUrl(item?.locator?.url || "", lang),
                 );
+                const discussionHref = escapeHtml(
+                    getDiscussionUrl(item?.locator?.url || "", lang),
+                );
 
                 const preview = getCommentPreview(item?.text, lang);
                 const time = formatTime(item?.time, lang);
@@ -260,14 +270,31 @@ const heading = lang === "zh" ? "最新评论" : "Latest comments";
               <div class="comment-card-text">${preview}</div>
 
               <footer class="comment-source">
-                <span>${lang === "zh" ? "评论于" : "On"}</span>
-                <a class="comment-title-link" href="${href}">${title}</a>
+                <div class="comment-source-context">
+                  <span>${lang === "zh" ? "评论于" : "On"}</span>
+                  <a class="comment-title-link" href="${href}">${title}</a>
+                </div>
+                <a class="comment-discussion-link" href="${discussionHref}">${
+                    lang === "zh" ? "查看完整讨论" : "View discussion"
+                }</a>
               </footer>
             </div>
           </article>
         `;
             })
             .join("");
+
+        requestAnimationFrame(() => {
+            list.querySelectorAll(".comment-card").forEach((card) => {
+                const preview = card.querySelector(".comment-card-text");
+                if (!preview) return;
+
+                card.classList.toggle(
+                    "is-truncated",
+                    preview.scrollHeight > preview.clientHeight + 1,
+                );
+            });
+        });
 
         loading.style.display = "none";
     }

@@ -17,7 +17,7 @@ const pageTitle = lang === "zh" ? "标签索引" : "Tag Index";
 ---
 
 <BaseLayout pageTitle=`${pageTitle} - ${t.banner.title}`>
-    <main class="tags-layout">
+    <div class="tags-layout page-shell">
         <h1>{t.tags.title}</h1>
         <p>{t.tags.description}</p>
 
@@ -30,14 +30,10 @@ const pageTitle = lang === "zh" ? "标签索引" : "Tag Index";
                 ))
             }
         </div>
-    </main>
+    </div>
 </BaseLayout>
 
 <style>
-    .tags-layout {
-        max-width: 850px;
-        margin: 0 auto;
-    }
     .tags {
         display: flex;
         flex-wrap: wrap;

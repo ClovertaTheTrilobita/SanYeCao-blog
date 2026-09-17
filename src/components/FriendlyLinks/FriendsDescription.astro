@@ -20,7 +20,7 @@ const t = getTranslations(lang);
         {t.friends.content.map((line: string) => <p set:html={line} />)}
     </div>
     <div class="friend-code-block">
-        <pre><code>---
+        <pre data-language="yaml"><code class="language-yaml">---
 name: 'CLoverta的博客'
 description: "欢迎光临，请进门左转"
 url: "https://blog.cloverta.top"
@@ -59,25 +59,33 @@ avatar: 'https://s2.loli.net/2025/11/22/tiDKuzdqycx1v9B.png'
     }
 
     .friend-code-block {
-        background: #fbf5f2;
-        border: 1px solid #8fa1ad;
-        border-radius: 3px;
-        padding: 0rem;
-        overflow-x: auto;
-        /* color: var(--text-color); */
+        min-width: 0;
+        margin-top: 1rem;
     }
 
-    :global(.dark) .friend-code-block {
-        background: rgba(127, 127, 127, 0.12);
+    .friend-code-block :global(.code-block-wrapper) {
+        margin: 0;
+        overflow: hidden;
+        border: 1px solid #8fa1ad;
+        border-radius: 3px;
     }
 
     .friend-code-block pre {
         margin: 0;
+        background: var(--comment-background);
     }
 
     .friend-code-block code {
-        font-family: monospace;
+        font-family: "Maple Mono", monospace;
         white-space: pre;
+    }
+
+    :global(.dark) .friend-code-block :global(.code-block-wrapper) {
+        border-color: rgba(170, 183, 196, 0.45);
+    }
+
+    :global(.dark) .friend-code-block pre {
+        background: rgba(127, 127, 127, 0.12);
     }
 
     .image-wrap {

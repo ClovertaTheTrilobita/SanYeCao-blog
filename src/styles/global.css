@@ -45,6 +45,17 @@ body {
   font-size: 1.15rem;
 }
 
+.page-content,
+.page-shell {
+  width: 100%;
+  min-width: 0;
+}
+
+.page-shell {
+  max-width: var(--page-content-width);
+  margin-inline: auto;
+}
+
 body::after {
   content: "";
   position: fixed;

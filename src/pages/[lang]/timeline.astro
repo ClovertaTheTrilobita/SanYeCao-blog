@@ -14,6 +14,8 @@ const headerTitle = lang === "zh" ? "时间轴" : "Timeline";
 ---
 
 <BaseLayout pageTitle=`${headerTitle} - ${t.banner.title}` `>
-    <h1>{t.nav.timeline}</h1>
-    <PostTimeline />
+    <div class="page-shell">
+        <h1>{t.nav.timeline}</h1>
+        <PostTimeline />
+    </div>
 </BaseLayout>

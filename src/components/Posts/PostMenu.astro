@@ -83,6 +83,9 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 <style>
     .post-menu {
         box-sizing: border-box;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
 
     .post-menu-title {
@@ -125,6 +128,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
     .post-menu-item {
         position: relative;
+        min-width: 0;
         margin: 0.42rem 0;
         line-height: 1.45;
     }
@@ -136,12 +140,26 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
     }
 
     .post-menu a {
+        display: block;
+        min-width: 0;
+        max-width: 100%;
+        padding: 0.08rem 0.35rem 0.08rem 0.55rem;
+        border-left: 2px solid transparent;
         color: inherit;
         text-decoration: none;
+        transition:
+            border-color 0.16s ease,
+            color 0.16s ease;
     }
 
     .post-menu a:hover {
         text-decoration: underline;
+    }
+
+    .post-menu a.is-current {
+        border-left-color: var(--deep-red);
+        color: var(--url-color);
+        font-weight: 600;
     }
 
     .post-menu-mobile-toggle {
@@ -150,13 +168,13 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
     @media (min-width: 1200px) {
         .post-menu {
-            --content-width: 90ch;
+            --content-width: var(--page-content-width);
             --menu-width: clamp(
                 140px,
                 calc((100vw - 1200px) * 0.42 + 140px),
                 260px
             );
-            --menu-gap: 0rem;
+            --menu-gap: clamp(1.5rem, 2vw, 2rem);
 
             position: fixed;
             top: 8.5rem;
@@ -168,7 +186,9 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             );
 
             max-height: calc(100vh - 10rem);
-            overflow: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
+            overscroll-behavior: contain;
             padding: 0.2rem 0.2rem 0.2rem 0;
             opacity: 0.9;
         }
@@ -187,8 +207,11 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             padding: 0.6rem 0.75rem;
             border: 1.5px solid var(--deep-blue);
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(6px);
+            background: color-mix(
+                in srgb,
+                var(--background-color) 94%,
+                transparent
+            );
             color: inherit;
             font-size: 0.85rem;
             cursor: pointer;
@@ -232,11 +255,16 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             z-index: 29;
             width: min(88vw, 24rem);
             max-height: min(65vh, 32rem);
-            overflow: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
+            overscroll-behavior: contain;
             padding: 0.9rem 1rem;
             border: 1.5px solid var(--deep-blue);
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(8px);
+            background: color-mix(
+                in srgb,
+                var(--background-color) 97%,
+                transparent
+            );
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
         }
 
@@ -329,8 +357,6 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             };
 
             const updateCurrentHeading = () => {
-                if (window.innerWidth >= 1200) return;
-
                 headingItems = getHeadingElements();
 
                 let current = null;
@@ -347,10 +373,16 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
                 preview.textContent = current ? current.text : defaultText;
 
-                headingLinks.forEach((link) =>
-                    link.classList.remove("is-current"),
-                );
-                if (current) current.link.classList.add("is-current");
+                headingLinks.forEach((link) => {
+                    const isCurrent = link === current?.link;
+                    link.classList.toggle("is-current", isCurrent);
+
+                    if (isCurrent) {
+                        link.setAttribute("aria-current", "location");
+                    } else {
+                        link.removeAttribute("aria-current");
+                    }
+                });
             };
 
             const toggleMenu = () => {
@@ -377,7 +409,11 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
                 e.preventDefault();
 
                 el.scrollIntoView({
-                    behavior: "smooth",
+                    behavior: window.matchMedia(
+                        "(prefers-reduced-motion: reduce)",
+                    ).matches
+                        ? "auto"
+                        : "smooth",
                     block: "start",
                 });
 

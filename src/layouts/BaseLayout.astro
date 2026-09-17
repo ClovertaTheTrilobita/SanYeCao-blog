@@ -45,6 +45,33 @@ const {
 	<FloatingActions />
 	<script is:inline>
 		function addCodeCopyButtons() {
+			const languageNames = {
+				js: "JavaScript",
+				javascript: "JavaScript",
+				ts: "TypeScript",
+				typescript: "TypeScript",
+				jsx: "JSX",
+				tsx: "TSX",
+				sh: "Shell",
+				bash: "Shell",
+				zsh: "Shell",
+				py: "Python",
+				python: "Python",
+				yml: "YAML",
+				yaml: "YAML",
+				json: "JSON",
+				astro: "Astro",
+				html: "HTML",
+				css: "CSS",
+				scss: "SCSS",
+				sql: "SQL",
+				rust: "Rust",
+				go: "Go",
+				java: "Java",
+				cpp: "C++",
+				csharp: "C#",
+			};
+
 			document.querySelectorAll("pre").forEach((pre) => {
 				const code = pre.querySelector("code");
 				if (!code) return;
@@ -63,6 +90,29 @@ const {
 				pre.parentNode?.insertBefore(wrapper, pre);
 				wrapper.appendChild(pre);
 
+				const toolbar = document.createElement("div");
+				toolbar.className = "code-block-toolbar";
+				wrapper.insertBefore(toolbar, pre);
+
+				const languageClass = [...code.classList, ...pre.classList].find((name) =>
+					name.startsWith("language-"),
+				);
+				const language = (
+					pre.dataset.language ||
+					code.dataset.language ||
+					languageClass?.slice("language-".length) ||
+					""
+				).trim().toLowerCase();
+
+				if (language) {
+					const label = document.createElement("span");
+					label.className = "code-language-label";
+					label.textContent =
+						languageNames[language.toLowerCase()] ||
+						language.toUpperCase();
+					toolbar.appendChild(label);
+				}
+
 				/* 创建复制按钮 */
 				const button = document.createElement("button");
 				button.className = "code-copy-button";
@@ -77,13 +127,15 @@ const {
 				icon.setAttribute("aria-hidden", "true");
 
 				button.appendChild(icon);
-				wrapper.appendChild(button);
+				toolbar.appendChild(button);
 
 				button.addEventListener("click", async () => {
 					const text = code.textContent ?? "";
+					let copied = false;
 
 					try {
 						await navigator.clipboard.writeText(text);
+						copied = true;
 					} catch {
 						const textarea = document.createElement("textarea");
 						textarea.value = text;
@@ -91,16 +143,25 @@ const {
 						textarea.style.opacity = "0";
 						textarea.style.pointerEvents = "none";
 
-						document.body.appendChild(textarea);
-						textarea.select();
-						document.execCommand("copy");
-						textarea.remove();
+						try {
+							document.body.appendChild(textarea);
+							textarea.select();
+							copied = document.execCommand("copy");
+						} catch {
+							copied = false;
+						} finally {
+							textarea.remove();
+							button.focus({ preventScroll: true });
+						}
 					}
 
-					icon.src = "/images/correct-signal-svgrepo-com.svg";
-					button.setAttribute("aria-label", "已复制");
-					button.title = "已复制";
-					button.classList.add("copied");
+					icon.src = copied
+						? "/images/correct-signal-svgrepo-com.svg"
+						: "/images/copy-svgrepo-com.svg";
+					const message = copied ? "已复制" : "复制失败，请手动选择代码复制";
+					button.setAttribute("aria-label", message);
+					button.title = message;
+					button.classList.toggle("copied", copied);
 
 					window.setTimeout(() => {
 						icon.src = "/images/copy-svgrepo-com.svg";

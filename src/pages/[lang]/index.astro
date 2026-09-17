@@ -18,7 +18,7 @@ const rssLink = lang === "zh" ? "/rss.xml" : "/en/rss.xml";
 ---
 
 <BaseLayout pageTitle=`${headerTitle} - ${t.banner.subtitle}`>
-  <main class="index">
+  <div class="index page-shell">
     <h1 class="page-title">
       <span>{pageTitle}</span>
       <a
@@ -57,13 +57,12 @@ const rssLink = lang === "zh" ? "/rss.xml" : "/en/rss.xml";
 
     <!-- <Remark42LatestComments lang={lang} client:load /> -->
     <LatestComments lang={lang} />
-  </main>
+  </div>
 </BaseLayout>
 
 <style>
   .index {
-    max-width: 850px;
-    margin: 0 auto;
+    min-width: 0;
   }
 
   .section-divider {
