@@ -187,19 +187,20 @@ const tags = data.tags;
   @media (max-width: 600px) {
     .post-link {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) clamp(88px, 24vw, 104px);
+      grid-template-columns: 1fr 145px;
       grid-template-areas:
         "title title"
         "desc image"
-        "tags tags"
-        "meta meta";
+        "tags image"
+        "meta image";
       column-gap: 0.75rem;
-      row-gap: 0;
+      row-gap: 0.2rem;
       align-items: start;
     }
 
     .post-text {
       display: contents;
+      min-height: auto;
     }
 
     .post-title-link {
@@ -214,20 +215,30 @@ const tags = data.tags;
       grid-area: desc;
     }
 
-    .tags {
-      grid-area: tags;
-    }
-
     .post-meta-row {
       grid-area: meta;
       gap: 0.7rem;
     }
 
+    .post-image {
+      grid-area: image;
+      width: 100%;
+      height: calc(145px * 10 / 16);
+      align-self: center;
+    }
+
     .post-image-link {
       grid-area: image;
-      margin-top: 0.5rem;
-      width: 100%;
+      align-self: center;
+      width: 145px;
+      aspect-ratio: auto;
+      overflow: visible;
       text-decoration: none;
+    }
+
+    .post-card {
+      padding-bottom: 0.2rem;
+      padding-top: 0.2rem;
     }
   }
 </style>
