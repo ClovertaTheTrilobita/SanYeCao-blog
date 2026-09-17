@@ -8,41 +8,55 @@ const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 ---
 
-<header class="site-header">
-    <div class="theme-icon-wrap">
-        <ThemeIcon />
-    </div>
+<div class="header-slot">
+    <header class="site-header">
+        <div class="header-content">
+            <div class="theme-icon-wrap">
+                <ThemeIcon />
+            </div>
 
-    <nav class="header-nav">
-        <div class="banner">
-            <a
-                href={`/${lang}/`}
-                data-astro-reload
-                class="banner-link"
-                aria-label="banner"
-            >
-                <span class="banner-logo"></span>
-            </a>
+            <nav class="header-nav">
+                <div class="banner">
+                    <a
+                        href={`/${lang}/`}
+                        data-astro-reload
+                        class="banner-link"
+                        aria-label="banner"
+                    >
+                        <span class="banner-logo"></span>
+                    </a>
+                </div>
+                <Navigation />
+            </nav>
         </div>
-        <Navigation />
-    </nav>
-    <div class="divider">
-        <Divider />
-    </div>
-</header>
+        <div class="divider">
+            <Divider />
+        </div>
+    </header>
+</div>
 
 <style>
+    .site-header {
+        position: relative;
+        z-index: 30;
+        padding-top: 0.5rem;
+    }
+
+    .header-content {
+        position: relative;
+    }
+
     .banner-link {
-        display: inline-block;
+        display: block;
     }
 
     .banner-logo {
         display: block;
-        height: 55px; /* 按你的 banner 比例改 */
+        height: 55px;
         background-color: #1f2328;
-
         -webkit-mask: url("/images/banner-black.svg") no-repeat left / contain;
         mask: url("/images/banner-black.svg") no-repeat left / contain;
+        transform-origin: left center;
     }
 
     :global(html.dark .banner-logo) {
@@ -53,11 +67,6 @@ const t = getTranslations(lang);
         color: inherit;
         text-decoration: none;
         display: block;
-    }
-
-    .site-header {
-        position: relative;
-        padding-top: 0.5rem;
     }
 
     .theme-icon-wrap {
@@ -71,17 +80,14 @@ const t = getTranslations(lang);
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        max-height: 12rem;
     }
 
     .header-nav .banner {
         margin: 0;
         font-style: italic;
         line-height: 1.1;
-
-        /* 给右上角 ThemeIcon 留空间 */
         max-width: calc(100% - 7rem);
-
-        /* 桌面正常，手机自动缩小 */
         font-size: clamp(1.6rem, 6vw, 2.5rem);
     }
 
@@ -90,8 +96,106 @@ const t = getTranslations(lang);
         margin-bottom: 2rem;
     }
 
-    @media (max-width: 768px) {
+    @media (min-width: 769px) {
+        .header-slot {
+            /* Keep document height independent of scroll-driven header height. */
+            display: flow-root;
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            height: var(--header-slot-height, auto);
+            pointer-events: none;
+        }
+
         .site-header {
+            pointer-events: auto;
+            width: 100%;
+            max-width: 90ch;
+            margin-inline: auto;
+            padding: 0.5rem 0 0;
+            background-color: color-mix(
+                in srgb,
+                var(--background-color) var(--header-surface-weight, 0%),
+                transparent
+            );
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .header-content {
+            width: 100%;
+        }
+
+        .header-slot.is-scroll-hidden .site-header,
+        .header-slot.is-footer-hidden .site-header {
+            transform: translateY(calc(-100% - 0.5rem));
+        }
+
+        :global(html.dark) .site-header {
+            background-color: color-mix(
+                in srgb,
+                #1e1e1e var(--header-surface-weight, 0%),
+                transparent
+            );
+        }
+
+        .theme-icon-wrap {
+            top: var(--theme-top, 0);
+            right: 0;
+        }
+
+        .header-nav {
+            gap: var(--header-gap, 1rem);
+            height: var(--header-nav-height, auto);
+            max-height: var(--header-nav-height, 12rem);
+            transform: translateY(var(--header-nav-y, 0));
+        }
+
+        .header-nav .banner {
+            flex-shrink: 0;
+            width: var(--banner-width, auto);
+            max-width: var(--banner-width, calc(100% - 7rem));
+        }
+
+        .banner-logo {
+            height: var(--logo-height, 55px);
+        }
+
+        .site-header :global(.site-nav) {
+            width: var(--site-nav-width, auto);
+            margin: var(--site-nav-margin, 1rem) 0;
+            padding-bottom: var(--site-nav-padding, 1rem);
+            transform: translate(var(--site-nav-x, 0), var(--site-nav-y, 0));
+        }
+
+        .site-header :global(.site-nav-desktop) {
+            gap: var(--site-nav-gap, 1.5rem);
+        }
+
+        .site-header :global(.site-nav a) {
+            font-size: var(--site-nav-font-size, 1.05rem);
+        }
+
+        .site-header > .divider {
+            width: 100%;
+            margin-top: var(--divider-margin-top, 0.2rem);
+            margin-bottom: var(--divider-margin-bottom, 2rem);
+            transform: translateY(var(--divider-y, 0));
+        }
+
+        .site-header > .divider :global(.divider) {
+            width: 100%;
+            margin-bottom: var(--divider-inner-margin-bottom, 1rem);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .header-slot {
+            display: contents;
+        }
+
+        .site-header {
+            position: relative;
             padding-top: 0.25rem;
         }
 
@@ -101,3 +205,268 @@ const t = getTranslations(lang);
         }
     }
 </style>
+
+<script>
+    const desktopHeaderQuery = window.matchMedia("(min-width: 769px)");
+    const HEADER_SCROLL_DISTANCE = 120;
+    const DIRECTION_TRIGGER_DISTANCE = 6;
+    const headerStyleProperties = [
+        "--header-surface-weight",
+        "--theme-top",
+        "--header-gap",
+        "--header-nav-height",
+        "--header-nav-y",
+        "--banner-width",
+        "--logo-height",
+        "--site-nav-width",
+        "--site-nav-margin",
+        "--site-nav-padding",
+        "--site-nav-x",
+        "--site-nav-y",
+        "--site-nav-gap",
+        "--site-nav-font-size",
+        "--divider-margin-top",
+        "--divider-margin-bottom",
+        "--divider-inner-margin-bottom",
+        "--divider-y",
+    ];
+
+    type HeaderMetrics = {
+        header: HTMLElement;
+        expandedWidth: number;
+        expandedNavHeight: number;
+        expandedBannerWidth: number;
+        expandedSiteNavWidth: number;
+        rootFontSize: number;
+    };
+
+    let headerFrame = 0;
+    let headerMetrics: HeaderMetrics | null = null;
+    let footerDividerObserver: IntersectionObserver | null = null;
+    let isFooterDividerVisible = false;
+    let lastScrollY = window.scrollY;
+    let scrollDirection = 0;
+    let directionDistance = 0;
+
+    const lerp = (start: number, end: number, progress: number) =>
+        start + (end - start) * progress;
+
+    function clearHeaderStyles(header: HTMLElement) {
+        headerStyleProperties.forEach((property) => {
+            header.style.removeProperty(property);
+        });
+    }
+
+    function measureHeader(header: HTMLElement): HeaderMetrics | null {
+        clearHeaderStyles(header);
+        const slot = header.parentElement;
+        if (!slot) return null;
+        slot.style.removeProperty("--header-slot-height");
+
+        const headerNav = header.querySelector<HTMLElement>(".header-nav");
+        const banner = header.querySelector<HTMLElement>(".banner");
+        const siteNav = header.querySelector<HTMLElement>(".site-nav");
+
+        if (!headerNav || !banner || !siteNav) return null;
+
+        // Measure the expanded footprint, including its bottom spacing, once.
+        // Only the contents animate; the following page content never reflows.
+        slot.style.setProperty(
+            "--header-slot-height",
+            `${slot.getBoundingClientRect().height}px`,
+        );
+
+        return {
+            header,
+            expandedWidth: header.getBoundingClientRect().width,
+            expandedNavHeight: headerNav.getBoundingClientRect().height,
+            expandedBannerWidth: banner.getBoundingClientRect().width,
+            expandedSiteNavWidth: siteNav.getBoundingClientRect().width,
+            rootFontSize: Number.parseFloat(
+                getComputedStyle(document.documentElement).fontSize,
+            ),
+        };
+    }
+
+    function updateHeaderState() {
+        const header = document.querySelector<HTMLElement>(".site-header");
+        if (!header) return;
+
+        updateScrollVisibility(header.parentElement, window.scrollY);
+        updateFooterVisibility(header.parentElement, window.scrollY);
+
+        if (!desktopHeaderQuery.matches) {
+            clearHeaderStyles(header);
+            header.parentElement?.style.removeProperty("--header-slot-height");
+            headerMetrics = null;
+            return;
+        }
+
+        if (!headerMetrics || headerMetrics.header !== header) {
+            headerMetrics = measureHeader(header);
+        }
+
+        if (!headerMetrics) return;
+
+        const {
+            expandedWidth,
+            expandedNavHeight,
+            expandedBannerWidth,
+            expandedSiteNavWidth,
+            rootFontSize,
+        } = headerMetrics;
+        const rawProgress = Math.min(
+            Math.max(window.scrollY / HEADER_SCROLL_DISTANCE, 0),
+            1,
+        );
+        const progress = rawProgress;
+        const viewportWidth = document.documentElement.clientWidth;
+        const compactLogoWidth = Math.min(
+            Math.max(9 * rootFontSize, viewportWidth * 0.22),
+            12 * rootFontSize,
+        );
+        const compactSiteNavWidth = Math.max(
+            expandedWidth - compactLogoWidth - 7.5 * rootFontSize,
+            0,
+        );
+        const compactNavGap = Math.min(
+            Math.max(0.75 * rootFontSize, viewportWidth * 0.02),
+            1.5 * rootFontSize,
+        );
+
+        const values: Record<string, string> = {
+            "--header-surface-weight": `${lerp(0, 98, progress)}%`,
+            "--theme-top": `${lerp(0, 0.85 * rootFontSize, progress)}px`,
+            "--header-gap": `${lerp(rootFontSize, 0, progress)}px`,
+            "--header-nav-height": `${lerp(expandedNavHeight, 3 * rootFontSize, progress)}px`,
+            "--header-nav-y": `${lerp(0, 0.5 * rootFontSize, progress)}px`,
+            "--banner-width": `${lerp(expandedBannerWidth, compactLogoWidth, progress)}px`,
+            "--logo-height": `${lerp(55, 36, progress)}px`,
+            "--site-nav-width": `${lerp(expandedSiteNavWidth, compactSiteNavWidth, progress)}px`,
+            "--site-nav-margin": `${lerp(rootFontSize, 0, progress)}px`,
+            "--site-nav-padding": `${lerp(rootFontSize, 0, progress)}px`,
+            "--site-nav-x": `${lerp(0, compactLogoWidth + 1.5 * rootFontSize, progress)}px`,
+            "--site-nav-y": `${lerp(0, -36, progress)}px`,
+            "--site-nav-gap": `${lerp(1.5 * rootFontSize, compactNavGap, progress)}px`,
+            "--site-nav-font-size": `${lerp(1.05 * rootFontSize, 0.95 * rootFontSize, progress)}px`,
+            "--divider-margin-top": `${lerp(0.2 * rootFontSize, 0.45 * rootFontSize, progress)}px`,
+            "--divider-margin-bottom": `${lerp(2 * rootFontSize, 0, progress)}px`,
+            "--divider-inner-margin-bottom": `${lerp(rootFontSize, 0, progress)}px`,
+            "--divider-y": `${lerp(0, -0.1 * rootFontSize, progress)}px`,
+        };
+
+        Object.entries(values).forEach(([property, value]) => {
+            header.style.setProperty(property, value);
+        });
+    }
+
+    function updateScrollVisibility(
+        slot: HTMLElement | null,
+        currentScrollY: number,
+    ) {
+        if (!slot) return;
+
+        const delta = currentScrollY - lastScrollY;
+        lastScrollY = currentScrollY;
+
+        if (
+            !desktopHeaderQuery.matches ||
+            currentScrollY <= HEADER_SCROLL_DISTANCE
+        ) {
+            slot.classList.remove("is-scroll-hidden");
+            scrollDirection = 0;
+            directionDistance = 0;
+            return;
+        }
+
+        if (Math.abs(delta) < 0.5) return;
+
+        const nextDirection = Math.sign(delta);
+        if (nextDirection !== scrollDirection) {
+            scrollDirection = nextDirection;
+            directionDistance = 0;
+        }
+
+        directionDistance += Math.abs(delta);
+        if (directionDistance < DIRECTION_TRIGGER_DISTANCE) return;
+
+        slot.classList.toggle("is-scroll-hidden", scrollDirection > 0);
+        directionDistance = 0;
+    }
+
+    function updateFooterVisibility(
+        slot: HTMLElement | null,
+        currentScrollY: number,
+    ) {
+        if (!slot) return;
+
+        const headerIsFullyExpanded = currentScrollY >= HEADER_SCROLL_DISTANCE;
+
+        slot.classList.toggle(
+            "is-footer-hidden",
+            desktopHeaderQuery.matches &&
+                headerIsFullyExpanded &&
+                isFooterDividerVisible,
+        );
+    }
+
+    function requestHeaderUpdate() {
+        if (headerFrame) return;
+
+        headerFrame = window.requestAnimationFrame(() => {
+            headerFrame = 0;
+            updateHeaderState();
+        });
+    }
+
+    function bindFooterDividerObserver() {
+        footerDividerObserver?.disconnect();
+        footerDividerObserver = null;
+        isFooterDividerVisible = false;
+
+        const slot = document.querySelector<HTMLElement>(".header-slot");
+        const footerDivider = document.querySelector<HTMLElement>(
+            "[data-footer-divider]",
+        );
+
+        if (!slot) return;
+
+        slot.classList.remove("is-footer-hidden");
+
+        if (!desktopHeaderQuery.matches || !footerDivider) return;
+
+        footerDividerObserver = new IntersectionObserver(([entry]) => {
+            isFooterDividerVisible = entry.isIntersecting;
+            updateFooterVisibility(slot, window.scrollY);
+        });
+        footerDividerObserver.observe(footerDivider);
+    }
+
+    window.addEventListener("scroll", requestHeaderUpdate, { passive: true });
+    window.addEventListener("resize", () => {
+        headerMetrics = null;
+        requestHeaderUpdate();
+    });
+    desktopHeaderQuery.addEventListener("change", () => {
+        requestHeaderUpdate();
+        bindFooterDividerObserver();
+    });
+    document.addEventListener("astro:page-load", () => {
+        headerMetrics = null;
+        lastScrollY = window.scrollY;
+        scrollDirection = 0;
+        directionDistance = 0;
+        isFooterDividerVisible = false;
+        document
+            .querySelector<HTMLElement>(".header-slot")
+            ?.classList.remove("is-scroll-hidden");
+        updateHeaderState();
+        bindFooterDividerObserver();
+    });
+    document.fonts.ready.then(() => {
+        headerMetrics = null;
+        requestHeaderUpdate();
+    });
+    updateHeaderState();
+    bindFooterDividerObserver();
+</script>

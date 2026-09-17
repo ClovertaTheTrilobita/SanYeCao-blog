@@ -3,25 +3,48 @@ import { getLangFromUrl, getTranslations } from "@/i18n";
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
+const pathname = Astro.url.pathname;
+const items = [
+    { href: `/${lang}/`, label: t.nav.home, exact: true },
+    { href: `/${lang}/about/`, label: t.nav.about },
+    { href: `/${lang}/tags/`, label: t.nav.tags },
+    { href: `/${lang}/timeline/`, label: t.nav.timeline },
+    { href: `/${lang}/friends/`, label: t.nav.friends },
+];
+
+const isCurrent = (href: string, exact = false) =>
+    exact
+        ? pathname === href || pathname === href.slice(0, -1)
+        : pathname.startsWith(href);
 ---
 
 <nav class="site-nav" aria-label="Site navigation">
     <div class="site-nav-desktop">
-        <a href={`/${lang}/`}>{t.nav.home}</a>
-        <a href={`/${lang}/about/`}>{t.nav.about}</a>
-        <a href={`/${lang}/tags/`}>{t.nav.tags}</a>
-        <a href={`/${lang}/timeline/`}>{t.nav.timeline}</a>
-        <a href={`/${lang}/friends/`}>{t.nav.friends}</a>
+        {
+            items.map(({ href, label, exact }) => (
+                <a
+                    href={href}
+                    aria-current={isCurrent(href, exact) ? "page" : undefined}
+                >
+                    {label}
+                </a>
+            ))
+        }
     </div>
 
     <details class="site-nav-mobile">
         <summary>☰ {lang === "zh" ? "导航栏" : "Menu"}</summary>
         <div class="dropdown-menu">
-            <a href={`/${lang}/`}>{t.nav.home}</a>
-            <a href={`/${lang}/about/`}>{t.nav.about}</a>
-            <a href={`/${lang}/tags/`}>{t.nav.tags}</a>
-            <a href={`/${lang}/timeline/`}>{t.nav.timeline}</a>
-            <a href={`/${lang}/friends/`}>{t.nav.friends}</a>
+            {
+                items.map(({ href, label, exact }) => (
+                    <a
+                        href={href}
+                        aria-current={isCurrent(href, exact) ? "page" : undefined}
+                    >
+                        {label}
+                    </a>
+                ))
+            }
         </div>
     </details>
 </nav>
@@ -54,22 +77,45 @@ const t = getTranslations(lang);
     }
 
     .site-nav a {
-        color: black;
-        text-decoration: underline;
-        font-weight: 700;
-        font-size: 1.2rem;
+        position: relative;
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.05rem;
+        line-height: 1.4;
     }
 
-    .site-nav a:hover {
-        text-decoration: underline;
+    .site-nav-desktop a::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -0.28rem;
+        width: 100%;
+        height: 2px;
+        background: var(--deep-red);
+        transform: translateX(-50%) scaleX(0);
+        transform-origin: center;
+        transition: transform 0.18s ease;
+    }
+
+    .site-nav-desktop a:hover::after,
+    .site-nav-desktop a:focus-visible::after,
+    .site-nav-desktop a[aria-current="page"]::after {
+        transform: translateX(-50%) scaleX(1);
+    }
+
+    .site-nav a:focus-visible {
+        outline: 2px solid var(--url-color);
+        outline-offset: 0.35rem;
+        text-decoration: none;
     }
 
     :global(.dark) .site-nav a {
-        color: white;
+        color: var(--text-color-dark);
     }
 
     :global(.dark) .site-nav a:hover {
-        color: #ddd;
+        color: #fff;
     }
 
     .site-nav-mobile {
@@ -81,10 +127,10 @@ const t = getTranslations(lang);
         list-style: none;
         cursor: pointer;
         display: inline-block;
-        font-weight: 700;
-        font-size: 1.1rem;
-        color: black;
-        text-decoration: underline;
+        font-weight: 500;
+        font-size: 1rem;
+        color: var(--text-color);
+        text-decoration: none;
         user-select: none;
     }
 
@@ -119,6 +165,11 @@ const t = getTranslations(lang);
 
     .dropdown-menu a:hover {
         text-decoration: underline;
+    }
+
+    .dropdown-menu a[aria-current="page"] {
+        color: var(--deep-red);
+        font-weight: 600;
     }
 
     :global(.dark) .dropdown-menu {

@@ -16,7 +16,7 @@ const pageTitle = t.about.title;
   pageTitle=`${pageTitle} - ${t.banner.title}`
   image={t.about.profilePicture}
 >
-  <main class="about">
+  <div class="about page-shell">
     <h1>{t.about.title}</h1>
 
     <div class="intro">
@@ -36,14 +36,12 @@ const pageTitle = t.about.title;
     <div class="content">
       {t.about.content.map((line: string) => <p set:html={line} />)}
     </div>
-  </main>
+  </div>
 </BaseLayout>
 
 <style>
   .about {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+    padding-block: 2rem;
   }
 
   .about h1 {

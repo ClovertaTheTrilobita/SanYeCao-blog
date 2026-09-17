@@ -2,6 +2,7 @@
 import BaseLayout from "./BaseLayout.astro";
 import Remark42Embed from "@/components/Remark42Embed.astro";
 import PostNav from "@/components/Posts/PostNav.astro";
+import TagLink from "@/components/TagLink.astro";
 import PostMenu from "@/components/Posts/PostMenu.astro";
 import Dialog from "@/components/Posts/Dialog.astro";
 import { fade } from "astro:transitions";
@@ -11,6 +12,14 @@ import "@/styles/global.css";
 const { post, frontmatter, lang, slug, postId, headings } = Astro.props;
 const comments = lang === "zh" ? "评论区" : "comments";
 const t = getTranslations(lang);
+const publishedDate = new Intl.DateTimeFormat(
+  lang === "zh" ? "zh-CN" : "en-US",
+  {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  },
+).format(frontmatter.pubDate);
 ---
 
 <BaseLayout
@@ -18,78 +27,87 @@ const t = getTranslations(lang);
   description={frontmatter.description}
   image={frontmatter.image?.url}
 >
-  <div id="reading-progress" aria-hidden="true"></div>
-  <a
-    href="/"
-    class="back-button"
-    id="back-button"
-    aria-label="Go back"
-    title="返回"
-  >
-    <svg
-      viewBox="0 0 24 24"
-      width="20"
-      height="20"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2.2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
+  <div class="post-layout page-shell">
+    <div id="reading-progress" aria-hidden="true"></div>
+    <a
+      href="/"
+      class="back-button"
+      id="back-button"
+      aria-label="Go back"
+      title="返回"
     >
-      <path d="M15 18l-6-6 6-6"></path>
-    </svg>
-  </a>
+      <svg
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </a>
 
-  <PostMenu headings={headings} />
+    <PostMenu headings={headings} />
 
-  <article class="post-article">
-    <div class="post-header">
-      <div class="post-meta">
-        <h1 class="post-title" transition:name={`post-title-${postId}`}>
-          {frontmatter.title}
-        </h1>
-        <p class="description">
-          <em>{frontmatter.description}</em>
-        </p>
-        <p class="meta-line">
-          {t.post.publishedOn}: {frontmatter.pubDate.toLocaleDateString()}
-        </p>
-        <p class="meta-line">{t.post.writtenBy}: {frontmatter.author}</p>
+    <article class="post-article">
+      <div class="post-header">
+        <div class="post-meta">
+          <h1 class="post-title" transition:name={`post-title-${postId}`}>
+            {frontmatter.title}
+          </h1>
+          <p class="description">
+            {frontmatter.description}
+          </p>
+          <p class="post-byline">
+            <span>{t.post.writtenBy} {frontmatter.author}</span>
+            <span class="byline-separator" aria-hidden="true">·</span>
+            <time datetime={frontmatter.pubDate.toISOString()}>
+              {t.post.publishedOn} {publishedDate}
+            </time>
+          </p>
 
-        <div class="tags" transition:name={`post-tags-${postId}`}>
-          {
-            frontmatter.tags.map((tag: string) => (
-              <p class="tag">
-                <a href={`/${lang}/tags/${tag}`}>{tag}</a>
-              </p>
-            ))
-          }
+          <div class="tags" transition:name={`post-tags-${postId}`}>
+            {
+              frontmatter.tags.map((tag: string) => (
+                <TagLink tag={tag} lang={lang} />
+              ))
+            }
+          </div>
         </div>
+
+        <img
+          src={frontmatter.image.url}
+          alt={frontmatter.image.alt}
+          class="post-cover"
+          transition:name={`post-image-${postId}`}
+        />
       </div>
 
-      <img
-        src={frontmatter.image.url}
-        alt={frontmatter.image.alt}
-        class="post-cover"
-        transition:name={`post-image-${postId}`}
-      />
-    </div>
+      <div class="post-divider"></div>
 
-    <div class="post-divider"></div>
+      <div class="post-content" transition:animate={fade({ duration: "0.2s" })}>
+        <slot />
+      </div>
 
-    <div class="post-content" transition:animate={fade({ duration: "0.2s" })}>
-      <slot />
-    </div>
+      <Dialog />
 
-    <Dialog />
+      <PostNav post={post} lang={lang} />
 
-    <PostNav post={post} lang={lang} />
-
-    <h2>{comments}</h2>
-    {t.post.commentsDesc.map((line: string) => <p set:html={line} />)}
-    <Remark42Embed slug={slug} />
-  </article>
+      <section
+        id="comments"
+        class="comments-section"
+        aria-labelledby="comments-heading"
+      >
+        <h2 id="comments-heading">{comments}</h2>
+        {t.post.commentsDesc.map((line: string) => <p set:html={line} />)}
+        <Remark42Embed slug={slug} />
+      </section>
+    </article>
+  </div>
 </BaseLayout>
 
 <script
@@ -148,36 +166,68 @@ const t = getTranslations(lang);
       backButton.dataset.bound = "true";
     }
   };
-  const updateProgress = () => {
-    const doc = document.documentElement;
-    const scrollTop = window.scrollY || doc.scrollTop;
-    const scrollHeight = doc.scrollHeight - window.innerHeight;
+  const initReadingProgress = () => {
+    const readingWindow = window as typeof window & {
+      __postReadingProgressHandler?: () => void;
+    };
 
-    const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    if (readingWindow.__postReadingProgressHandler) {
+      window.removeEventListener(
+        "scroll",
+        readingWindow.__postReadingProgressHandler,
+      );
+      window.removeEventListener(
+        "resize",
+        readingWindow.__postReadingProgressHandler,
+      );
+    }
 
     const bar = document.getElementById("reading-progress");
-    if (bar) {
-      bar.style.width = `${Math.min(progress, 100)}%`;
-    }
+    const content = document.querySelector<HTMLElement>(".post-content");
+    if (!bar || !content) return;
+
+    const updateProgress = () => {
+      const contentTop = content.getBoundingClientRect().top + window.scrollY;
+      const readableDistance = Math.max(
+        content.scrollHeight - window.innerHeight,
+        1,
+      );
+      const progress = Math.min(
+        Math.max((window.scrollY - contentTop) / readableDistance, 0),
+        1,
+      );
+
+      bar.style.transform = `scaleX(${progress})`;
+    };
+
+    readingWindow.__postReadingProgressHandler = updateProgress;
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    updateProgress();
   };
 
-  updateProgress();
-  window.addEventListener("scroll", updateProgress, { passive: true });
-  window.addEventListener("resize", updateProgress);
+  initReadingProgress();
   initFloatingActions();
+  document.addEventListener("astro:page-load", initReadingProgress);
   document.addEventListener("astro:page-load", initFloatingActions);
 </script>
 
 <style>
+  .post-layout {
+    min-width: 0;
+  }
+
   #reading-progress {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 9999;
-    width: 0;
+    width: 100%;
     height: 3px;
     background: #5a89ff;
-    transition: width 0.08s linear;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.08s linear;
     pointer-events: none;
   }
 
@@ -192,15 +242,12 @@ const t = getTranslations(lang);
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    border: #536493 1.5px solid;
-    border-top: #536493 2.5px dotted;
-    border-left: #536493 2.5px dotted;
+    border-top: #536493 1.5px dotted;
+    border-left: #536493 1.5px dotted;
     border-right: #536493 2.5px solid;
     border-bottom: #536493 2.5px solid;
-    background: rgba(255, 255, 255, 0.92);
+    background: color-mix(in srgb, var(--background-color) 94%, transparent);
     color: #222;
-    /* box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16); */
-    backdrop-filter: blur(6px);
     z-index: 1000;
     visibility: hidden;
     transform: translateY(-80px);
@@ -230,10 +277,16 @@ const t = getTranslations(lang);
   }
 
   :global(.dark) .back-button {
-    background: rgba(34, 34, 34, 0.92);
+    background: color-mix(
+      in srgb,
+      var(--background-color-dark) 94%,
+      transparent
+    );
     color: #f5f5f5;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.32);
-    border: #2f406d 2px solid;
+    border-top-color: #515151;
+    border-left-color: #515151;
+    border-right-color: #515151;
+    border-bottom-color: #515151;
   }
 
   @media (max-width: 640px) {
@@ -245,6 +298,9 @@ const t = getTranslations(lang);
     }
   }
   .post-content {
+    --article-muted: #596672;
+    --article-rule: rgba(83, 100, 147, 0.25);
+    --article-tint: rgba(83, 100, 147, 0.045);
     font-family:
       system-ui,
       -apple-system,
@@ -257,6 +313,130 @@ const t = getTranslations(lang);
       "Source Han Sans SC",
       sans-serif;
     font-weight: 400;
+    line-height: 1.85;
+    overflow-wrap: break-word;
+  }
+
+  .post-content :global(> :first-child) {
+    margin-top: 0;
+  }
+
+  .post-content :global(p) {
+    margin-block: 1.05em;
+  }
+
+  .post-content :global(h2) {
+    margin: 3.2rem 0 1rem;
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-size: clamp(1.35rem, 2vw, 1.55rem);
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+
+  .post-content :global(h3) {
+    margin: 2.25rem 0 0.8rem;
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-size: clamp(1.12rem, 1.6vw, 1.28rem);
+    line-height: 1.45;
+    text-wrap: balance;
+  }
+
+  .post-content :global(h4) {
+    margin: 1.8rem 0 0.65rem;
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    line-height: 1.5;
+    font-size: 1.05em;
+  }
+
+  .post-content :global(:is(h2, h3, h4) + :is(h3, h4, p, ul, ol)) {
+    margin-top: 0.7rem;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin-block: 1.1em;
+    padding-inline-start: 1.6em;
+  }
+
+  .post-content :global(li::marker) {
+    color: var(--article-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .post-content :global(li > p) {
+    margin-block: 0.45em;
+  }
+
+  .post-content :global(li > :is(ul, ol)) {
+    margin-block: 0.5em;
+  }
+
+  .post-content :global(li + li) {
+    margin-top: 0.35rem;
+  }
+
+  .post-content :global(img:not(.code-copy-icon)) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-inline: auto;
+  }
+
+  .post-content :global(figure) {
+    margin: 2rem 0;
+  }
+
+  .post-content :global(figcaption) {
+    margin-top: 0.55rem;
+    color: var(--article-muted);
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .post-content :global(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    margin-block: 1.75rem;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    line-height: 1.65;
+  }
+
+  .post-content :global(th),
+  .post-content :global(td) {
+    padding: 0.65rem 0.85rem;
+    border-bottom: 1px solid var(--article-rule);
+    vertical-align: top;
+  }
+
+  .post-content :global(th) {
+    background: var(--article-tint);
+    font-weight: 600;
+  }
+
+  .post-content :global(a) {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  }
+
+  .post-content :global(a:hover) {
+    text-decoration-color: currentColor;
+  }
+
+  .post-content :global(:is(a, summary):focus-visible) {
+    outline: 2px solid var(--deep-blue);
+    outline-offset: 3px;
+  }
+
+  .post-content :global(hr) {
+    margin-block: 2.5rem;
+    border: 0;
+    border-top: 1px dashed var(--article-rule);
   }
 
   .post-content :global(code),
@@ -267,7 +447,7 @@ const t = getTranslations(lang);
   }
 
   a {
-    color: var(--post-link-color);
+    color: var(--url-color);
   }
 
   .post-header {
@@ -287,21 +467,56 @@ const t = getTranslations(lang);
     line-height: 1.25;
     overflow-wrap: anywhere;
     word-break: break-word;
+    text-wrap: balance;
   }
 
   .description {
     margin: 0 0 0.7rem 0;
-    opacity: 0.9;
+    color: #596672;
+    font-weight: 400;
     line-height: 1.6;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
 
-  .meta-line {
+  .post-byline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.3rem 0.55rem;
     margin: 0.3rem 0;
-    line-height: 1.6;
+    color: #66717c;
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.5;
     overflow-wrap: anywhere;
     word-break: break-word;
+  }
+
+  .byline-separator {
+    opacity: 0.65;
+  }
+
+  :global(html.dark) .post-byline {
+    color: #aab7c4;
+  }
+
+  :global(html.dark) .description {
+    color: #b5bec7;
+  }
+
+  @media (min-width: 701px) {
+    .post-title {
+      margin-bottom: 0.85rem;
+      font-size: clamp(1.7rem, 2.2vw, 2rem);
+      line-height: 1.4;
+    }
+
+    .description {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
   }
 
   .post-cover {
@@ -310,8 +525,6 @@ const t = getTranslations(lang);
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: center;
-    /* border-radius: 0.4rem; */
-    border: 1.5px #94a0ab dashed;
     display: block;
   }
 
@@ -327,39 +540,10 @@ const t = getTranslations(lang);
   .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.25rem 0.9rem;
     margin-top: 0.8rem;
     min-width: 0;
-  }
-
-  .tag {
-    margin: 0;
-    padding: 0.22em 0.65em;
     font-size: 0.88rem;
-    line-height: 1.2;
-    border: 1px dashed #8b6b4a;
-    border-radius: 0;
-    background-color: transparent;
-    max-width: 100%;
-  }
-
-  .tag a {
-    color: #6f4e37;
-    text-decoration: none;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-
-  .tag a:hover {
-    text-decoration: underline;
-  }
-
-  :global(.dark) .tag {
-    border-color: #d8c7a1;
-  }
-
-  :global(.dark) .tag a {
-    color: #e6d8b8;
   }
 
   @media (max-width: 560px) {
@@ -374,15 +558,16 @@ const t = getTranslations(lang);
     }
   }
 
-  details {
+  .post-content :global(details) {
     margin: 1.5rem 0;
     overflow: hidden;
-    border-top: 2px solid #1e3a5f;
-    border-radius: 0 0 0.5rem 0.5rem;
-    background: rgba(128, 128, 128, 0.14);
+    border-top: 1px solid var(--article-rule);
+    border-bottom: 1px solid var(--article-rule);
+    border-radius: 0;
+    background: var(--article-tint);
   }
 
-  details summary {
+  .post-content :global(details summary) {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -393,11 +578,11 @@ const t = getTranslations(lang);
     list-style: none;
   }
 
-  details summary::-webkit-details-marker {
+  .post-content :global(details summary::-webkit-details-marker) {
     display: none;
   }
 
-  details summary::before {
+  .post-content :global(details summary::before) {
     content: "›";
     display: inline-block;
     font-size: 1.25rem;
@@ -405,46 +590,46 @@ const t = getTranslations(lang);
     transition: transform 0.2s ease;
   }
 
-  details[open] summary::before {
+  .post-content :global(details[open] summary::before) {
     transform: rotate(90deg);
   }
 
   /* 展开内容 */
-  details > :not(summary) {
+  .post-content :global(details > :not(summary)) {
     box-sizing: border-box;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-right: 1rem;
+    margin: 0.8rem 1rem;
+    padding: 0;
   }
 
   /* 为列表序号预留空间 */
-  details > ol,
-  details > ul {
-    padding: 0.6rem 1rem 1rem 3rem;
+  .post-content :global(details > ol),
+  .post-content :global(details > ul) {
+    padding-inline-start: 1.6em;
   }
 
-  details li {
+  .post-content :global(details li) {
     margin: 0.8rem 0;
   }
 
-  blockquote {
-    margin: 1.25rem 0;
-    padding: 0.75rem 1rem;
-    border-left: 4px solid var(--deep-red);
-    background: rgba(128, 128, 128, 0.1);
-    border-radius: 0 0.4rem 0.4rem 0;
+  .post-content :global(blockquote) {
+    margin: 1.5rem 0;
+    padding: 0.15rem 0 0.15rem 1rem;
+    border-left: 3px solid var(--deep-blue);
+    color: var(--article-muted);
+    background: transparent;
+    border-radius: 0;
   }
 
-  blockquote p {
+  .post-content :global(blockquote p) {
     margin: 0;
   }
 
-  blockquote p + p {
+  .post-content :global(blockquote p + p) {
     margin-top: 0.75rem;
   }
 
   /* 块级公式：超出屏幕时只滚动公式，不撑宽整篇文章 */
-  .katex-display {
+  .post-content :global(.katex-display) {
     max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
@@ -453,7 +638,27 @@ const t = getTranslations(lang);
   }
 
   /* 避免 KaTeX 内部元素强行把父容器撑宽 */
-  .katex-display > .katex {
+  .post-content :global(.katex-display > .katex) {
     min-width: max-content;
+  }
+
+  .comments-section {
+    scroll-margin-top: 5rem;
+  }
+
+  :global(html.dark) .post-content {
+    --article-muted: #aab7c4;
+    --article-rule: rgba(170, 183, 196, 0.28);
+    --article-tint: rgba(170, 183, 196, 0.055);
+  }
+
+  :global(html.dark) .post-content :global(blockquote) {
+    border-left-color: #9ecbff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #reading-progress {
+      transition: none;
+    }
   }
 </style>
