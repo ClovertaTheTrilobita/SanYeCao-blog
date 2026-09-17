@@ -186,6 +186,12 @@ const publishedDate = new Intl.DateTimeFormat(
     const content = document.querySelector<HTMLElement>(".post-content");
     if (!bar || !content) return;
 
+    // Keep the fixed progress bar outside Astro's animated page container.
+    // Otherwise the header's transformed compositor layer can paint above it.
+    if (bar.parentElement !== document.body) {
+      document.body.appendChild(bar);
+    }
+
     const updateProgress = () => {
       const contentTop = content.getBoundingClientRect().top + window.scrollY;
       const readableDistance = Math.max(
