@@ -118,7 +118,8 @@ const t = getTranslations(lang);
             transition: transform 0.3s ease;
         }
 
-        .header-slot.is-exiting .site-header {
+        .header-slot.is-scroll-hidden .site-header,
+        .header-slot.is-footer-hidden .site-header {
             transform: translateY(calc(-100% - 0.5rem));
         }
 
@@ -206,6 +207,7 @@ const t = getTranslations(lang);
 <script>
     const desktopHeaderQuery = window.matchMedia("(min-width: 769px)");
     const HEADER_SCROLL_DISTANCE = 120;
+    const DIRECTION_TRIGGER_DISTANCE = 6;
     const headerStyleProperties = [
         "--header-width",
         "--header-offset",
@@ -246,6 +248,9 @@ const t = getTranslations(lang);
     let headerFrame = 0;
     let headerMetrics: HeaderMetrics | null = null;
     let footerDividerObserver: IntersectionObserver | null = null;
+    let lastScrollY = window.scrollY;
+    let scrollDirection = 0;
+    let directionDistance = 0;
 
     const lerp = (start: number, end: number, progress: number) =>
         start + (end - start) * progress;
@@ -290,6 +295,8 @@ const t = getTranslations(lang);
     function updateHeaderState() {
         const header = document.querySelector<HTMLElement>(".site-header");
         if (!header) return;
+
+        updateScrollVisibility(header.parentElement, window.scrollY);
 
         if (!desktopHeaderQuery.matches) {
             clearHeaderStyles(header);
@@ -369,6 +376,40 @@ const t = getTranslations(lang);
         });
     }
 
+    function updateScrollVisibility(
+        slot: HTMLElement | null,
+        currentScrollY: number,
+    ) {
+        if (!slot) return;
+
+        const delta = currentScrollY - lastScrollY;
+        lastScrollY = currentScrollY;
+
+        if (
+            !desktopHeaderQuery.matches ||
+            currentScrollY <= HEADER_SCROLL_DISTANCE
+        ) {
+            slot.classList.remove("is-scroll-hidden");
+            scrollDirection = 0;
+            directionDistance = 0;
+            return;
+        }
+
+        if (Math.abs(delta) < 0.5) return;
+
+        const nextDirection = Math.sign(delta);
+        if (nextDirection !== scrollDirection) {
+            scrollDirection = nextDirection;
+            directionDistance = 0;
+        }
+
+        directionDistance += Math.abs(delta);
+        if (directionDistance < DIRECTION_TRIGGER_DISTANCE) return;
+
+        slot.classList.toggle("is-scroll-hidden", scrollDirection > 0);
+        directionDistance = 0;
+    }
+
     function requestHeaderUpdate() {
         if (headerFrame) return;
 
@@ -389,12 +430,12 @@ const t = getTranslations(lang);
 
         if (!slot) return;
 
-        slot.classList.remove("is-exiting");
+        slot.classList.remove("is-footer-hidden");
 
         if (!desktopHeaderQuery.matches || !footerDivider) return;
 
         footerDividerObserver = new IntersectionObserver(([entry]) => {
-            slot.classList.toggle("is-exiting", entry.isIntersecting);
+            slot.classList.toggle("is-footer-hidden", entry.isIntersecting);
         });
         footerDividerObserver.observe(footerDivider);
     }
@@ -410,6 +451,12 @@ const t = getTranslations(lang);
     });
     document.addEventListener("astro:page-load", () => {
         headerMetrics = null;
+        lastScrollY = window.scrollY;
+        scrollDirection = 0;
+        directionDistance = 0;
+        document
+            .querySelector<HTMLElement>(".header-slot")
+            ?.classList.remove("is-scroll-hidden");
         updateHeaderState();
         bindFooterDividerObserver();
     });
