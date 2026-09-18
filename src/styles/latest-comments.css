@@ -151,11 +151,18 @@
 .comment-source-context {
     display: flex;
     align-items: baseline;
+    flex: 1 1 auto;
     gap: 0.4rem;
     min-width: 0;
 }
 
+.comment-source-context > span {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
 .comment-title-link {
+    flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
     color: #6f8090;
