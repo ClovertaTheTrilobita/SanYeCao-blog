@@ -202,7 +202,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             position: fixed;
             top: 0.75rem;
             right: 0.8rem;
-            z-index: 30;
+            z-index: 40;
             max-width: min(78vw, 22rem);
             padding: 0.6rem 0.75rem;
             border: 1.5px solid var(--deep-blue);
@@ -252,7 +252,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             position: fixed;
             top: calc(env(safe-area-inset-top) + 4.2rem);
             right: 0.8rem;
-            z-index: 29;
+            z-index: 39;
             width: min(88vw, 24rem);
             max-height: min(65vh, 32rem);
             overflow-x: hidden;
@@ -298,6 +298,10 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             if (!btn || !panel || !preview || headingLinks.length === 0) return;
             if (btn.dataset.bound === "true") return;
             btn.dataset.bound = "true";
+
+            // Keep the fixed controls outside the animated article container so
+            // the header and its divider cannot create a higher paint layer.
+            document.body.append(btn, panel);
 
             const defaultText =
                 preview.getAttribute("data-default-text") || "本文目录";
