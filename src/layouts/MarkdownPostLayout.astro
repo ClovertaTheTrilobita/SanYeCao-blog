@@ -103,7 +103,9 @@ const publishedDate = new Intl.DateTimeFormat(
         aria-labelledby="comments-heading"
       >
         <h2 id="comments-heading">{comments}</h2>
-        {t.post.commentsDesc.map((line: string) => <p set:html={line} />)}
+        {t.post.commentsDesc.map((line: string) => (
+          <p class="comments-description" set:html={line} />
+        ))}
         <Remark42Embed slug={slug} />
       </section>
     </article>
@@ -651,6 +653,16 @@ const publishedDate = new Intl.DateTimeFormat(
 
   .comments-section {
     scroll-margin-top: 5rem;
+  }
+
+  .comments-description {
+    color: #6b7680;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  :global(html.dark) .comments-description {
+    color: #aab7c4;
   }
 
   :global(html.dark) .post-content {

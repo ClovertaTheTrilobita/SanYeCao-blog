@@ -1,0 +1,75 @@
+---
+import { getLangFromUrl } from "@/i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const loadingText = lang === "zh" ? "评论区加载中……" : "Loading comments…";
+const failedText = lang === "zh" ? "评论区加载失败" : "Failed to load comments";
+---
+
+<div id="remark42-status" role="status" aria-atomic="true">
+    <p class="remark42-loading" data-remark42-loading>
+        <span class="status-spinner" aria-hidden="true"></span>
+        <span>{loadingText}</span>
+    </p>
+    <p class="remark42-failed" data-remark42-failed hidden>
+        <span>{failedText}</span>
+    </p>
+</div>
+
+<style>
+    #remark42-status {
+        --status-color: #6b7680;
+        --status-accent: var(--deep-blue);
+        display: grid;
+        place-items: center;
+        min-block-size: 10rem;
+        padding: 2rem 1rem;
+        text-align: center;
+    }
+
+    .remark42-loading,
+    .remark42-failed {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.65rem;
+        margin: 0;
+        color: var(--status-color);
+        font-size: 0.85rem;
+        font-weight: 400;
+        line-height: 1.6;
+    }
+
+    .status-spinner {
+        flex: 0 0 auto;
+        width: 1rem;
+        height: 1rem;
+        box-sizing: border-box;
+        border: 1.5px solid color-mix(in srgb, var(--status-accent) 20%, transparent);
+        border-top-color: var(--status-accent);
+        border-radius: 50%;
+        animation: status-spin 1s linear infinite;
+    }
+
+    #remark42-status[hidden],
+    [hidden] {
+        display: none;
+    }
+
+    :global(html.dark) #remark42-status {
+        --status-color: #aab7c4;
+        --status-accent: #9ecbff;
+    }
+
+    @keyframes status-spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .status-spinner {
+            animation: none;
+        }
+    }
+</style>
