@@ -1,0 +1,31 @@
+---
+import { getLangFromUrl } from "@/i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const loadingText = lang === "zh" ? "评论区加载中……" : "Loading comments…";
+const failedText = lang === "zh" ? "评论区加载失败" : "Failed to load comments";
+---
+
+<div id="remark42-status" role="status" aria-atomic="true">
+    <p class="remark42-loading" data-remark42-loading>{loadingText}</p>
+    <p class="remark42-failed" data-remark42-failed hidden>{failedText}</p>
+</div>
+
+<style>
+    .remark42-loading,
+    .remark42-failed {
+        margin: 0.75rem 0;
+        color: #6b7680;
+        font-size: 0.85rem;
+        line-height: 1.6;
+    }
+
+    [hidden] {
+        display: none;
+    }
+
+    :global(html.dark) .remark42-loading,
+    :global(html.dark) .remark42-failed {
+        color: #aab7c4;
+    }
+</style>
