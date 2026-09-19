@@ -7,8 +7,10 @@ const host = import.meta.env.PUBLIC_REMARK42_HOST;
 const siteId = import.meta.env.PUBLIC_REMARK42_SITE_ID;
 ---
 
-<Remark42Status />
-<div id="remark42"></div>
+<div class="remark42-embed">
+    <Remark42Status />
+    <div id="remark42"></div>
+</div>
 <script define:vars={{ pagePath, host, siteId }} is:inline data-astro-rerun>
     function getTheme() {
         return document.documentElement.classList.contains("dark")
@@ -83,6 +85,7 @@ const siteId = import.meta.env.PUBLIC_REMARK42_SITE_ID;
             if (!active || !iframe || !node.contains(iframe)) return;
             loadingStatus.hidden = true;
             failedStatus.hidden = true;
+            status.hidden = true;
             clearTimeout(timer);
             observer.disconnect();
         };
@@ -115,6 +118,7 @@ const siteId = import.meta.env.PUBLIC_REMARK42_SITE_ID;
 
         loadingStatus.hidden = false;
         failedStatus.hidden = true;
+        status.hidden = false;
         timer = setTimeout(showFailure, 15000);
 
         if (!host || !siteId) {
@@ -178,3 +182,18 @@ const siteId = import.meta.env.PUBLIC_REMARK42_SITE_ID;
     mountRemark42();
     setupRemark42ThemeObserver();
 </script>
+
+<style>
+    .remark42-embed {
+        position: relative;
+        min-width: 0;
+    }
+
+    /* Let the iframe load in the same space occupied by the centered status. */
+    :global(#remark42-status:not([hidden])) + #remark42 {
+        position: absolute;
+        inset: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+</style>
