@@ -18,11 +18,7 @@
 <br>
 
 <p align="center">
-  <img
-    src="./docs/preview-zh.png"
-    alt="preview-zh"
-    style="max-width: 700px; width: 100%; height: auto;"
-  />
+    <img width="873" height="504" alt="image" src="https://github.com/user-attachments/assets/a39626f9-5ad6-450c-a535-2791878b5ebf" alt="preview-zh" />
 </p>
 
 <br>
