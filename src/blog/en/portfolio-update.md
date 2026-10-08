@@ -1,6 +1,6 @@
 ---
 title: "A Homepage Redesign"
-pubDate: 2026-09-18
+pubDate: 2026-10-09
 description: "But I don't know the first thing about design?!"
 author: "Cloverta"
 image:
