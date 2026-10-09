@@ -105,7 +105,7 @@ Canva给出了设计提示框，这很好，设计师们精心设计出来的位
 
 <img src="https://files.seeusercontent.com/2026/10/08/Mpd2/pasted-image-1791496616095.webp" alt="pasted-image-1791496616095.webp" title="pasted-image-1791496616095.webp " style="zoom: 33%; display: block; margin: 0px auto;">
 
-怪怪的，而且这样子完全备有连接起来吧？！
+怪怪的，而且这样子完全没有连接起来吧？！
 
 在那个四分钟的速成课，up有提到一个视觉动线理论，也就是说，人们会被最显眼的东西抓住注意力，随后视线会随着内容逐渐划过页面。也就是说，我们需要创造一些连续的内容，使得访问者们能舒适地阅览完整个网站的内容。
 
