@@ -84,7 +84,7 @@
     justify-content: center;
     background: rgba(160, 175, 190, 0.14);
     color: #5e6b77;
-    font-family: system-ui, sans-serif;
+    font-family: var(--font-serif);
     font-size: 0.85rem;
     font-weight: 600;
     user-select: none;
@@ -101,7 +101,7 @@
     align-items: baseline;
     gap: 0.25rem 0.55rem;
     min-width: 0;
-    font-family: system-ui, sans-serif;
+    font-family: var(--font-serif);
     line-height: 1.35;
 }
 
@@ -126,7 +126,7 @@
     max-height: 4.65em;
     overflow: hidden;
     color: #3f4a54;
-    font-family: system-ui, sans-serif;
+    font-family: var(--font-serif);
     font-size: 0.93rem;
     font-weight: 400;
     line-height: 1.55;
@@ -143,7 +143,7 @@
     gap: 0.55rem 1rem;
     min-width: 0;
     color: #89939c;
-    font-family: system-ui, sans-serif;
+    font-family: var(--font-serif);
     font-size: 0.75rem;
     line-height: 1.45;
 }

@@ -16,14 +16,9 @@ article svg[id^="mermaid-"] {
 }
 
 html {
-  /* font-family: "Maple Mono", "Maple Mono CN", monospace; */
-  font-family:
-    "Noto Serif SC",
-    "Source Han Serif SC",
-    "Songti SC",
-    "STSong",
-    "SimSun",
-    serif;
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC",
+    "STSong", "SimSun", serif;
+  font-family: var(--font-serif);
   font-weight: 500;
   /* background-color: #ffffff; */
   background-color: var(--background-color);
@@ -34,6 +29,18 @@ html {
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: #828282 transparent;
+}
+
+/* 中文保留适合阅读的常规字重。 */
+html:lang(zh) {
+  font-weight: 400;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-serif);
 }
 
 body {
@@ -98,6 +105,10 @@ html.dark body::after {
 
   body {
     font-size: 1rem;
+  }
+
+  html:lang(zh) body {
+    font-size: 1.0625rem;
   }
 }
 
