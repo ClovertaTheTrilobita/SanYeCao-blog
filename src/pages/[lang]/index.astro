@@ -83,11 +83,17 @@ const rssLink = lang === "zh" ? "/rss.xml" : "/en/rss.xml";
   .section-title,
   .index :global(.latest-comments > h2) {
     margin: 0 0 1.25rem;
-    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-family: var(--font-serif);
     font-size: 0.95rem;
     font-weight: 500;
     line-height: 1.5;
     color: #66717c;
+  }
+
+  :global(html:lang(zh)) .section-title,
+  :global(html:lang(zh)) .index :global(.latest-comments > h2) {
+    font-size: 1.0625rem;
+    margin-bottom: 1rem;
   }
 
   :global(html.dark) .section-title,
