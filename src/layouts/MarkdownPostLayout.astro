@@ -309,17 +309,7 @@ const publishedDate = new Intl.DateTimeFormat(
     --article-muted: #596672;
     --article-rule: rgba(83, 100, 147, 0.25);
     --article-tint: rgba(83, 100, 147, 0.045);
-    font-family:
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      "PingFang SC",
-      "Hiragino Sans GB",
-      "Microsoft YaHei",
-      "Noto Sans CJK SC",
-      "Source Han Sans SC",
-      sans-serif;
+    font-family: var(--font-serif);
     font-size: 1.07rem;
     font-weight: 400;
     line-height: 1.85;
@@ -330,13 +320,18 @@ const publishedDate = new Intl.DateTimeFormat(
     margin-top: 0;
   }
 
+  :global(html:lang(zh)) .post-content {
+    font-size: 1.125rem;
+    line-height: 1.9;
+  }
+
   .post-content :global(p) {
     margin-block: 1.05em;
   }
 
   .post-content :global(h2) {
     margin: 3.2rem 0 1rem;
-    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-family: var(--font-serif);
     font-size: clamp(1.35rem, 2vw, 1.55rem);
     line-height: 1.4;
     text-wrap: balance;
@@ -344,7 +339,7 @@ const publishedDate = new Intl.DateTimeFormat(
 
   .post-content :global(h3) {
     margin: 2.25rem 0 0.8rem;
-    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-family: var(--font-serif);
     font-size: clamp(1.12rem, 1.6vw, 1.28rem);
     line-height: 1.45;
     text-wrap: balance;
@@ -352,7 +347,7 @@ const publishedDate = new Intl.DateTimeFormat(
 
   .post-content :global(h4) {
     margin: 1.8rem 0 0.65rem;
-    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-family: var(--font-serif);
     line-height: 1.5;
     font-size: 1.05em;
   }
@@ -398,7 +393,7 @@ const publishedDate = new Intl.DateTimeFormat(
   .post-content :global(figcaption) {
     margin-top: 0.55rem;
     color: var(--article-muted);
-    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-family: var(--font-serif);
     font-size: 0.78rem;
     line-height: 1.5;
     text-align: center;
@@ -495,7 +490,7 @@ const publishedDate = new Intl.DateTimeFormat(
     gap: 0.3rem 0.55rem;
     margin: 0.3rem 0;
     color: #66717c;
-    font-family: "Noto Sans SC", system-ui, sans-serif;
+    font-family: var(--font-serif);
     font-size: 0.8rem;
     font-weight: 400;
     line-height: 1.5;
@@ -505,6 +500,15 @@ const publishedDate = new Intl.DateTimeFormat(
 
   .byline-separator {
     opacity: 0.65;
+  }
+
+  :global(html:lang(zh)) .description {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  :global(html:lang(zh)) .post-byline {
+    font-size: 0.875rem;
   }
 
   :global(html.dark) .post-byline {
