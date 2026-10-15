@@ -1,7 +1,7 @@
 ---
 title: "A Homepage Redesign"
 pubDate: 2026-10-09
-description: "But I don't know the first thing about design?!"
+description: "But I don't know anything about design?!"
 author: "Cloverta"
 image:
     url: "https://files.seeusercontent.com/2026/10/08/6Cnw/pasted-image-1791493186458.webp"
