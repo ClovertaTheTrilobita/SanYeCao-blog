@@ -2,6 +2,10 @@
 
 <p align="right">[<a href="./README.md">中文</a> | <a href="./README-en.md">English</a>]</p>
 
+> [!CAUTION]
+>
+> 此项目已不再维护，后续更新请移步：<b>[ClovertaTheTrilobita/astro-blog-template](https://github.com/ClovertaTheTrilobita/astro-blog-template)</b>
+
 <p align="center"><br>
     ✨三叶草Blog✨<br>
     🌊轻度/快速/美观🌊<br><br>
